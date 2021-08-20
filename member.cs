@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace BMP_Console {
     class member {
         public string member_id = string.Empty;
+        public string bmp_id = string.Empty;
         public string name = string.Empty;
         public string mi = string.Empty;
         public string last_name = string.Empty;
@@ -46,10 +47,11 @@ namespace BMP_Console {
         public string policy_holder = string.Empty;
         public string relationship = string.Empty;
 
-        public member(string m_id,string n, string m_i, string ln, string em, string lang, string m_st, string gen, int db, string h_ph_num, string mob_ph_num, string other_ph_num,
+        public member(string m_id,string bmpid,string n, string m_i, string ln, string em, string lang, string m_st, string gen, int db, string h_ph_num, string mob_ph_num, string other_ph_num,
             string addr, string addr2, string cty, string st, string pos_code, string sh_addr, string sh_addr2, string sh_city, string sh_state, string sh_pos_code,
-            short use_home_addr, string ptype, string pname, float rec_total, int start, int end, short num_members, string agcyID,string bID,short rec,string cc_inf, string cc_typ, string cc_exp_date, short a_pay, int dadded, string pol_holder, string relation) {
+            short use_home_addr, string pname, string ptype, float rec_total, int start, int end, short num_members, string agcyID,string bID,short rec,string cc_inf, string cc_typ, string cc_exp_date, short a_pay, int dadded, string pol_holder, string relation) {
             member_id = m_id;
+            bmp_id = bmpid;
             name = n;
             mi = m_i;
             last_name = ln;
@@ -72,8 +74,8 @@ namespace BMP_Console {
             shipping_state = sh_state;
             shipping_postal_code = sh_pos_code;
             use_home_as_shipping_address = use_home_addr;
-            plan_type = ptype;
             plan_name = pname;
+            plan_type = ptype;            
             recurring_total = rec_total;
             start_date = start;
             end_date = end;

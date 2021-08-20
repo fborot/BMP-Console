@@ -38,9 +38,11 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.dgmembers);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Location = new System.Drawing.Point(9, 10);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(2397, 649);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Size = new System.Drawing.Size(1798, 527);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Members List";
@@ -49,27 +51,28 @@
             // 
             this.dgmembers.AllowUserToAddRows = false;
             this.dgmembers.AllowUserToOrderColumns = true;
-            this.dgmembers.AllowUserToResizeColumns = false;
             this.dgmembers.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgmembers.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
             this.dgmembers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgmembers.Location = new System.Drawing.Point(12, 24);
+            this.dgmembers.Location = new System.Drawing.Point(9, 20);
+            this.dgmembers.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.dgmembers.Name = "dgmembers";
             this.dgmembers.RowHeadersWidth = 51;
             this.dgmembers.RowTemplate.Height = 24;
             this.dgmembers.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgmembers.Size = new System.Drawing.Size(2385, 613);
+            this.dgmembers.Size = new System.Drawing.Size(1789, 498);
             this.dgmembers.TabIndex = 0;
             this.dgmembers.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgmembers_CellValueChanged);
             // 
             // btDelete
             // 
             this.btDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btDelete.Location = new System.Drawing.Point(1747, 683);
+            this.btDelete.Location = new System.Drawing.Point(1310, 555);
+            this.btDelete.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btDelete.Name = "btDelete";
-            this.btDelete.Size = new System.Drawing.Size(177, 25);
+            this.btDelete.Size = new System.Drawing.Size(133, 20);
             this.btDelete.TabIndex = 1;
             this.btDelete.Text = "Delete User";
             this.btDelete.UseVisualStyleBackColor = true;
@@ -79,9 +82,10 @@
             // 
             this.btCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btCancel.Enabled = false;
-            this.btCancel.Location = new System.Drawing.Point(1999, 683);
+            this.btCancel.Location = new System.Drawing.Point(1499, 555);
+            this.btCancel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btCancel.Name = "btCancel";
-            this.btCancel.Size = new System.Drawing.Size(177, 25);
+            this.btCancel.Size = new System.Drawing.Size(133, 20);
             this.btCancel.TabIndex = 2;
             this.btCancel.Text = "Cancel and Exit";
             this.btCancel.UseVisualStyleBackColor = true;
@@ -91,9 +95,10 @@
             // 
             this.btSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btSave.Enabled = false;
-            this.btSave.Location = new System.Drawing.Point(2234, 683);
+            this.btSave.Location = new System.Drawing.Point(1676, 555);
+            this.btSave.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btSave.Name = "btSave";
-            this.btSave.Size = new System.Drawing.Size(175, 25);
+            this.btSave.Size = new System.Drawing.Size(131, 20);
             this.btSave.TabIndex = 3;
             this.btSave.Text = "Save and Exit";
             this.btSave.UseVisualStyleBackColor = true;
@@ -101,14 +106,15 @@
             // 
             // ShowMembers
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(2421, 718);
+            this.ClientSize = new System.Drawing.Size(1816, 583);
             this.Controls.Add(this.btSave);
             this.Controls.Add(this.btCancel);
             this.Controls.Add(this.btDelete);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "ShowMembers";
             this.Text = "ShowMembers";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ShowMembers_FormClosing);

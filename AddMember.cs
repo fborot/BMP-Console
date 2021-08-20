@@ -35,6 +35,13 @@ namespace BMP_Console {
         }
 
         private void button1_Click(object sender, EventArgs e) {
+            string strBMPID = "";
+            strBMPID=  CreateMemberID() + "-" + tbMemberID.Text;
+            if (strBMPID.Length == 0)
+            {
+                MessageBox.Show("An error occured creating the Memebr ID", "Saving new Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             if(ckbUseHome.Enabled == true) {
                 tbShAddress.Text = tbAddres.Text;
                 tbShAddress2.Text = tbAddress2.Text;
@@ -101,7 +108,7 @@ namespace BMP_Console {
                 int nDAdded = Int32.Parse(DateTime.Now.ToString("yyyyMMdd"));
 
                 
-                member temp_member = new member(tbMemberID.Text,tbName.Text, tbMI.Text, tbLName.Text, tbEmail.Text, cbLanguage.SelectedItem.ToString(), cbMarital.SelectedItem.ToString(), cbGender.SelectedItem.ToString(),ndob, tbHomePh.Text,
+                member temp_member = new member(tbMemberID.Text,strBMPID, tbName.Text, tbMI.Text, tbLName.Text, tbEmail.Text, cbLanguage.SelectedItem.ToString(), cbMarital.SelectedItem.ToString(), cbGender.SelectedItem.ToString(),ndob, tbHomePh.Text,
                     tbMobilePH.Text, tbOtherPh.Text, tbAddres.Text, tbAddress2.Text, tbCity.Text, cbState.SelectedItem.ToString(), tbPostalCode.Text, tbShAddress.Text, tbShAddress2.Text, tbShCity.Text,
                     cbShState.SelectedItem.ToString(),tbShPostalCode.Text, ckbUseHome.Checked?(short)1:(short)0, cbPlanType.SelectedItem.ToString(), cbPlanName.SelectedItem.ToString(),
                     RecurringTotal, nStart, nEnd, NumberMembers,cbAgencyID.SelectedItem.ToString(), cbBranchID.SelectedItem.ToString(), Int16.Parse(cbRecurrency.SelectedItem.ToString()),tbCCInfo.Text, 
@@ -132,21 +139,15 @@ namespace BMP_Console {
             conn = new MySql.Data.MySqlClient.MySqlConnection();
             conn.ConnectionString = Form1.mySQLConnectionString;
             conn.Open();
-            //MySqlCommand cmd = new MySqlCommand("insert into members (member_id, name, last_name, email, language, marital_status, dob, home_phone_number, mobile_phone_number, other_phone_number, address, address2, city, state," +
-            //    " postal_code, shipping_address, shipping_address2, shipping_city, shipping_state, shipping_postal_code, use_home_as_shipping_address, plan_type, plan_name, recurring_total, start_date, end_date, number_members, " +
-            //    "agency_id, branch_id, cc_info, cc_type, cc_expiration_date, cc_auto_pay) values (" +
-            //    "@member_id, @name, @last_name, @email, @language, @marital_status, @dob, @home_phone_number, @mobile_phone_number, @other_phone_number, @address, @address2, @city, @state," +
-            //    " @postal_code, @shipping_address, @shipping_address2, @shipping_city, @shipping_state, @shipping_postal_code, @use_home_as_shipping_address, @plan_type, @plan_name, @recurring_total, @start_date, @end_date," +
-            //    " @number_members, @agency_id, @branch_id, @cc_info, @cc_type, @cc_expiration_date, @cc_auto_pay)",conn);
+            
+            MySqlCommand cmd = new MySqlCommand("insert into members (bmp_id, name, mi, last_name, email, language, marital_status, gender ,dob, home_phone_number, mobile_phone_number, other_phone_number, address, address2, city, state," +
+                " postal_code, shipping_address, shipping_address2, shipping_city, shipping_state, shipping_postal_code, use_home_as_shipping_address, plan_name, plan_type, recurring_total, start_date, end_date, number_members, " +
+                "agency_id, branch_id, recurrency, cc_info, cc_type, cc_expiration_date, cc_auto_pay, dateadded, policy_holder, relationship) values (" +
+                "@bmp_id, @name, @mi, @last_name, @email, @language, @marital_status, @gender, @dob, @home_phone_number, @mobile_phone_number, @other_phone_number, @address, @address2, @city, @state," +
+                " @postal_code, @shipping_address, @shipping_address2, @shipping_city, @shipping_state, @shipping_postal_code, @use_home_as_shipping_address, @plan_name, @plan_type, @recurring_total, @start_date, @end_date," +
+                " @number_members, @agency_id, @branch_id, @recurrency, @cc_info, @cc_type, @cc_expiration_date, @cc_auto_pay, @dateadded, @policy_holder, @relationship)", conn);
 
-            MySqlCommand cmd = new MySqlCommand("insert into members (name, mi, last_name, email, language, marital_status, gender ,dob, home_phone_number, mobile_phone_number, other_phone_number, address, address2, city, state," +
-                " postal_code, shipping_address, shipping_address2, shipping_city, shipping_state, shipping_postal_code, use_home_as_shipping_address, plan_type, plan_name, recurring_total, start_date, end_date, number_members, " +
-                "agency_id, branch_id, recurrency, cc_info, cc_type, cc_expiration_date, cc_auto_pay, policy_holder, relationship) values (" +
-                "@name, @mi, @last_name, @email, @language, @marital_status, @gender, @dob, @home_phone_number, @mobile_phone_number, @other_phone_number, @address, @address2, @city, @state," +
-                " @postal_code, @shipping_address, @shipping_address2, @shipping_city, @shipping_state, @shipping_postal_code, @use_home_as_shipping_address, @plan_type, @plan_name, @recurring_total, @start_date, @end_date," +
-                " @number_members, @agency_id, @branch_id, @recurrency, @cc_info, @cc_type, @cc_expiration_date, @cc_auto_pay, @policy_holder, @relationship)", conn);
-
-            //cmd.Parameters.Add("@member_id", MySqlDbType.VarChar, m.member_id.Length).Value = m.member_id;
+            cmd.Parameters.Add("@bmp_id", MySqlDbType.VarChar, m.bmp_id.Length).Value = m.bmp_id;
             cmd.Parameters.Add("@name", MySqlDbType.VarChar, m.name.Length).Value = m.name;
             cmd.Parameters.Add("@mi", MySqlDbType.VarChar, m.mi.Length).Value = m.mi;
             cmd.Parameters.Add("@last_name", MySqlDbType.VarChar, m.last_name.Length).Value = m.last_name;
@@ -169,8 +170,8 @@ namespace BMP_Console {
             cmd.Parameters.Add("@shipping_state", MySqlDbType.VarChar, m.shipping_state.Length).Value = m.shipping_state;
             cmd.Parameters.Add("@shipping_postal_code", MySqlDbType.VarChar, m.shipping_postal_code.Length).Value = m.shipping_postal_code;
             cmd.Parameters.Add("@use_home_as_shipping_address", MySqlDbType.Int16).Value = m.use_home_as_shipping_address;
-            cmd.Parameters.Add("@plan_type", MySqlDbType.VarChar, m.plan_type.Length).Value = m.plan_type;
             cmd.Parameters.Add("@plan_name", MySqlDbType.VarChar, m.plan_name.Length).Value = m.plan_name;
+            cmd.Parameters.Add("@plan_type", MySqlDbType.VarChar, m.plan_type.Length).Value = m.plan_type;
             cmd.Parameters.Add("@recurring_total", MySqlDbType.Float).Value = m.recurring_total;
             cmd.Parameters.Add("@start_date", MySqlDbType.Int32).Value = m.start_date;
             cmd.Parameters.Add("@end_date", MySqlDbType.Int32).Value = m.end_date;
@@ -182,6 +183,7 @@ namespace BMP_Console {
             cmd.Parameters.Add("@cc_type", MySqlDbType.VarChar, m.cc_type.Length).Value = m.cc_type;
             cmd.Parameters.Add("@cc_expiration_date", MySqlDbType.VarChar, m.cc_expiration_date.Length).Value = m.cc_expiration_date;
             cmd.Parameters.Add("@cc_auto_pay", MySqlDbType.Int16).Value = m.cc_auto_pay;
+            cmd.Parameters.Add("@dateadded", MySqlDbType.Int32).Value = m.dateadded;
             cmd.Parameters.Add("@policy_holder", MySqlDbType.VarChar, m.policy_holder.Length).Value = m.policy_holder;
             cmd.Parameters.Add("@relationship", MySqlDbType.VarChar, m.relationship.Length).Value = m.relationship;
 
@@ -383,9 +385,27 @@ namespace BMP_Console {
             ret.Close();
             
             //load member count to calculate next member_id
-            cmd = new MySqlCommand("select count(*) from members", conn);
-            int members_count = Convert.ToInt32(cmd.ExecuteScalar());
-            tbMemberID.Text = members_count.ToString();
+            cmd = new MySqlCommand("SELECT COUNT(*),max(member_id) FROM members", conn);
+            //int members_count = Convert.ToInt32(cmd.ExecuteScalar());
+            //tbMemberID.Text = members_count.ToString();
+            ret = cmd.ExecuteReader();
+            string strID = string.Empty;
+            int count = 0;
+            int incremental_value = 0;
+            while (ret.Read()){
+                count = ret.GetInt32(0);
+                incremental_value = ret.GetInt32(1);
+                incremental_value++;
+            }
+            if(count == 0)
+            {
+                strID = "000000";
+            } else
+            {
+                strID = incremental_value.ToString("D6");
+            }
+            tbMemberID.Text = strID;
+            ret.Close();
 
             //load agencies
             cmd = new MySqlCommand("select * from agencies order by agency_id asc", conn);
@@ -1073,5 +1093,54 @@ namespace BMP_Console {
             return res;
         }
 
+        private string CreateMemberID()
+        {
+            //logic to create memberid
+            string strYYMM = string.Empty;
+            string strMemberID = string.Empty;
+
+            if (cbPlanName.SelectedItem.ToString() == "Core")
+            {
+                strMemberID += "COR";
+                if (cbPlanType.SelectedItem.ToString() == "Single")
+                    strMemberID += "S";
+                else
+                    strMemberID += "F";
+            }
+            if (cbPlanName.SelectedItem.ToString() == "Core Plus")
+            {
+                strMemberID += "COP";
+                if (cbPlanType.SelectedItem.ToString() == "Single")
+                    strMemberID += "S";
+                else
+                    strMemberID += "F";
+            }
+            if (cbPlanName.SelectedItem.ToString() == "Complete")
+            {
+                strMemberID += "COM";
+                if (cbPlanType.SelectedItem.ToString() == "Single")
+                    strMemberID += "S";
+                else if(cbPlanType.SelectedItem.ToString() == "Couples")
+                    strMemberID += "C";
+                else if (cbPlanType.SelectedItem.ToString() == "Family")
+                    strMemberID += "F";
+            }
+            if (cbPlanName.SelectedItem.ToString() == "BMP Plus")
+            {
+                strMemberID += "BMP";
+                if (cbPlanType.SelectedItem.ToString() == "Single")
+                    strMemberID += "S";
+                else if (cbPlanType.SelectedItem.ToString() == "Couples")
+                    strMemberID += "C";
+                else if (cbPlanType.SelectedItem.ToString() == "Family")
+                    strMemberID += "F";
+            }
+
+            strYYMM = dtStart.Value.ToString("yyMM");
+            strMemberID += "-";
+            strMemberID += strYYMM;
+
+            return strMemberID;
+        }
     }
 }
