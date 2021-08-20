@@ -87,8 +87,7 @@ namespace BMP_Console {
             cc_auto_pay = a_pay;
             dateadded = dadded;
             policy_holder = pol_holder;
-            relationship = relation;
-            //test commit
+            relationship = relation;            
         }
         public bool validate_member_info() {
             return true;//for now until we add the validation logic
