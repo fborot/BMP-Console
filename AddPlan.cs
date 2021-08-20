@@ -25,6 +25,7 @@ namespace BMP_Console {
         private void button1_Click(object sender, EventArgs e) {
             if (tbpid.Text.Length > 0 && tbpname.Text.Length > 0 && tbpname.Text.Length > 0 && tbpt1name.Text.Length > 0 && tbpt1cost.Text.Length > 0 && tbpt2name.Text.Length > 0 && tbpt2cost.Text.Length > 0 && tbpt3name.Text.Length > 0 && tbpt3cost.Text.Length > 0) {
 
+                // need to add logic here to validate new price syntax
                 //var regex = new Regex(@"^[0-9]*(?:\.[0-9]*)?$");
                 //if(!regex.IsMatch(tbpt1cost.Text) || !regex.IsMatch(tbpt2cost.Text) || !regex.IsMatch(tbpt3cost.Text)) {
                 //    MessageBox.Show("Invalid values for some of the cost", "Saving new Plan", MessageBoxButtons.OK, MessageBoxIcon.Error);
