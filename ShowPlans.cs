@@ -33,11 +33,14 @@ namespace BMP_Console {
                 short id = ret.GetInt16(0);
                 string plan_name = ret.GetString(1);
                 string pt1_name = ret.GetString(2);
-                string pt1_cost = ret.GetFloat(3).ToString();
+                //string pt1_cost = ret.GetFloat(3).ToString();
+                string pt1_cost = ret.GetString(3);
                 string pt2_name = ret.GetString(4);
-                string pt2_cost = ret.GetFloat(5).ToString();
+                //string pt2_cost = ret.GetFloat(5).ToString();
+                string pt2_cost = ret.GetString(5);
                 string pt3_name = ret.GetString(6);
-                string pt3_cost = ret.GetFloat(7).ToString();
+                //string pt3_cost = ret.GetFloat(7).ToString();
+                string pt3_cost = ret.GetString(7);
                 PlansContainer.Add(new plan(id, plan_name, pt1_name, pt1_cost, pt2_name, pt2_cost, pt3_name, pt3_cost));
             }
             ret.Close();
@@ -192,11 +195,11 @@ namespace BMP_Console {
             try {
                 conn.ConnectionString = Form1.mySQLConnectionString;
                 conn.Open();
-                string s = "update plans set plan_name='" + p.p_name + "',plan_instance1_name=" + p.p_ins1_name + ",plan_instance1_cost=" + p.p_ins1_cost + ",plan_instance2_name=" + p.p_ins2_name +
-                    ",plan_instance2_cost=" + p.p_ins2_cost + ",plan_instance3_name=" + p.p_ins3_name + ",plan_instance3_cost=" + p.p_ins3_cost + " where plan_id = " + p.p_id.ToString();
+                string s = "update plans set plan_name='" + p.p_name + "',plan_instance1_name=" + p.p_ins1_name + ",plan_instance1_cost='" + p.p_ins1_cost + "',plan_instance2_name=" + p.p_ins2_name +
+                    ",plan_instance2_cost='" + p.p_ins2_cost + "',plan_instance3_name=" + p.p_ins3_name + ",plan_instance3_cost='" + p.p_ins3_cost + "' where plan_id = " + p.p_id.ToString();
                 Console.WriteLine(s);
-                MySqlCommand cmd = new MySqlCommand("update plans set plan_name='" + p.p_name + "',plan_instance1_name='" + p.p_ins1_name + "',plan_instance1_cost=" + p.p_ins1_cost + ",plan_instance2_name='" + p.p_ins2_name + 
-                    "',plan_instance2_cost=" + p.p_ins2_cost + ",plan_instance3_name='" + p.p_ins3_name + "',plan_instance3_cost=" + p.p_ins3_cost + " where plan_id = " + p.p_id.ToString(), conn);
+                MySqlCommand cmd = new MySqlCommand("update plans set plan_name='" + p.p_name + "',plan_instance1_name='" + p.p_ins1_name + "',plan_instance1_cost='" + p.p_ins1_cost + "',plan_instance2_name='" + p.p_ins2_name + 
+                    "',plan_instance2_cost='" + p.p_ins2_cost + "',plan_instance3_name='" + p.p_ins3_name + "',plan_instance3_cost='" + p.p_ins3_cost + "' where plan_id = " + p.p_id.ToString(), conn);
                 ret = cmd.ExecuteNonQuery();
                 res = (ret > 0) ? true : false;
                 conn.Close();

@@ -25,11 +25,11 @@ namespace BMP_Console {
         private void button1_Click(object sender, EventArgs e) {
             if (tbpid.Text.Length > 0 && tbpname.Text.Length > 0 && tbpname.Text.Length > 0 && tbpt1name.Text.Length > 0 && tbpt1cost.Text.Length > 0 && tbpt2name.Text.Length > 0 && tbpt2cost.Text.Length > 0 && tbpt3name.Text.Length > 0 && tbpt3cost.Text.Length > 0) {
 
-                var regex = new Regex(@"^[0-9]*(?:\.[0-9]*)?$");
-                if(!regex.IsMatch(tbpt1cost.Text) || !regex.IsMatch(tbpt2cost.Text) || !regex.IsMatch(tbpt3cost.Text)) {
-                    MessageBox.Show("Invalid values for some of the cost", "Saving new Plan", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
+                //var regex = new Regex(@"^[0-9]*(?:\.[0-9]*)?$");
+                //if(!regex.IsMatch(tbpt1cost.Text) || !regex.IsMatch(tbpt2cost.Text) || !regex.IsMatch(tbpt3cost.Text)) {
+                //    MessageBox.Show("Invalid values for some of the cost", "Saving new Plan", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //    return;
+                //}
 
                 MySqlConnection conn = null;
                 conn = new MySql.Data.MySqlClient.MySqlConnection();
@@ -44,11 +44,14 @@ namespace BMP_Console {
 
                 cmd.Parameters.Add("@plan_name", MySqlDbType.VarChar, tbpname.Text.Length).Value = tbpname.Text;
                 cmd.Parameters.Add("@plan_instance1_name", MySqlDbType.VarChar, tbpt1name.Text.Length).Value = tbpt1name.Text;
-                cmd.Parameters.Add("@plan_instance1_cost", MySqlDbType.Float).Value = pt1cost;
+                //cmd.Parameters.Add("@plan_instance1_cost", MySqlDbType.Float).Value = pt1cost;
+                cmd.Parameters.Add("@plan_instance1_cost", MySqlDbType.VarChar,tbpt1cost.Text.Length).Value = tbpt1cost.Text;
                 cmd.Parameters.Add("@plan_instance2_name", MySqlDbType.VarChar, tbpt2name.Text.Length).Value = tbpt2name.Text;
-                cmd.Parameters.Add("@plan_instance2_cost", MySqlDbType.Float).Value = pt2cost;
+                //cmd.Parameters.Add("@plan_instance2_cost", MySqlDbType.Float).Value = pt2cost;
+                cmd.Parameters.Add("@plan_instance2_cost", MySqlDbType.VarChar, tbpt2cost.Text.Length).Value = tbpt2cost.Text;
                 cmd.Parameters.Add("@plan_instance3_name", MySqlDbType.VarChar, tbpt3name.Text.Length).Value = tbpt3name.Text;
-                cmd.Parameters.Add("@plan_instance3_cost", MySqlDbType.Float).Value = pt3cost;
+                //cmd.Parameters.Add("@plan_instance3_cost", MySqlDbType.Float).Value = pt3cost;
+                cmd.Parameters.Add("@plan_instance3_cost", MySqlDbType.VarChar, tbpt3cost.Text.Length).Value = tbpt3cost.Text;
 
                 int count = cmd.ExecuteNonQuery();
                 if (count > 0) {
