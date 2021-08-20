@@ -88,6 +88,7 @@ namespace BMP_Console {
             dateadded = dadded;
             policy_holder = pol_holder;
             relationship = relation;
+            //test commit
         }
         public bool validate_member_info() {
             return true;//for now until we add the validation logic
