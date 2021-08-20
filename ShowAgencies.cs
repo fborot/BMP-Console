@@ -1,0 +1,198 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Collections;
+using MySql.Data.MySqlClient;
+using System.Windows.Forms;
+
+namespace BMP_Console {
+    public partial class ShowAgencies : Form {
+
+        private ArrayList AgenciesContainer = new ArrayList();
+        private ArrayList ToBeUpdated = new ArrayList();
+        public ShowAgencies() {
+            InitializeComponent();
+        }
+
+        private void ShowAgencies_Load(object sender, EventArgs e) {
+            MySqlConnection conn = null;
+            conn = new MySql.Data.MySqlClient.MySqlConnection();
+            conn.ConnectionString = Form1.mySQLConnectionString;
+            conn.Open();
+            MySqlCommand cmd = new MySqlCommand("select * from agencies order by agency_id", conn);
+            MySqlDataReader ret = cmd.ExecuteReader();
+
+            AgenciesContainer.Clear();
+            while (ret.Read()) {
+                short id = ret.GetInt16(0);
+                string agency_name = ret.GetString(1);
+                string agency_address= ret.GetString(2);
+                string agency_address2 = ret.GetString(3);
+                string agency_pcode = ret.GetString(4);
+                string agency_cname = ret.GetString(5);
+                string agency_cemail = ret.GetString(6);
+                string agency_ph = ret.GetString(7);
+
+                AgenciesContainer.Add(new agency(id, agency_name, agency_address, agency_address2, agency_pcode, agency_cname, agency_cemail, agency_ph));
+            }
+            ret.Close();
+            conn.Close();
+
+            dgAgencies.Columns.Add("Agency Id", "Agency ID");
+            dgAgencies.Columns.Add("Agency Name", "Agency Name");
+            dgAgencies.Columns.Add("Agency Address", "Agency Address");
+            dgAgencies.Columns.Add("Agency Address2", "Agency Address2");
+            dgAgencies.Columns.Add("Agency Postal Code", "Agency Postal Code");
+            dgAgencies.Columns.Add("Agency Contact Name", "Agency Contact Name");
+            dgAgencies.Columns.Add("Agency Contact Email", "Agency Contact Email");
+            dgAgencies.Columns.Add("Agency Phone Number", "Agency Phone Number");
+
+            dgAgencies.Rows.Clear();
+
+            for (int i = 0; i < AgenciesContainer.Count; i++) {
+                DataGridViewRow newRow = new DataGridViewRow();
+
+                newRow.CreateCells(dgAgencies);
+                agency t = (agency)(AgenciesContainer[i]);
+                newRow.Cells[0].Value = t.agency_id.ToString();
+                newRow.Cells[1].Value = t.agency_name;
+                newRow.Cells[2].Value = t.agency_address;
+                newRow.Cells[3].Value = t.agency_address2;
+                newRow.Cells[4].Value = t.agency_postal_code;
+                newRow.Cells[5].Value = t.agency_contact_name;
+                newRow.Cells[6].Value = t.agency_email;
+                newRow.Cells[7].Value = t.agency_phone_number;
+
+                dgAgencies.Rows.Add(newRow);
+            }
+        }
+
+        private void ShowAgencies_FormClosing(object sender, FormClosingEventArgs e) {
+            Form1.ShowAgencies = null;
+        }
+
+        private void btDelete_Click(object sender, EventArgs e) {
+            int bid = Int32.Parse(dgAgencies.Rows[dgAgencies.SelectedRows[0].Index].Cells[0].Value.ToString());
+            string bname = dgAgencies.Rows[dgAgencies.SelectedRows[0].Index].Cells[1].Value.ToString();
+            string baddr = dgAgencies.Rows[dgAgencies.SelectedRows[0].Index].Cells[2].Value.ToString();
+            string baddr2 = dgAgencies.Rows[dgAgencies.SelectedRows[0].Index].Cells[3].Value.ToString();
+            string bpcode = dgAgencies.Rows[dgAgencies.SelectedRows[0].Index].Cells[4].Value.ToString();
+            string bcname = dgAgencies.Rows[dgAgencies.SelectedRows[0].Index].Cells[5].Value.ToString();
+            string bemail = dgAgencies.Rows[dgAgencies.SelectedRows[0].Index].Cells[6].Value.ToString();
+            string bphone = dgAgencies.Rows[dgAgencies.SelectedRows[0].Index].Cells[7].Value.ToString();
+
+            string message = "You are about to delete anagency and this action can not be undone. Do you want to continue?";
+            string title = "Delete Agency Confirmation";
+            MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+            DialogResult result = MessageBox.Show(message, title, buttons, MessageBoxIcon.Warning);
+            if (result == DialogResult.No) {
+                //this.Close();
+            } else {
+                if (dgAgencies.SelectedRows.Count > 0) {
+                    agency tempA = new agency(bid, bname, baddr, baddr2, bpcode, bcname, bemail, bphone);
+                    if (DeleteAgencyFromDB(tempA))
+                        dgAgencies.Rows.RemoveAt(dgAgencies.SelectedRows[0].Index);
+                    else
+                        MessageBox.Show("An error ocurred!. The record could not be deleted, please contact Support", "Error deleting user", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+
+        }
+
+        private void btCancel_Click(object sender, EventArgs e) {
+            ToBeUpdated.Clear();
+            Form1.ShowAgencies = null;
+            this.Close();
+        }
+
+        private void btSave_Click(object sender, EventArgs e) {
+            if (ToBeUpdated.Count > 0) {
+                for (int i = 0; i < ToBeUpdated.Count; i++) {
+                    bool temp_res = UpdateAgency((agency)ToBeUpdated[i]);
+                    if (!temp_res) {
+                        MessageBox.Show("There was an error trying to update the agencies. Please try again later or contact Support if the issue persists.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        ToBeUpdated.Clear();
+                        //Form1.ShowAgencies = null;
+                        //this.Close();
+                        break;
+                    } else {
+                        MessageBox.Show("Agency: " + ((agency)ToBeUpdated[i]).ToString() + " was updated", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        Form1.ShowAgencies = null;
+                        this.Close();
+                    }
+                }
+            } else {
+                Form1.ShowAgencies = null;
+                this.Close();
+            }
+        }
+
+        private bool DeleteAgencyFromDB(agency a) {
+            bool res = false;
+            int ret = -1;
+            MySqlConnection conn = null;
+            conn = new MySql.Data.MySqlClient.MySqlConnection();
+            try {
+
+                conn.ConnectionString = Form1.mySQLConnectionString;
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand("delete from agencies where agency_id = " + a.agency_id.ToString(), conn);
+                ret = cmd.ExecuteNonQuery();
+                res = (ret > 0) ? true : false;
+                conn.Close();
+            } catch (Exception e) {
+                MessageBox.Show("An error ocurred!. The record could not be deleted, please contact Support", "Error deleting user", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                conn.Close();
+            }
+
+            return res;
+        }
+
+        bool UpdateAgency(agency a) {
+            bool res = false;
+            int ret = -1;
+            MySqlConnection conn = null;
+            conn = new MySql.Data.MySqlClient.MySqlConnection();
+            try {
+                conn.ConnectionString = Form1.mySQLConnectionString;
+                conn.Open();
+                string strQuery = "update agencies set agency_name='" + a.agency_name + "',agency_address='" + a.agency_address + "',agency_address2='" + a.agency_address2 + "',agency_postal_code='" + a.agency_postal_code +
+                "',agency_contact_name='" + a.agency_contact_name + "',agency_email='" + a.agency_email + "',agency_phone_number='" + a.agency_phone_number + "' where agency_id = " + a.agency_id.ToString();
+                
+                //Console.WriteLine(s);
+                MySqlCommand cmd = new MySqlCommand(strQuery, conn);
+                ret = cmd.ExecuteNonQuery();
+                res = (ret > 0) ? true : false;
+                conn.Close();
+            } catch (Exception e) {
+                MessageBox.Show("An error ocurred!. The record could not be updated, please contact Support", "Error updating user", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                conn.Close();
+            }
+
+
+            return res;
+        }
+
+        private void dgAgencies_CellValueChanged(object sender, DataGridViewCellEventArgs e) {
+            short aid = Int16.Parse(dgAgencies.Rows[e.RowIndex].Cells[0].Value.ToString());
+            string aname = dgAgencies.Rows[e.RowIndex].Cells[1].Value.ToString();
+            string aaddr = dgAgencies.Rows[e.RowIndex].Cells[2].Value.ToString();
+            string aaddr2 = dgAgencies.Rows[e.RowIndex].Cells[3].Value.ToString();
+            string apcode = dgAgencies.Rows[e.RowIndex].Cells[4].Value.ToString();
+            string acname = dgAgencies.Rows[e.RowIndex].Cells[5].Value.ToString();
+            string aemail = dgAgencies.Rows[e.RowIndex].Cells[6].Value.ToString();
+            string aphone = dgAgencies.Rows[e.RowIndex].Cells[7].Value.ToString();
+            
+
+            agency tempA = new agency(aid, aname, aaddr, aaddr2, apcode, acname, aemail, aphone);
+            ToBeUpdated.Add(tempA);
+            btCancel.Enabled = true;
+            btSave.Enabled = true;
+        }
+    }
+}
