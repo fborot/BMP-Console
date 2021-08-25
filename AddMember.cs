@@ -20,6 +20,7 @@ namespace BMP_Console {
         ArrayList PlansContainer = new ArrayList();
         ArrayList AgenciesContainer = new ArrayList();
         ArrayList BranchesContainer = new ArrayList();
+        ArrayList DependentsContainer = new ArrayList();
         bool ResettingForm = false;
        
         public AddMember() {
@@ -35,6 +36,7 @@ namespace BMP_Console {
         }
 
         private void button1_Click(object sender, EventArgs e) {
+            
             string strBMPID = "";
             strBMPID=  CreateMemberID() + "-" + tbMemberID.Text;
             if (strBMPID.Length == 0)
@@ -75,7 +77,6 @@ namespace BMP_Console {
                     tbOtherPh.Text = tbHomePh.Text;
                 }
 
-
                 if (!isValidZipCode(tbPostalCode.Text) || !(isValidZipCode(tbShPostalCode.Text))) {
                     MessageBox.Show("Invalid value for the Zip Code", "Saving new Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
@@ -100,13 +101,17 @@ namespace BMP_Console {
                     if (!(isALL_LDDoBValid(NumberMembers))) {
                         MessageBox.Show("Invalid value for the Legal Dependents Date of Birth", "Saving new Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
+                    }                    
+                    if (!CreateDependeList(NumberMembers)) {
+                        MessageBox.Show("Invalid values for Legal Dependents", "Saving new Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
                     }
+                    
                 }
                 int ndob = Int32.Parse(dtDOB.Value.ToString("yyyyMMdd"));
                 int nStart = Int32.Parse(dtStart.Value.ToString("yyyyMMdd"));
                 int nEnd = Int32.Parse(dtEnd.Value.ToString("yyyyMMdd"));
                 int nDAdded = Int32.Parse(DateTime.Now.ToString("yyyyMMdd"));
-
                 
                 member temp_member = new member(tbMemberID.Text,strBMPID, tbName.Text, tbMI.Text, tbLName.Text, tbEmail.Text, cbLanguage.SelectedItem.ToString(), cbMarital.SelectedItem.ToString(), cbGender.SelectedItem.ToString(),ndob, tbHomePh.Text,
                     tbMobilePH.Text, tbOtherPh.Text, tbAddres.Text, tbAddress2.Text, tbCity.Text, cbState.SelectedItem.ToString(), tbPostalCode.Text, tbShAddress.Text, tbShAddress2.Text, tbShCity.Text,
@@ -114,14 +119,29 @@ namespace BMP_Console {
                     RecurringTotal, nStart, nEnd, NumberMembers,cbAgencyID.SelectedItem.ToString(), cbBranchID.SelectedItem.ToString(), Int16.Parse(cbRecurrency.SelectedItem.ToString()),tbCCInfo.Text, 
                     cbCCType.SelectedItem.ToString(), tbCCExpDate.Text, ckbCCAuto.Checked?(short)1:(short)0, nDAdded, "Yes", "Self");
                 if (temp_member.validate_member_info()) {
-                    if (ChargeCC(Form1.APILoginID, Form1.APITransactionKey, temp_member)) {
-                        if (SaveMemberInDB(temp_member)) {
-                            MessageBox.Show("Member Successfully Created","Saving member in Database", MessageBoxButtons.OK,MessageBoxIcon.Information);
-                            if(NumberMembers > 0) {
-
+                    CreateProfileResponse tempProfile = CreateCustomerProfileFromTransaction(Form1.APILoginID, Form1.APITransactionKey, tbANetTID.Text, temp_member);
+                    //CreateProfileResponse tempProfile = new CreateProfileResponse("901406126", "901201859", "903700265", true);
+                    if (tempProfile.res == true) {
+                        string CCExpDate = string.Empty;
+                        CCExpDate = GetCustomerPayProfileDetails(Form1.APILoginID, Form1.APITransactionKey, tempProfile.CustomerProfileID, tempProfile.CustomerPayProfileID);
+                        //CCExpDate = "2024-01";
+                        if(IsValidANetExpDate(CCExpDate).Length > 0) {
+                            short interval = Int16.Parse(cbRecurrency.SelectedItem.ToString());
+                            temp_member.cc_expiration_date = IsValidANetExpDate(CCExpDate);
+                            if (CreateSubscriptionFromProfile(Form1.APILoginID, Form1.APITransactionKey, interval, tempProfile.CustomerProfileID, tempProfile.CustomerPayProfileID, tempProfile.CustomerShProfileID, tbRecurringTotal.Text)) {
+                                if (SaveMemberInDB(temp_member)) {
+                                    MessageBox.Show("Member Successfully Created", "Saving member in Database", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    if (NumberMembers > 0) {
+                                        member seed_member = temp_member;
+                                        for (int n = 0; n < DependentsContainer.Count; n++) {
+                                            seed_member = CreateMemberBasedOnDependent((Dependent)DependentsContainer[n], seed_member);
+                                            SaveMemberInDB(seed_member);
+                                        }
+                                    }
+                                    ResetForm();
+                                }
                             }
-                            ResetForm();
-                        }
+                        }                        
                     }
                 }
 
@@ -554,6 +574,7 @@ namespace BMP_Console {
 
 
             tbMemberID.Text = (Int32.Parse(tbMemberID.Text) + 1).ToString();
+            DependentsContainer.Clear();
 
             ResettingForm = false;
 
@@ -621,6 +642,19 @@ namespace BMP_Console {
             if (matchExpDate.Success)
                 res = true;
 
+            return res;
+        }
+        string IsValidANetExpDate(string exp) {
+            string res = string.Empty;
+            string[] temp = exp.Split('-');
+            string year = temp[0].Substring(2, 2);
+            string month = temp[1];
+            Regex rexp = new Regex(@"(^\d{2}$)");
+            Match matchYear = rexp.Match(year);
+            Match matchMonth = rexp.Match(month);
+            if (matchYear.Success && matchMonth.Success) {
+                res = month + year;
+            }
             return res;
         }
 
@@ -780,8 +814,7 @@ namespace BMP_Console {
             return res;
         }
 
-
-        private bool  createCustomerProfileFromTransaction(string ApiLoginID, string ApiTransactionKey, string transactionId, member m) {
+        private CreateProfileResponse CreateCustomerProfileFromTransaction(string ApiLoginID, string ApiTransactionKey, string transactionId, member m) {
             bool res = false;
             //Console.WriteLine("CreateCustomerProfileFromTransaction Sample");
 
@@ -793,9 +826,9 @@ namespace BMP_Console {
             };
 
             var customerProfile = new customerProfileBaseType {
-                merchantCustomerId = m.member_id,//"123212",
+                merchantCustomerId = m.bmp_id,//"CORS-2108-002006",
                 email = m.email,//"hello@castleblack.com",
-                description = "This is a sample customer profile"
+                description = "Customer Profile for BMP CustomerID: " + m.bmp_id
             };
 
             var request = new createCustomerProfileFromTransactionRequest {
@@ -818,6 +851,61 @@ namespace BMP_Console {
                     Console.WriteLine("Success, CustomerProfileID : " + response.customerProfileId);
                     Console.WriteLine("Success, CustomerPaymentProfileID : " + response.customerPaymentProfileIdList[0]);
                     Console.WriteLine("Success, CustomerShippingProfileID : " + response.customerShippingAddressIdList[0]);
+                    res = true;
+                }
+            } else if (response != null) {
+                Console.WriteLine("Error: " + response.messages.message[0].code + "  " + response.messages.message[0].text);
+            }
+            CreateProfileResponse prof = new CreateProfileResponse(response.customerProfileId, response.customerPaymentProfileIdList[0], response.customerShippingAddressIdList[0], res);
+            return prof;            
+        }
+
+        public bool CreateSubscriptionFromProfile(String ApiLoginID, String ApiTransactionKey, short intervalLength, string customerProfileId, string customerPaymentProfileId, string customerAddressId, string str_amount) {
+            bool res = false;
+
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = AuthorizeNet.Environment.SANDBOX;
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = new merchantAuthenticationType() {
+                name = ApiLoginID,
+                ItemElementName = ItemChoiceType.transactionKey,
+                Item = ApiTransactionKey
+            };
+
+            paymentScheduleTypeInterval interval = new paymentScheduleTypeInterval();
+
+            interval.length = intervalLength;                   // months can be indicated between 1 and 12
+            interval.unit = ARBSubscriptionUnitEnum.months;
+
+            paymentScheduleType schedule = new paymentScheduleType {
+                interval = interval,
+                startDate = DateTime.Now.AddDays(1),      // start date should be tomorrow
+                totalOccurrences = 9999,                          // 999 indicates no end date
+                trialOccurrences = 0
+            };
+           
+            customerProfileIdType customerProfile = new customerProfileIdType() {
+                customerProfileId = customerProfileId,
+                customerPaymentProfileId = customerPaymentProfileId,
+                customerAddressId = customerAddressId
+            };
+
+            ARBSubscriptionType subscriptionType = new ARBSubscriptionType() {
+                amount = Decimal.Parse(str_amount),
+                trialAmount = 0.00m,
+                paymentSchedule = schedule,
+                profile = customerProfile
+            };
+
+            var request = new ARBCreateSubscriptionRequest { subscription = subscriptionType };
+            var controller = new ARBCreateSubscriptionController(request);          // instantiate the controller that will call the service
+            controller.Execute();
+
+            ARBCreateSubscriptionResponse response = controller.GetApiResponse();   // get the response from the service (errors contained if any)
+
+            // validate response
+            if (response != null && response.messages.resultCode == messageTypeEnum.Ok) {
+                if (response != null && response.messages.message != null) {
+                    Console.WriteLine("Success, Subscription ID : " + response.subscriptionId.ToString());
+                    res = true;
                 }
             } else if (response != null) {
                 Console.WriteLine("Error: " + response.messages.message[0].code + "  " + response.messages.message[0].text);
@@ -826,6 +914,101 @@ namespace BMP_Console {
             return res;
         }
 
+        public ANetApiResponse Run(String ApiLoginID, String ApiTransactionKey, string customerProfileId,string customerPaymentProfileId) {
+            
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = AuthorizeNet.Environment.SANDBOX;
+            // define the merchant information (authentication / transaction id)
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = new merchantAuthenticationType() {
+                name = ApiLoginID,
+                ItemElementName = ItemChoiceType.transactionKey,
+                Item = ApiTransactionKey,
+            };
+
+            var request = new getCustomerPaymentProfileRequest();
+            request.customerProfileId = customerProfileId;
+            request.customerPaymentProfileId = customerPaymentProfileId;
+
+            // Set this optional property to true to return an unmasked expiration date
+            //request.unmaskExpirationDateSpecified = true;
+            //request.unmaskExpirationDate = true;
+
+
+            // instantiate the controller that will call the service
+            var controller = new getCustomerPaymentProfileController(request);
+            controller.Execute();
+
+            // get the response from the service (errors contained if any)
+            var response = controller.GetApiResponse();
+
+            if (response != null && response.messages.resultCode == messageTypeEnum.Ok) {
+                Console.WriteLine(response.messages.message[0].text);
+                Console.WriteLine("Customer Payment Profile Id: " + response.paymentProfile.customerPaymentProfileId);
+                if (response.paymentProfile.payment.Item is creditCardMaskedType) {
+                    Console.WriteLine("Customer Payment Profile Last 4: " + (response.paymentProfile.payment.Item as creditCardMaskedType).cardNumber);
+                    Console.WriteLine("Customer Payment Profile Expiration Date: " + (response.paymentProfile.payment.Item as creditCardMaskedType).expirationDate);
+
+                    if (response.paymentProfile.subscriptionIds != null && response.paymentProfile.subscriptionIds.Length > 0) {
+                        Console.WriteLine("List of subscriptions : ");
+                        for (int i = 0; i < response.paymentProfile.subscriptionIds.Length; i++)
+                            Console.WriteLine(response.paymentProfile.subscriptionIds[i]);
+                    }
+                }
+            } else if (response != null) {
+                Console.WriteLine("Error: " + response.messages.message[0].code + "  " +
+                                  response.messages.message[0].text);
+            }
+
+            return response;
+        }
+
+        public string GetCustomerPayProfileDetails(String ApiLoginID, String ApiTransactionKey, string customerProfileId, string customerPaymentProfileId) {
+            string CCExpDate = string.Empty;
+
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = AuthorizeNet.Environment.SANDBOX;
+            // define the merchant information (authentication / transaction id)
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = new merchantAuthenticationType() {
+                name = ApiLoginID,
+                ItemElementName = ItemChoiceType.transactionKey,
+                Item = ApiTransactionKey,
+            };
+
+            var request = new getCustomerPaymentProfileRequest();
+            request.customerProfileId = customerProfileId;
+            request.customerPaymentProfileId = customerPaymentProfileId;
+
+            // Set this optional property to true to return an unmasked expiration date
+            request.unmaskExpirationDateSpecified = true;
+            request.unmaskExpirationDate = true;
+
+
+            // instantiate the controller that will call the service
+            var controller = new getCustomerPaymentProfileController(request);
+            controller.Execute();
+
+            // get the response from the service (errors contained if any)
+            var response = controller.GetApiResponse();
+
+            if (response != null && response.messages.resultCode == messageTypeEnum.Ok) {
+                //Console.WriteLine(response.messages.message[0].text);
+                //Console.WriteLine("Customer Payment Profile Id: " + response.paymentProfile.customerPaymentProfileId);
+                if (response.paymentProfile.payment.Item is creditCardMaskedType) {
+                    //Console.WriteLine("Customer Payment Profile Last 4: " + (response.paymentProfile.payment.Item as creditCardMaskedType).cardNumber);
+                    //Console.WriteLine("Customer Payment Profile Expiration Date: " + (response.paymentProfile.payment.Item as creditCardMaskedType).expirationDate);
+                    CCExpDate = (response.paymentProfile.payment.Item as creditCardMaskedType).expirationDate;
+                    //if (response.paymentProfile.subscriptionIds != null && response.paymentProfile.subscriptionIds.Length > 0) {
+                    //    Console.WriteLine("List of subscriptions : ");
+                    //    for (int i = 0; i < response.paymentProfile.subscriptionIds.Length; i++)
+                    //        Console.WriteLine(response.paymentProfile.subscriptionIds[i]);
+                    //}
+                }
+            } else if (response != null) {
+                Console.WriteLine("Error: " + response.messages.message[0].code + "  " +
+                                  response.messages.message[0].text);
+            }
+
+            return CCExpDate;
+        }
+        
         private void tbNumberMembers_TextChanged(object sender, EventArgs e) {
             short nmem = 0;
             if (tbNumberMembers.Text.Length > 0) {
@@ -1142,5 +1325,67 @@ namespace BMP_Console {
 
             return strMemberID;
         }
+
+        bool CreateDependeList(int number_deps) {
+            bool res = false;
+            try {
+                switch (number_deps) {
+                    case 1:
+                        Dependent d1 = new Dependent(tbLD1Name.Text, tbLD1MI.Text, tbLD1LN.Text, cbLD1Gender.SelectedItem.ToString(), tbLD1DOB.Text, cbLD1Rel.SelectedItem.ToString());
+                        DependentsContainer.Add(d1);
+                        break;
+                    case 2:
+                        Dependent d21 = new Dependent(tbLD1Name.Text, tbLD1MI.Text, tbLD1LN.Text, cbLD1Gender.SelectedItem.ToString(), tbLD1DOB.Text, cbLD1Rel.SelectedItem.ToString());
+                        DependentsContainer.Add(d21);
+                        Dependent d22 = new Dependent(tbLD2Name.Text, tbLD2MI.Text, tbLD2LN.Text, cbLD2Gender.SelectedItem.ToString(), tbLD2DOB.Text, cbLD2Rel.SelectedItem.ToString());
+                        DependentsContainer.Add(d22);
+                        break;
+                    case 3:
+                        Dependent d31 = new Dependent(tbLD1Name.Text, tbLD1MI.Text, tbLD1LN.Text, cbLD1Gender.SelectedItem.ToString(), tbLD1DOB.Text, cbLD1Rel.SelectedItem.ToString());
+                        DependentsContainer.Add(d31);
+                        Dependent d32 = new Dependent(tbLD2Name.Text, tbLD2MI.Text, tbLD2LN.Text, cbLD2Gender.SelectedItem.ToString(), tbLD2DOB.Text, cbLD2Rel.SelectedItem.ToString());
+                        DependentsContainer.Add(d32);
+                        Dependent d33 = new Dependent(tbLD3Name.Text, tbLD3MI.Text, tbLD3LN.Text, cbLD3Gender.SelectedItem.ToString(), tbLD3DOB.Text, cbLD3Rel.SelectedItem.ToString());
+                        DependentsContainer.Add(d33);
+                        break;
+                    case 4:
+                        Dependent d41 = new Dependent(tbLD1Name.Text, tbLD1MI.Text, tbLD1LN.Text, cbLD1Gender.SelectedItem.ToString(), tbLD1DOB.Text, cbLD1Rel.SelectedItem.ToString());
+                        DependentsContainer.Add(d41);
+                        Dependent d42 = new Dependent(tbLD2Name.Text, tbLD2MI.Text, tbLD2LN.Text, cbLD2Gender.SelectedItem.ToString(), tbLD2DOB.Text, cbLD2Rel.SelectedItem.ToString());
+                        DependentsContainer.Add(d42);
+                        Dependent d43 = new Dependent(tbLD3Name.Text, tbLD3MI.Text, tbLD3LN.Text, cbLD3Gender.SelectedItem.ToString(), tbLD3DOB.Text, cbLD3Rel.SelectedItem.ToString());
+                        DependentsContainer.Add(d43);
+                        Dependent d44 = new Dependent(tbLD4Name.Text, tbLD4MI.Text, tbLD4LN.Text, cbLD4Gender.SelectedItem.ToString(), tbLD4DOB.Text, cbLD4Rel.SelectedItem.ToString());
+                        DependentsContainer.Add(d44);
+                        break;
+                    default:
+                        res = false;
+                        break;
+                }
+
+                res = true;
+            } catch(Exception e) {
+                res = false;
+            }
+            return res;
+        }
+
+        member CreateMemberBasedOnDependent(Dependent dep, member m) {
+            string new_id = (Int32.Parse(m.member_id) + 1).ToString("D6");
+            string new_bmp_id = m.bmp_id.Substring(0, 10) + new_id;
+            int new_dob = FormatLDDoB(dep.dob);
+            member new_member = new member(new_id, new_bmp_id, dep.name, dep.mi, dep.lname, m.email, m.language, m.marital_status, dep.gender, new_dob, m.home_phone_number, m.mobile_phone_number, m.other_phone_number,
+                m.address, m.address2, m.city, m.state, m.postal_code, m.shipping_address, m.shipping_address2, m.shipping_city, m.shipping_state, m.shipping_postal_code,
+                m.use_home_as_shipping_address, m.plan_name, m.plan_type, m.recurring_total, m.start_date, m.end_date, 0, m.agencyID, m.branchID, m.recurrency, m.cc_info, m.cc_type, m.cc_expiration_date, m.cc_auto_pay, m.dateadded, "No", dep.relationship);
+            return new_member;
+        }
+
+        int FormatLDDoB(string dob) {
+            int res = 0;
+            string[] temp = dob.Split('/');
+            res = Int32.Parse(temp[2] + temp[1] + temp[0]);
+            return res;
+        }
+
     }
 }

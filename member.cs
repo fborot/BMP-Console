@@ -94,5 +94,6 @@ namespace BMP_Console {
         public bool validate_member_info() {
             return true;//for now until we add the validation logic
         }
+       
     }
 }
