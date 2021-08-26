@@ -574,6 +574,8 @@ namespace BMP_Console {
             tbCCExpDate.Text = "";
             ckbCCAuto.Checked = false;
 
+            tbANetTID.Text = "";
+            tbANAuthCode.Text = "";
 
             tbMemberID.Text = (Int32.Parse(tbMemberID.Text) + 1).ToString();
             DependentsContainer.Clear();
