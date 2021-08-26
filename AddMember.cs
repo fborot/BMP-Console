@@ -459,8 +459,9 @@ namespace BMP_Console {
                 string b_email = ret.GetString(6);
                 string b_ph_number = ret.GetString(7);
                 string b_agency = ret.GetString(8);
+                string b_use_bname = ret.GetString(9);
 
-                BranchesContainer.Add(new branch(b_id, b_name, b_address, b_address2, b_postal_code, b_contact_name, b_email, b_ph_number, b_agency));
+                BranchesContainer.Add(new branch(b_id, b_name, b_address, b_address2, b_postal_code, b_contact_name, b_email, b_ph_number, b_agency, b_use_bname));
                 res3 = true;
             }
             ret.Close();
