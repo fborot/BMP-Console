@@ -37,8 +37,9 @@ namespace BMP_Console {
                 string agency_cname = ret.GetString(5);
                 string agency_cemail = ret.GetString(6);
                 string agency_ph = ret.GetString(7);
+                string use_agency_name = ret.GetString(8);
 
-                AgenciesContainer.Add(new agency(id, agency_name, agency_address, agency_address2, agency_pcode, agency_cname, agency_cemail, agency_ph));
+                AgenciesContainer.Add(new agency(id, agency_name, agency_address, agency_address2, agency_pcode, agency_cname, agency_cemail, agency_ph, use_agency_name));
             }
             ret.Close();
             conn.Close();
@@ -51,6 +52,7 @@ namespace BMP_Console {
             dgAgencies.Columns.Add("Agency Contact Name", "Agency Contact Name");
             dgAgencies.Columns.Add("Agency Contact Email", "Agency Contact Email");
             dgAgencies.Columns.Add("Agency Phone Number", "Agency Phone Number");
+            dgAgencies.Columns.Add("Use Agency Name For Checks", "Use Agency Name For Checks");
 
             dgAgencies.Rows.Clear();
 
@@ -67,6 +69,7 @@ namespace BMP_Console {
                 newRow.Cells[5].Value = t.agency_contact_name;
                 newRow.Cells[6].Value = t.agency_email;
                 newRow.Cells[7].Value = t.agency_phone_number;
+                newRow.Cells[8].Value = t.use_agency_name_for_checks;
 
                 dgAgencies.Rows.Add(newRow);
             }
@@ -77,14 +80,15 @@ namespace BMP_Console {
         }
 
         private void btDelete_Click(object sender, EventArgs e) {
-            int bid = Int32.Parse(dgAgencies.Rows[dgAgencies.SelectedRows[0].Index].Cells[0].Value.ToString());
-            string bname = dgAgencies.Rows[dgAgencies.SelectedRows[0].Index].Cells[1].Value.ToString();
-            string baddr = dgAgencies.Rows[dgAgencies.SelectedRows[0].Index].Cells[2].Value.ToString();
-            string baddr2 = dgAgencies.Rows[dgAgencies.SelectedRows[0].Index].Cells[3].Value.ToString();
-            string bpcode = dgAgencies.Rows[dgAgencies.SelectedRows[0].Index].Cells[4].Value.ToString();
-            string bcname = dgAgencies.Rows[dgAgencies.SelectedRows[0].Index].Cells[5].Value.ToString();
-            string bemail = dgAgencies.Rows[dgAgencies.SelectedRows[0].Index].Cells[6].Value.ToString();
-            string bphone = dgAgencies.Rows[dgAgencies.SelectedRows[0].Index].Cells[7].Value.ToString();
+            int aid = Int32.Parse(dgAgencies.Rows[dgAgencies.SelectedRows[0].Index].Cells[0].Value.ToString());
+            string aname = dgAgencies.Rows[dgAgencies.SelectedRows[0].Index].Cells[1].Value.ToString();
+            string aaddr = dgAgencies.Rows[dgAgencies.SelectedRows[0].Index].Cells[2].Value.ToString();
+            string aaddr2 = dgAgencies.Rows[dgAgencies.SelectedRows[0].Index].Cells[3].Value.ToString();
+            string apcode = dgAgencies.Rows[dgAgencies.SelectedRows[0].Index].Cells[4].Value.ToString();
+            string acname = dgAgencies.Rows[dgAgencies.SelectedRows[0].Index].Cells[5].Value.ToString();
+            string aemail = dgAgencies.Rows[dgAgencies.SelectedRows[0].Index].Cells[6].Value.ToString();
+            string aphone = dgAgencies.Rows[dgAgencies.SelectedRows[0].Index].Cells[7].Value.ToString();
+            string ause = dgAgencies.Rows[dgAgencies.SelectedRows[0].Index].Cells[8].Value.ToString();
 
             string message = "You are about to delete anagency and this action can not be undone. Do you want to continue?";
             string title = "Delete Agency Confirmation";
@@ -94,7 +98,7 @@ namespace BMP_Console {
                 //this.Close();
             } else {
                 if (dgAgencies.SelectedRows.Count > 0) {
-                    agency tempA = new agency(bid, bname, baddr, baddr2, bpcode, bcname, bemail, bphone);
+                    agency tempA = new agency(aid, aname, aaddr, aaddr2, apcode, acname, aemail, aphone,ause);
                     if (DeleteAgencyFromDB(tempA))
                         dgAgencies.Rows.RemoveAt(dgAgencies.SelectedRows[0].Index);
                     else
@@ -144,6 +148,18 @@ namespace BMP_Console {
                 MySqlCommand cmd = new MySqlCommand("delete from agencies where agency_id = " + a.agency_id.ToString(), conn);
                 ret = cmd.ExecuteNonQuery();
                 res = (ret > 0) ? true : false;
+                if (res)//reseting auto_increment id
+                {
+                    cmd = new MySqlCommand("SELECT MAX(agency_id) FROM agencies", conn);
+                    int num = -1;
+                    num = Convert.ToInt32(cmd.ExecuteScalar());
+                    if (num >= 0)
+                    {
+                        num++;
+                        cmd = new MySqlCommand("ALTER TABLE agencies AUTO_INCREMENT=" + num.ToString(), conn);
+                        ret = cmd.ExecuteNonQuery();
+                    }
+                }
                 conn.Close();
             } catch (Exception e) {
                 MessageBox.Show("An error ocurred!. The record could not be deleted, please contact Support", "Error deleting user", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -162,7 +178,7 @@ namespace BMP_Console {
                 conn.ConnectionString = Form1.mySQLConnectionString;
                 conn.Open();
                 string strQuery = "update agencies set agency_name='" + a.agency_name + "',agency_address='" + a.agency_address + "',agency_address2='" + a.agency_address2 + "',agency_postal_code='" + a.agency_postal_code +
-                "',agency_contact_name='" + a.agency_contact_name + "',agency_email='" + a.agency_email + "',agency_phone_number='" + a.agency_phone_number + "' where agency_id = " + a.agency_id.ToString();
+                "',agency_contact_name='" + a.agency_contact_name + "',agency_email='" + a.agency_email + "',agency_phone_number='" + a.agency_phone_number + "',use_agency_name_for_checks='" + a.use_agency_name_for_checks + "' where agency_id = " + a.agency_id.ToString();
                 
                 //Console.WriteLine(s);
                 MySqlCommand cmd = new MySqlCommand(strQuery, conn);
@@ -187,9 +203,10 @@ namespace BMP_Console {
             string acname = dgAgencies.Rows[e.RowIndex].Cells[5].Value.ToString();
             string aemail = dgAgencies.Rows[e.RowIndex].Cells[6].Value.ToString();
             string aphone = dgAgencies.Rows[e.RowIndex].Cells[7].Value.ToString();
-            
+            string ause = dgAgencies.Rows[e.RowIndex].Cells[8].Value.ToString();
 
-            agency tempA = new agency(aid, aname, aaddr, aaddr2, apcode, acname, aemail, aphone);
+
+            agency tempA = new agency(aid, aname, aaddr, aaddr2, apcode, acname, aemail, aphone, ause);
             ToBeUpdated.Add(tempA);
             btCancel.Enabled = true;
             btSave.Enabled = true;

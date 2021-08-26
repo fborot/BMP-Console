@@ -439,8 +439,9 @@ namespace BMP_Console {
                 string a_contact_name = ret.GetString(5);
                 string a_email = ret.GetString(6);
                 string a_ph_number = ret.GetString(7);
+                string a_use_agency_name = ret.GetString(8);
 
-                AgenciesContainer.Add(new agency(a_id, a_name, a_address, a_address2, a_postal_code, a_contact_name, a_email, a_ph_number));
+                AgenciesContainer.Add(new agency(a_id, a_name, a_address, a_address2, a_postal_code, a_contact_name, a_email, a_ph_number, a_use_agency_name));
                 res2 = true;
             }
             ret.Close();
