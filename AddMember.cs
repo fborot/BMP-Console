@@ -938,7 +938,8 @@ namespace BMP_Console {
                 amount = Decimal.Parse(str_amount),
                 trialAmount = 0.00m,
                 paymentSchedule = schedule,
-                profile = customerProfile
+                profile = customerProfile,
+                order = myOrder
             };
 
             var request = new ARBCreateSubscriptionRequest { subscription = subscriptionType };
