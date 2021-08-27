@@ -118,6 +118,7 @@ namespace BMP_Console {
                     cbShState.SelectedItem.ToString(),tbShPostalCode.Text, ckbUseHome.Checked?(short)1:(short)0, cbPlanType.SelectedItem.ToString(), cbPlanName.SelectedItem.ToString(),
                     RecurringTotal, nStart, nEnd, NumberMembers,cbAgencyID.SelectedItem.ToString(), cbBranchID.SelectedItem.ToString(), Int16.Parse(cbRecurrency.SelectedItem.ToString()),tbCCInfo.Text, 
                     cbCCType.SelectedItem.ToString(), tbCCExpDate.Text, ckbCCAuto.Checked?(short)1:(short)0, nDAdded, "Yes", "Self");
+
                 if (temp_member.validate_member_info()) {
                     CreateProfileResponse tempProfile = CreateCustomerProfileFromTransaction(Form1.APILoginID, Form1.APITransactionKey, tbANetTID.Text, temp_member);
                     //CreateProfileResponse tempProfile = new CreateProfileResponse("901406126", "901201859", "903700265", true);
@@ -128,7 +129,7 @@ namespace BMP_Console {
                         if(IsValidANetExpDate(CCExpDate).Length > 0) {
                             short interval = Int16.Parse(cbRecurrency.SelectedItem.ToString());
                             temp_member.cc_expiration_date = IsValidANetExpDate(CCExpDate);
-                            if (CreateSubscriptionFromProfile(Form1.APILoginID, Form1.APITransactionKey, interval, tempProfile.CustomerProfileID, tempProfile.CustomerPayProfileID, tempProfile.CustomerShProfileID, tbRecurringTotal.Text)) {
+                            if (CreateSubscriptionFromProfile(Form1.APILoginID, Form1.APITransactionKey, interval, temp_member.bmp_id, tempProfile.CustomerProfileID, tempProfile.CustomerPayProfileID, tempProfile.CustomerShProfileID, tbRecurringTotal.Text)) {
                                 if (SaveMemberInDB(temp_member)) {
                                     MessageBox.Show("Member Successfully Created", "Saving member in Database", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                     if (NumberMembers > 0) {
@@ -138,8 +139,9 @@ namespace BMP_Console {
                                             SaveMemberInDB(seed_member);
                                         }
                                     }
+                                    SaveTransactionInDB(temp_member, tbANetTID.Text, tbANAuthCode.Text);
                                     ResetForm();
-                                }
+                                }                                
                             }
                         }                        
                     }
@@ -152,66 +154,102 @@ namespace BMP_Console {
 
         private bool SaveMemberInDB(member m) {
 
-            //string ServerIP = "127.0.0.1"; string DBUserName = "fborot"; string DBUserPassword = "Fab!anB0"; string DBName = "bmp";
+            bool res = false;
+            try
+            {
+                MySqlConnection conn = null;
+                conn = new MySql.Data.MySqlClient.MySqlConnection();
+                conn.ConnectionString = Form1.mySQLConnectionString;
+                conn.Open();
 
-            //string mySQLConnectionString = "server=" + ServerIP + ";uid=" + DBUserName + ";pwd=" + DBUserPassword + ";database=" + DBName;
-            MySqlConnection conn = null;
-            conn = new MySql.Data.MySqlClient.MySqlConnection();
-            conn.ConnectionString = Form1.mySQLConnectionString;
-            conn.Open();
-            
-            MySqlCommand cmd = new MySqlCommand("insert into members (bmp_id, name, mi, last_name, email, language, marital_status, gender ,dob, home_phone_number, mobile_phone_number, other_phone_number, address, address2, city, state," +
-                " postal_code, shipping_address, shipping_address2, shipping_city, shipping_state, shipping_postal_code, use_home_as_shipping_address, plan_name, plan_type, recurring_total, start_date, end_date, number_members, " +
-                "agency_id, branch_id, recurrency, cc_info, cc_type, cc_expiration_date, cc_auto_pay, dateadded, policy_holder, relationship) values (" +
-                "@bmp_id, @name, @mi, @last_name, @email, @language, @marital_status, @gender, @dob, @home_phone_number, @mobile_phone_number, @other_phone_number, @address, @address2, @city, @state," +
-                " @postal_code, @shipping_address, @shipping_address2, @shipping_city, @shipping_state, @shipping_postal_code, @use_home_as_shipping_address, @plan_name, @plan_type, @recurring_total, @start_date, @end_date," +
-                " @number_members, @agency_id, @branch_id, @recurrency, @cc_info, @cc_type, @cc_expiration_date, @cc_auto_pay, @dateadded, @policy_holder, @relationship)", conn);
+                MySqlCommand cmd = new MySqlCommand("insert into members (bmp_id, name, mi, last_name, email, language, marital_status, gender ,dob, home_phone_number, mobile_phone_number, other_phone_number, address, address2, city, state," +
+                    " postal_code, shipping_address, shipping_address2, shipping_city, shipping_state, shipping_postal_code, use_home_as_shipping_address, plan_name, plan_type, recurring_total, start_date, end_date, number_members, " +
+                    "agency_id, branch_id, recurrency, cc_info, cc_type, cc_expiration_date, cc_auto_pay, dateadded, policy_holder, relationship) values (" +
+                    "@bmp_id, @name, @mi, @last_name, @email, @language, @marital_status, @gender, @dob, @home_phone_number, @mobile_phone_number, @other_phone_number, @address, @address2, @city, @state," +
+                    " @postal_code, @shipping_address, @shipping_address2, @shipping_city, @shipping_state, @shipping_postal_code, @use_home_as_shipping_address, @plan_name, @plan_type, @recurring_total, @start_date, @end_date," +
+                    " @number_members, @agency_id, @branch_id, @recurrency, @cc_info, @cc_type, @cc_expiration_date, @cc_auto_pay, @dateadded, @policy_holder, @relationship)", conn);
 
-            cmd.Parameters.Add("@bmp_id", MySqlDbType.VarChar, m.bmp_id.Length).Value = m.bmp_id;
-            cmd.Parameters.Add("@name", MySqlDbType.VarChar, m.name.Length).Value = m.name;
-            cmd.Parameters.Add("@mi", MySqlDbType.VarChar, m.mi.Length).Value = m.mi;
-            cmd.Parameters.Add("@last_name", MySqlDbType.VarChar, m.last_name.Length).Value = m.last_name;
-            cmd.Parameters.Add("@email", MySqlDbType.VarChar, m.email.Length).Value = m.email;
-            cmd.Parameters.Add("@language", MySqlDbType.VarChar, m.language.Length).Value = m.language;
-            cmd.Parameters.Add("@marital_status", MySqlDbType.VarChar, m.marital_status.Length).Value = m.marital_status;
-            cmd.Parameters.Add("@gender", MySqlDbType.VarChar, m.gender.Length).Value = m.gender;
-            cmd.Parameters.Add("@dob", MySqlDbType.Int32).Value = m.dob;
-            cmd.Parameters.Add("@home_phone_number", MySqlDbType.VarChar, m.home_phone_number.Length).Value = m.home_phone_number;
-            cmd.Parameters.Add("@mobile_phone_number", MySqlDbType.VarChar, m.mobile_phone_number.Length).Value = m.mobile_phone_number;
-            cmd.Parameters.Add("@other_phone_number", MySqlDbType.VarChar, m.other_phone_number.Length).Value = m.other_phone_number;
-            cmd.Parameters.Add("@address", MySqlDbType.VarChar, m.address.Length).Value = m.address;
-            cmd.Parameters.Add("@address2", MySqlDbType.VarChar, m.address2.Length).Value = m.address2;
-            cmd.Parameters.Add("@city", MySqlDbType.VarChar, m.city.Length).Value = m.city;
-            cmd.Parameters.Add("@state", MySqlDbType.VarChar, m.state.Length).Value = m.state;
-            cmd.Parameters.Add("@postal_code", MySqlDbType.VarChar, m.postal_code.Length).Value = m.postal_code;
-            cmd.Parameters.Add("@shipping_address", MySqlDbType.VarChar, m.shipping_address.Length).Value = m.shipping_address;
-            cmd.Parameters.Add("@shipping_address2", MySqlDbType.VarChar, m.shipping_address2.Length).Value = m.shipping_address2;
-            cmd.Parameters.Add("@shipping_city", MySqlDbType.VarChar, m.shipping_city.Length).Value = m.shipping_city;
-            cmd.Parameters.Add("@shipping_state", MySqlDbType.VarChar, m.shipping_state.Length).Value = m.shipping_state;
-            cmd.Parameters.Add("@shipping_postal_code", MySqlDbType.VarChar, m.shipping_postal_code.Length).Value = m.shipping_postal_code;
-            cmd.Parameters.Add("@use_home_as_shipping_address", MySqlDbType.Int16).Value = m.use_home_as_shipping_address;
-            cmd.Parameters.Add("@plan_name", MySqlDbType.VarChar, m.plan_name.Length).Value = m.plan_name;
-            cmd.Parameters.Add("@plan_type", MySqlDbType.VarChar, m.plan_type.Length).Value = m.plan_type;
-            cmd.Parameters.Add("@recurring_total", MySqlDbType.Float).Value = m.recurring_total;
-            cmd.Parameters.Add("@start_date", MySqlDbType.Int32).Value = m.start_date;
-            cmd.Parameters.Add("@end_date", MySqlDbType.Int32).Value = m.end_date;
-            cmd.Parameters.Add("@number_members", MySqlDbType.Int16).Value = m.number_members;
-            cmd.Parameters.Add("@agency_id", MySqlDbType.VarChar, m.agencyID.Length).Value = m.agencyID;
-            cmd.Parameters.Add("@branch_id", MySqlDbType.VarChar, m.branchID.Length).Value = m.branchID;
-            cmd.Parameters.Add("@recurrency", MySqlDbType.Int16).Value = m.recurrency;
-            cmd.Parameters.Add("@cc_info", MySqlDbType.VarChar, m.cc_info.Length).Value = m.cc_info;
-            cmd.Parameters.Add("@cc_type", MySqlDbType.VarChar, m.cc_type.Length).Value = m.cc_type;
-            cmd.Parameters.Add("@cc_expiration_date", MySqlDbType.VarChar, m.cc_expiration_date.Length).Value = m.cc_expiration_date;
-            cmd.Parameters.Add("@cc_auto_pay", MySqlDbType.Int16).Value = m.cc_auto_pay;
-            cmd.Parameters.Add("@dateadded", MySqlDbType.Int32).Value = m.dateadded;
-            cmd.Parameters.Add("@policy_holder", MySqlDbType.VarChar, m.policy_holder.Length).Value = m.policy_holder;
-            cmd.Parameters.Add("@relationship", MySqlDbType.VarChar, m.relationship.Length).Value = m.relationship;
+                cmd.Parameters.Add("@bmp_id", MySqlDbType.VarChar, m.bmp_id.Length).Value = m.bmp_id;
+                cmd.Parameters.Add("@name", MySqlDbType.VarChar, m.name.Length).Value = m.name;
+                cmd.Parameters.Add("@mi", MySqlDbType.VarChar, m.mi.Length).Value = m.mi;
+                cmd.Parameters.Add("@last_name", MySqlDbType.VarChar, m.last_name.Length).Value = m.last_name;
+                cmd.Parameters.Add("@email", MySqlDbType.VarChar, m.email.Length).Value = m.email;
+                cmd.Parameters.Add("@language", MySqlDbType.VarChar, m.language.Length).Value = m.language;
+                cmd.Parameters.Add("@marital_status", MySqlDbType.VarChar, m.marital_status.Length).Value = m.marital_status;
+                cmd.Parameters.Add("@gender", MySqlDbType.VarChar, m.gender.Length).Value = m.gender;
+                cmd.Parameters.Add("@dob", MySqlDbType.Int32).Value = m.dob;
+                cmd.Parameters.Add("@home_phone_number", MySqlDbType.VarChar, m.home_phone_number.Length).Value = m.home_phone_number;
+                cmd.Parameters.Add("@mobile_phone_number", MySqlDbType.VarChar, m.mobile_phone_number.Length).Value = m.mobile_phone_number;
+                cmd.Parameters.Add("@other_phone_number", MySqlDbType.VarChar, m.other_phone_number.Length).Value = m.other_phone_number;
+                cmd.Parameters.Add("@address", MySqlDbType.VarChar, m.address.Length).Value = m.address;
+                cmd.Parameters.Add("@address2", MySqlDbType.VarChar, m.address2.Length).Value = m.address2;
+                cmd.Parameters.Add("@city", MySqlDbType.VarChar, m.city.Length).Value = m.city;
+                cmd.Parameters.Add("@state", MySqlDbType.VarChar, m.state.Length).Value = m.state;
+                cmd.Parameters.Add("@postal_code", MySqlDbType.VarChar, m.postal_code.Length).Value = m.postal_code;
+                cmd.Parameters.Add("@shipping_address", MySqlDbType.VarChar, m.shipping_address.Length).Value = m.shipping_address;
+                cmd.Parameters.Add("@shipping_address2", MySqlDbType.VarChar, m.shipping_address2.Length).Value = m.shipping_address2;
+                cmd.Parameters.Add("@shipping_city", MySqlDbType.VarChar, m.shipping_city.Length).Value = m.shipping_city;
+                cmd.Parameters.Add("@shipping_state", MySqlDbType.VarChar, m.shipping_state.Length).Value = m.shipping_state;
+                cmd.Parameters.Add("@shipping_postal_code", MySqlDbType.VarChar, m.shipping_postal_code.Length).Value = m.shipping_postal_code;
+                cmd.Parameters.Add("@use_home_as_shipping_address", MySqlDbType.Int16).Value = m.use_home_as_shipping_address;
+                cmd.Parameters.Add("@plan_name", MySqlDbType.VarChar, m.plan_name.Length).Value = m.plan_name;
+                cmd.Parameters.Add("@plan_type", MySqlDbType.VarChar, m.plan_type.Length).Value = m.plan_type;
+                cmd.Parameters.Add("@recurring_total", MySqlDbType.Float).Value = m.recurring_total;
+                cmd.Parameters.Add("@start_date", MySqlDbType.Int32).Value = m.start_date;
+                cmd.Parameters.Add("@end_date", MySqlDbType.Int32).Value = m.end_date;
+                cmd.Parameters.Add("@number_members", MySqlDbType.Int16).Value = m.number_members;
+                cmd.Parameters.Add("@agency_id", MySqlDbType.VarChar, m.agencyID.Length).Value = m.agencyID;
+                cmd.Parameters.Add("@branch_id", MySqlDbType.VarChar, m.branchID.Length).Value = m.branchID;
+                cmd.Parameters.Add("@recurrency", MySqlDbType.Int16).Value = m.recurrency;
+                cmd.Parameters.Add("@cc_info", MySqlDbType.VarChar, m.cc_info.Length).Value = m.cc_info;
+                cmd.Parameters.Add("@cc_type", MySqlDbType.VarChar, m.cc_type.Length).Value = m.cc_type;
+                cmd.Parameters.Add("@cc_expiration_date", MySqlDbType.VarChar, m.cc_expiration_date.Length).Value = m.cc_expiration_date;
+                cmd.Parameters.Add("@cc_auto_pay", MySqlDbType.Int16).Value = m.cc_auto_pay;
+                cmd.Parameters.Add("@dateadded", MySqlDbType.Int32).Value = m.dateadded;
+                cmd.Parameters.Add("@policy_holder", MySqlDbType.VarChar, m.policy_holder.Length).Value = m.policy_holder;
+                cmd.Parameters.Add("@relationship", MySqlDbType.VarChar, m.relationship.Length).Value = m.relationship;
 
-            cmd.ExecuteNonQuery();
-            conn.Close();
-
-            return true;
+                int result = cmd.ExecuteNonQuery();
+                conn.Close();
+                res = (result == 1) ? true : false;
+            } catch (Exception e)
+            {
+                MessageBox.Show("Error Saving Member in the Database.", "Saving member in Database", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            return res;
         }
+
+        private bool SaveTransactionInDB(member m, string t_id, string a_code)
+        {
+            bool res = false;
+            try
+            {
+                MySqlConnection conn = null;
+                conn = new MySql.Data.MySqlClient.MySqlConnection();
+                conn.ConnectionString = Form1.mySQLConnectionString;
+                conn.Open();
+
+                MySqlCommand cmd = new MySqlCommand("insert into transactions (trans_id, auth_code, bmp_id, recurring_total, agency_id,branch_id, dateadded ) values (" +
+                    "@trans_id, @auth_code, @bmp_id, @recurring_total, @agency_id, @branch_id, @dateadded)", conn);
+
+                cmd.Parameters.Add("@trans_id", MySqlDbType.VarChar, t_id.Length).Value = t_id;
+                cmd.Parameters.Add("@auth_code", MySqlDbType.VarChar, a_code.Length).Value = a_code;
+                cmd.Parameters.Add("@bmp_id", MySqlDbType.VarChar, m.bmp_id.Length).Value = m.bmp_id;
+                cmd.Parameters.Add("@recurring_total", MySqlDbType.Float).Value = m.recurring_total;
+                cmd.Parameters.Add("@agency_id", MySqlDbType.VarChar, m.agencyID.Length).Value = m.agencyID;
+                cmd.Parameters.Add("@branch_id", MySqlDbType.VarChar, m.branchID.Length).Value = m.branchID;
+                cmd.Parameters.Add("@dateadded", MySqlDbType.Int32).Value = m.dateadded;
+
+                int result = cmd.ExecuteNonQuery();
+                conn.Close();
+                res = (result == 1) ? true : false;
+            } catch (Exception e)
+            {
+                MessageBox.Show("Error Saving Transaction in the Database.", "Saving member in Database", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            return res;
+        }
+
 
         private bool ChargeMember(member m) {
             return true;
@@ -864,7 +902,7 @@ namespace BMP_Console {
             return prof;            
         }
 
-        public bool CreateSubscriptionFromProfile(String ApiLoginID, String ApiTransactionKey, short intervalLength, string customerProfileId, string customerPaymentProfileId, string customerAddressId, string str_amount) {
+        public bool CreateSubscriptionFromProfile(String ApiLoginID, String ApiTransactionKey, short intervalLength,string bmp_id, string customerProfileId, string customerPaymentProfileId, string customerAddressId, string str_amount) {
             bool res = false;
 
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = AuthorizeNet.Environment.SANDBOX;
@@ -891,7 +929,11 @@ namespace BMP_Console {
                 customerPaymentProfileId = customerPaymentProfileId,
                 customerAddressId = customerAddressId
             };
-
+            orderType myOrder = new orderType()
+            {
+                invoiceNumber = "INV-" + bmp_id,
+                description = "This is an ARB transaction for " + bmp_id
+            };
             ARBSubscriptionType subscriptionType = new ARBSubscriptionType() {
                 amount = Decimal.Parse(str_amount),
                 trialAmount = 0.00m,
