@@ -919,7 +919,7 @@ namespace BMP_Console {
 
             paymentScheduleType schedule = new paymentScheduleType {
                 interval = interval,
-                startDate = DateTime.Now.AddDays(1),      // start date should be tomorrow
+                startDate = DateTime.Now.AddMonths(intervalLength),      // start date should be tomorrow
                 totalOccurrences = 9999,                          // 999 indicates no end date
                 trialOccurrences = 0
             };
