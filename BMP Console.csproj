@@ -132,6 +132,12 @@
     </Compile>
     <Compile Include="member.cs" />
     <Compile Include="plan.cs" />
+    <Compile Include="ProcessPeriod.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ProcessPeriod.Designer.cs">
+      <DependentUpon>ProcessPeriod.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ShowAgencies.cs">
@@ -158,6 +164,7 @@
     <Compile Include="ShowPlans.Designer.cs">
       <DependentUpon>ShowPlans.cs</DependentUpon>
     </Compile>
+    <Compile Include="TransactionDetail.cs" />
     <EmbeddedResource Include="AddAgency.resx">
       <DependentUpon>AddAgency.cs</DependentUpon>
     </EmbeddedResource>
@@ -172,6 +179,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProcessPeriod.resx">
+      <DependentUpon>ProcessPeriod.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

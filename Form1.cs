@@ -23,6 +23,7 @@ namespace BMP_Console {
         static public ShowMembers ShowMembers  = null;
         static public ShowAgencies ShowAgencies = null;
         static public ShowBranches ShowBranches = null;
+        static public ProcessPeriod PPeriod = null;
         static public string db_host = string.Empty;
         static public string db_name = string.Empty;
         static public string db_user = string.Empty;
@@ -175,6 +176,19 @@ namespace BMP_Console {
 
             } else {
                 ShowBranches.Focus();
+            }
+        }
+
+        private void processPeriodToolStripMenuItem_Click(object sender, EventArgs e) {
+            //PPeriod.ShowDialog();
+            if (PPeriod == null) {
+                PPeriod = new ProcessPeriod();
+                PPeriod.MdiParent = this;
+                PPeriod.StartPosition = FormStartPosition.Manual;
+                PPeriod.Show();
+
+            } else {
+                PPeriod.Focus();
             }
         }
     }

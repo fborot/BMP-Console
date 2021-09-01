@@ -129,7 +129,8 @@ namespace BMP_Console {
                         if(IsValidANetExpDate(CCExpDate).Length > 0) {
                             short interval = Int16.Parse(cbRecurrency.SelectedItem.ToString());
                             temp_member.cc_expiration_date = IsValidANetExpDate(CCExpDate);
-                            if (CreateSubscriptionFromProfile(Form1.APILoginID, Form1.APITransactionKey, interval, temp_member.bmp_id, tempProfile.CustomerProfileID, tempProfile.CustomerPayProfileID, tempProfile.CustomerShProfileID, tbRecurringTotal.Text)) {
+                            string subscriptionID = "";
+                            if (CreateSubscriptionFromProfile(Form1.APILoginID, Form1.APITransactionKey, interval, temp_member.bmp_id, tempProfile.CustomerProfileID, tempProfile.CustomerPayProfileID, tempProfile.CustomerShProfileID, tbRecurringTotal.Text, ref subscriptionID)) {
                                 if (SaveMemberInDB(temp_member)) {
                                     MessageBox.Show("Member Successfully Created", "Saving member in Database", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                     if (NumberMembers > 0) {
@@ -140,6 +141,7 @@ namespace BMP_Console {
                                         }
                                     }
                                     SaveTransactionInDB(temp_member, tbANetTID.Text, tbANAuthCode.Text);
+                                    SaveSubscriptionInDB(temp_member, tbANetTID.Text, subscriptionID);
                                     ResetForm();
                                 }                                
                             }
@@ -250,6 +252,34 @@ namespace BMP_Console {
             return res;
         }
 
+        private bool SaveSubscriptionInDB(member m, string t_id, string subscription) {
+            bool res = false;
+            try {
+                MySqlConnection conn = null;
+                conn = new MySql.Data.MySqlClient.MySqlConnection();
+                conn.ConnectionString = Form1.mySQLConnectionString;
+                conn.Open();
+
+                MySqlCommand cmd = new MySqlCommand("insert into subscriptions (an_subscription_id, an_orig_trans_id, bmp_id, recurring_total, agency_id,branch_id, recurrency, dateadded ) values (" +
+                    "@an_subscription_id, @an_original_trans_id, @bmp_id, @recurring_total, @agency_id, @branch_id, @recurrency, @dateadded)", conn);
+
+                cmd.Parameters.Add("@an_subscription_id", MySqlDbType.VarChar, subscription.Length).Value = subscription;
+                cmd.Parameters.Add("@an_original_trans_id", MySqlDbType.VarChar, t_id.Length).Value = t_id;
+                cmd.Parameters.Add("@bmp_id", MySqlDbType.VarChar, m.bmp_id.Length).Value = m.bmp_id;
+                cmd.Parameters.Add("@recurring_total", MySqlDbType.Float).Value = m.recurring_total;
+                cmd.Parameters.Add("@agency_id", MySqlDbType.VarChar, m.agencyID.Length).Value = m.agencyID;
+                cmd.Parameters.Add("@branch_id", MySqlDbType.VarChar, m.branchID.Length).Value = m.branchID;
+                cmd.Parameters.Add("@recurrency", MySqlDbType.Int16).Value = m.recurrency;
+                cmd.Parameters.Add("@dateadded", MySqlDbType.Int32).Value = m.dateadded;
+
+                int result = cmd.ExecuteNonQuery();
+                conn.Close();
+                res = (result == 1) ? true : false;
+            } catch (Exception e) {
+                MessageBox.Show("Error Saving Subscription in the Database.", "Saving member in Database", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            return res;
+        }
 
         private bool ChargeMember(member m) {
             return true;
@@ -902,7 +932,7 @@ namespace BMP_Console {
             return prof;            
         }
 
-        public bool CreateSubscriptionFromProfile(String ApiLoginID, String ApiTransactionKey, short intervalLength,string bmp_id, string customerProfileId, string customerPaymentProfileId, string customerAddressId, string str_amount) {
+        public bool CreateSubscriptionFromProfile(String ApiLoginID, String ApiTransactionKey, short intervalLength,string bmp_id, string customerProfileId, string customerPaymentProfileId, string customerAddressId, string str_amount, ref string subs_id) {
             bool res = false;
 
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = AuthorizeNet.Environment.SANDBOX;
@@ -914,12 +944,19 @@ namespace BMP_Console {
 
             paymentScheduleTypeInterval interval = new paymentScheduleTypeInterval();
 
-            interval.length = intervalLength;                   // months can be indicated between 1 and 12
+            interval.length = intervalLength;         // months can be indicated between 1 and 12
             interval.unit = ARBSubscriptionUnitEnum.months;
+
+            //testing
+            //interval.length = 7;
+            //interval.unit = ARBSubscriptionUnitEnum.days;
+
 
             paymentScheduleType schedule = new paymentScheduleType {
                 interval = interval,
                 startDate = DateTime.Now.AddMonths(intervalLength),      // start date should be tomorrow
+                //testing
+                //startDate = DateTime.Now.AddDays(7),      // start date should be tomorrow
                 totalOccurrences = 9999,                          // 999 indicates no end date
                 trialOccurrences = 0
             };
@@ -951,7 +988,8 @@ namespace BMP_Console {
             // validate response
             if (response != null && response.messages.resultCode == messageTypeEnum.Ok) {
                 if (response != null && response.messages.message != null) {
-                    Console.WriteLine("Success, Subscription ID : " + response.subscriptionId.ToString());
+                    //Console.WriteLine("Success, Subscription ID : " + response.subscriptionId.ToString());
+                    subs_id = response.subscriptionId.ToString();
                     res = true;
                 }
             } else if (response != null) {
@@ -961,52 +999,52 @@ namespace BMP_Console {
             return res;
         }
 
-        public ANetApiResponse Run(String ApiLoginID, String ApiTransactionKey, string customerProfileId,string customerPaymentProfileId) {
+        //public ANetApiResponse Run(String ApiLoginID, String ApiTransactionKey, string customerProfileId,string customerPaymentProfileId) {
             
-            ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = AuthorizeNet.Environment.SANDBOX;
-            // define the merchant information (authentication / transaction id)
-            ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = new merchantAuthenticationType() {
-                name = ApiLoginID,
-                ItemElementName = ItemChoiceType.transactionKey,
-                Item = ApiTransactionKey,
-            };
+        //    ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = AuthorizeNet.Environment.SANDBOX;
+        //    // define the merchant information (authentication / transaction id)
+        //    ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = new merchantAuthenticationType() {
+        //        name = ApiLoginID,
+        //        ItemElementName = ItemChoiceType.transactionKey,
+        //        Item = ApiTransactionKey,
+        //    };
 
-            var request = new getCustomerPaymentProfileRequest();
-            request.customerProfileId = customerProfileId;
-            request.customerPaymentProfileId = customerPaymentProfileId;
+        //    var request = new getCustomerPaymentProfileRequest();
+        //    request.customerProfileId = customerProfileId;
+        //    request.customerPaymentProfileId = customerPaymentProfileId;
 
-            // Set this optional property to true to return an unmasked expiration date
-            //request.unmaskExpirationDateSpecified = true;
-            //request.unmaskExpirationDate = true;
+        //    // Set this optional property to true to return an unmasked expiration date
+        //    //request.unmaskExpirationDateSpecified = true;
+        //    //request.unmaskExpirationDate = true;
 
 
-            // instantiate the controller that will call the service
-            var controller = new getCustomerPaymentProfileController(request);
-            controller.Execute();
+        //    // instantiate the controller that will call the service
+        //    var controller = new getCustomerPaymentProfileController(request);
+        //    controller.Execute();
 
-            // get the response from the service (errors contained if any)
-            var response = controller.GetApiResponse();
+        //    // get the response from the service (errors contained if any)
+        //    var response = controller.GetApiResponse();
 
-            if (response != null && response.messages.resultCode == messageTypeEnum.Ok) {
-                Console.WriteLine(response.messages.message[0].text);
-                Console.WriteLine("Customer Payment Profile Id: " + response.paymentProfile.customerPaymentProfileId);
-                if (response.paymentProfile.payment.Item is creditCardMaskedType) {
-                    Console.WriteLine("Customer Payment Profile Last 4: " + (response.paymentProfile.payment.Item as creditCardMaskedType).cardNumber);
-                    Console.WriteLine("Customer Payment Profile Expiration Date: " + (response.paymentProfile.payment.Item as creditCardMaskedType).expirationDate);
+        //    if (response != null && response.messages.resultCode == messageTypeEnum.Ok) {
+        //        Console.WriteLine(response.messages.message[0].text);
+        //        Console.WriteLine("Customer Payment Profile Id: " + response.paymentProfile.customerPaymentProfileId);
+        //        if (response.paymentProfile.payment.Item is creditCardMaskedType) {
+        //            Console.WriteLine("Customer Payment Profile Last 4: " + (response.paymentProfile.payment.Item as creditCardMaskedType).cardNumber);
+        //            Console.WriteLine("Customer Payment Profile Expiration Date: " + (response.paymentProfile.payment.Item as creditCardMaskedType).expirationDate);
 
-                    if (response.paymentProfile.subscriptionIds != null && response.paymentProfile.subscriptionIds.Length > 0) {
-                        Console.WriteLine("List of subscriptions : ");
-                        for (int i = 0; i < response.paymentProfile.subscriptionIds.Length; i++)
-                            Console.WriteLine(response.paymentProfile.subscriptionIds[i]);
-                    }
-                }
-            } else if (response != null) {
-                Console.WriteLine("Error: " + response.messages.message[0].code + "  " +
-                                  response.messages.message[0].text);
-            }
+        //            if (response.paymentProfile.subscriptionIds != null && response.paymentProfile.subscriptionIds.Length > 0) {
+        //                Console.WriteLine("List of subscriptions : ");
+        //                for (int i = 0; i < response.paymentProfile.subscriptionIds.Length; i++)
+        //                    Console.WriteLine(response.paymentProfile.subscriptionIds[i]);
+        //            }
+        //        }
+        //    } else if (response != null) {
+        //        Console.WriteLine("Error: " + response.messages.message[0].code + "  " +
+        //                          response.messages.message[0].text);
+        //    }
 
-            return response;
-        }
+        //    return response;
+        //}
 
         public string GetCustomerPayProfileDetails(String ApiLoginID, String ApiTransactionKey, string customerProfileId, string customerPaymentProfileId) {
             string CCExpDate = string.Empty;
