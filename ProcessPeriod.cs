@@ -35,8 +35,12 @@ namespace BMP_Console {
 
         private void btCalculate_Click(object sender, EventArgs e) {
             // calculate commisions
-            startDate = DateTime.Today.Subtract(TimeSpan.FromDays(0));
-            endDate = DateTime.Today.AddDays(1);
+            //startDate = DateTime.Today.Subtract(TimeSpan.FromDays(0));
+            //endDate = DateTime.Today.AddDays(1);
+            startDate = dtStartDate.Value.Date;
+            endDate = dtEnddate.Value.Date;
+                        
+
             ArrayList batches = GetBatchesInPeriod(Form1.APILoginID, Form1.APITransactionKey, startDate, endDate);
             ArrayList transactions = new ArrayList();
             bool res = false;
@@ -162,21 +166,21 @@ namespace BMP_Console {
                     data = DipIntoTransDB(td.t_id);
                     if (data.Length > 0) {
                         string[] temp = data.Split('-');
-                        td.t_bmpCustID = temp[0];
-                        td.t_amount = Decimal.Parse(temp[1]);
-                        td.t_agency = temp[2];
-                        td.t_branch = temp[3];
+                        td.t_bmpCustID = temp[0] + "-" + temp[1] + "-" + temp[2];
+                        td.t_amount = Decimal.Parse(temp[3]);
+                        td.t_agency = temp[4];
+                        td.t_branch = temp[5];
                     }
                 } else {// renewal
                     string data = "";
                     data = DipIntoSubsDB(td.t_subscriptionid);
                     if (data.Length > 0) {
                         string[] temp = data.Split('-');
-                        td.t_bmpCustID = temp[0];
-                        td.t_amount = Decimal.Parse(temp[1]);
-                        td.t_agency = temp[2];
-                        td.t_branch = temp[3];
-                        td.t_recurrency = Int16.Parse(temp[4]);
+                        td.t_bmpCustID = temp[0] + "-" + temp[1] + "-" + temp[2];
+                        td.t_amount = Decimal.Parse(temp[3]);
+                        td.t_agency = temp[4];
+                        td.t_branch = temp[5];
+                        td.t_recurrency = Int16.Parse(temp[6]);
                     }
                 }
             }
