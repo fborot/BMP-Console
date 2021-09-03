@@ -42,5 +42,15 @@ namespace BMP_Console {
 
             return res;
         }
+        public override string ToString()
+        {
+            string res = string.Empty;
+            if (t_subscriptionid.Length == 0)
+                t_subscriptionid = "NA";
+
+            res = t_id + "\t" + t_type + "\t\t" + t_bmpCustID + "\t\t" + t_amount + "\t" + t_agency + "\t\t" + t_branch + "\t" + t_plan + "\t" + t_recurrency + "\t\t" + t_subscriptionid;
+            return res;
+
+        }
     }
 }

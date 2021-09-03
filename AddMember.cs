@@ -231,8 +231,8 @@ namespace BMP_Console {
                 conn.ConnectionString = Form1.mySQLConnectionString;
                 conn.Open();
 
-                MySqlCommand cmd = new MySqlCommand("insert into transactions (trans_id, auth_code, bmp_id, recurring_total, agency_id,branch_id, dateadded ) values (" +
-                    "@trans_id, @auth_code, @bmp_id, @recurring_total, @agency_id, @branch_id, @dateadded)", conn);
+                MySqlCommand cmd = new MySqlCommand("insert into transactions (trans_id, auth_code, bmp_id, recurring_total, agency_id,branch_id, recurrency, dateadded ) values (" +
+                    "@trans_id, @auth_code, @bmp_id, @recurring_total, @agency_id, @branch_id, @recurrency, @dateadded)", conn);
 
                 cmd.Parameters.Add("@trans_id", MySqlDbType.VarChar, t_id.Length).Value = t_id;
                 cmd.Parameters.Add("@auth_code", MySqlDbType.VarChar, a_code.Length).Value = a_code;
@@ -240,6 +240,7 @@ namespace BMP_Console {
                 cmd.Parameters.Add("@recurring_total", MySqlDbType.Float).Value = m.recurring_total;
                 cmd.Parameters.Add("@agency_id", MySqlDbType.VarChar, m.agencyID.Length).Value = m.agencyID;
                 cmd.Parameters.Add("@branch_id", MySqlDbType.VarChar, m.branchID.Length).Value = m.branchID;
+                cmd.Parameters.Add("@recurrency", MySqlDbType.Int16, m.recurrency).Value = m.recurrency;
                 cmd.Parameters.Add("@dateadded", MySqlDbType.Int32).Value = m.dateadded;
 
                 int result = cmd.ExecuteNonQuery();

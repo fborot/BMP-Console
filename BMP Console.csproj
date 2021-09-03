@@ -122,6 +122,7 @@
     </Compile>
     <Compile Include="agency.cs" />
     <Compile Include="branch.cs" />
+    <Compile Include="ComCheckData.cs" />
     <Compile Include="CreateProfileResponse.cs" />
     <Compile Include="Dependent.cs" />
     <Compile Include="Form1.cs">

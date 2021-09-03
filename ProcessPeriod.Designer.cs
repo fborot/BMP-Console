@@ -29,7 +29,7 @@
             this.dtEnddate = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.rTBResults = new System.Windows.Forms.RichTextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
@@ -89,14 +89,16 @@
             this.label2.TabIndex = 5;
             this.label2.Text = "End Date";
             // 
-            // richTextBox1
+            // rTBResults
             // 
-            this.richTextBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.richTextBox1.Location = new System.Drawing.Point(19, 134);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(870, 194);
-            this.richTextBox1.TabIndex = 6;
-            this.richTextBox1.Text = "";
+            this.rTBResults.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.rTBResults.BackColor = System.Drawing.SystemColors.Window;
+            this.rTBResults.Location = new System.Drawing.Point(19, 134);
+            this.rTBResults.Name = "rTBResults";
+            this.rTBResults.ReadOnly = true;
+            this.rTBResults.Size = new System.Drawing.Size(870, 194);
+            this.rTBResults.TabIndex = 6;
+            this.rTBResults.Text = "";
             // 
             // label3
             // 
@@ -113,7 +115,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(898, 340);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.richTextBox1);
+            this.Controls.Add(this.rTBResults);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dtEnddate);
@@ -139,7 +141,7 @@
         private System.Windows.Forms.DateTimePicker dtEnddate;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.RichTextBox rTBResults;
         private System.Windows.Forms.Label label3;
     }
 }
