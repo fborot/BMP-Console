@@ -22,8 +22,6 @@ namespace BMP_Console {
         Hashtable HTableAgency = new Hashtable();
         Hashtable HTableBranch = new Hashtable();
 
-        ArrayList Agency = new ArrayList();
-        ArrayList Branch = new ArrayList();
 
         public ProcessPeriod() {
             InitializeComponent();
@@ -73,44 +71,71 @@ namespace BMP_Console {
                 {
                     decimal ic = GetAgencyInitialCommisionValues(tplan, t.t_recurrency);
                     ComCheckData myobj_a = new ComCheckData(t.t_bmpCustID, ic, "Initial Commission");
-                    Agency.Add(myobj_a);
                     ic = GetBranchInitialCommisionValues(tplan, t.t_recurrency);
                     ComCheckData myobj_b = new ComCheckData(t.t_bmpCustID, ic, "Initial Commission");
-                    Branch.Add(myobj_b);
-                    
+
                     if (HTableAgency.Contains(t.t_agency))
-                        HTableAgency[t.t_agency] = Agency;
+                    {
+                        ArrayList myAR = (ArrayList)HTableAgency[t.t_agency];
+                        myAR.Add(myobj_a);
+                        HTableAgency[t.t_agency] = myAR;
+                    }
                     else
-                        HTableAgency.Add(t.t_agency, Agency);
+                    {
+                        ArrayList myAR = new ArrayList();
+                        myAR.Add(myobj_a);
+                        HTableAgency[t.t_agency] = myAR;
+                    }
 
                     if (HTableBranch.Contains(t.t_branch))
-                        HTableBranch[t.t_branch] = Branch;
+                    {
+                        ArrayList myAR = (ArrayList)HTableAgency[t.t_agency];
+                        myAR.Add(myobj_b);
+                        HTableBranch[t.t_branch] = myAR;
+                    }
                     else
-                        HTableBranch.Add(t.t_branch, Branch);
-
+                    {
+                        ArrayList myAR = new ArrayList();
+                        myAR.Add(myobj_b);
+                        HTableBranch[t.t_branch] = myAR;
+                    }
                 } else
                 {
                     decimal rc = GetAgencyRenewalCommisionValues(tplan, t.t_recurrency);
                     ComCheckData myobj_a = new ComCheckData(t.t_bmpCustID, rc, "Recurrent Commission");
-                    Agency.Add(myobj_a);
                     rc = GetBranchRenewalCommisionValues(tplan, t.t_recurrency);
                     ComCheckData myobj_b = new ComCheckData(t.t_bmpCustID, rc, "Recurrent Commission");
-                    Branch.Add(myobj_b);
 
                     if (HTableAgency.Contains(t.t_agency))
-                        HTableAgency[t.t_agency] = Agency;
+                    {
+                        ArrayList myAR = (ArrayList)HTableAgency[t.t_agency];
+                        myAR.Add(myobj_a);
+                        HTableAgency[t.t_agency] = myAR;
+                    }
                     else
-                        HTableAgency.Add(t.t_agency, Agency);
+                    {
+                        ArrayList myAR = new ArrayList();
+                        myAR.Add(myobj_a);
+                        HTableAgency[t.t_agency] = myAR;
+                    }
 
                     if (HTableBranch.Contains(t.t_branch))
-                        HTableBranch[t.t_branch] = Branch;
+                    {
+                        ArrayList myAR = (ArrayList)HTableAgency[t.t_agency];
+                        myAR.Add(myobj_b);
+                        HTableBranch[t.t_branch] = myAR;
+                    }
                     else
-                        HTableBranch.Add(t.t_branch, Branch);
+                    {
+                        ArrayList myAR = new ArrayList();
+                        myAR.Add(myobj_b);
+                        HTableBranch[t.t_branch] = myAR;
+                    }
 
                 }                
             }
 
-            int a = 0;
+          
             
             
         }
