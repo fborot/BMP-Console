@@ -22,6 +22,8 @@ namespace BMP_Console {
         Hashtable HTableAgency = new Hashtable();
         Hashtable HTableBranch = new Hashtable();
 
+        Hashtable HTableAgencyCheck = new Hashtable();
+        Hashtable HTableBranchCheck = new Hashtable();
 
         public ProcessPeriod() {
             InitializeComponent();
@@ -47,6 +49,14 @@ namespace BMP_Console {
             HTableAgency = Hashtable.Synchronized(HTableAgency);
             HTableBranch = Hashtable.Synchronized(HTableBranch);
 
+            HTableAgency.Clear();
+            HTableBranch.Clear();
+
+            HTableAgencyCheck = Hashtable.Synchronized(HTableAgencyCheck);
+            HTableBranchCheck = Hashtable.Synchronized(HTableBranchCheck);
+
+            HTableAgencyCheck.Clear();
+            HTableBranchCheck.Clear();
 
             ArrayList batches = GetBatchesInPeriod(Form1.APILoginID, Form1.APITransactionKey, startDate, endDate);
             ArrayList transactions = new ArrayList();
@@ -63,81 +73,107 @@ namespace BMP_Console {
             rTBResults.AppendText("Transaction#\t" + "Transaction Type\t" + "CustomerID\t\t" + "Amount\t" + "Agency\t\t" + "Branch\t\t" + "Plan\t" + "Recurrency\t" + "SubscriptionID\t" + Environment.NewLine);
             //rTBResults.SelectionFont = new Font(rTBResults.Font, FontStyle.Regular);
             foreach (TransactionDetail t in transactions)
-            {                
-                rTBResults.Text += t.ToString() + Environment.NewLine;
-                string[] temp = t.t_bmpCustID.Split('-');
-                string tplan = temp[0];
-                if (t.t_type == "new")
-                {
-                    decimal ic = GetAgencyInitialCommisionValues(tplan, t.t_recurrency);
-                    ComCheckData myobj_a = new ComCheckData(t.t_bmpCustID, ic, "Initial Commission");
-                    ic = GetBranchInitialCommisionValues(tplan, t.t_recurrency);
-                    ComCheckData myobj_b = new ComCheckData(t.t_bmpCustID, ic, "Initial Commission");
+            {
+                if (t.isValid()) {
+                    rTBResults.Text += t.ToString() + Environment.NewLine;
+                    string[] temp = t.t_bmpCustID.Split('-');
+                    string tplan = temp[0];
+                    if (t.t_type == "new") {
+                        decimal ic = GetAgencyInitialCommisionValues(tplan, t.t_recurrency);
+                        ComCheckData myobj_a = new ComCheckData(t.t_bmpCustID, ic, "Initial Commission");
+                        ic = GetBranchInitialCommisionValues(tplan, t.t_recurrency);
+                        ComCheckData myobj_b = new ComCheckData(t.t_bmpCustID, ic, "Initial Commission");
 
-                    if (HTableAgency.Contains(t.t_agency))
-                    {
-                        ArrayList myAR = (ArrayList)HTableAgency[t.t_agency];
-                        myAR.Add(myobj_a);
-                        HTableAgency[t.t_agency] = myAR;
-                    }
-                    else
-                    {
-                        ArrayList myAR = new ArrayList();
-                        myAR.Add(myobj_a);
-                        HTableAgency[t.t_agency] = myAR;
-                    }
+                        if (HTableAgency.Contains(t.t_agency)) {
+                            CheckEnvelope CE = (CheckEnvelope)HTableAgency[t.t_agency];
+                            //ArrayList myAR = (ArrayList)HTableAgency[t.t_agency];
+                            CE.List.Add(myobj_a);
+                            //myAR.Add(myobj_a);
+                            CE.Total += myobj_a.PayAmount;
+                            HTableAgency[t.t_agency] = CE;
+                            //HTableAgency[t.t_agency] = myAR;
+                        } else {
+                            CheckEnvelope CE = new CheckEnvelope("",myobj_a.PayAmount, myobj_a);
+                            //ArrayList myAR = new ArrayList();
+                            //myAR.Add(myobj_a);
+                            HTableAgency[t.t_agency] = CE;
+                            //HTableAgency[t.t_agency] = myAR;
+                        }
 
-                    if (HTableBranch.Contains(t.t_branch))
-                    {
-                        ArrayList myAR = (ArrayList)HTableAgency[t.t_agency];
-                        myAR.Add(myobj_b);
-                        HTableBranch[t.t_branch] = myAR;
-                    }
-                    else
-                    {
-                        ArrayList myAR = new ArrayList();
-                        myAR.Add(myobj_b);
-                        HTableBranch[t.t_branch] = myAR;
-                    }
-                } else
-                {
-                    decimal rc = GetAgencyRenewalCommisionValues(tplan, t.t_recurrency);
-                    ComCheckData myobj_a = new ComCheckData(t.t_bmpCustID, rc, "Recurrent Commission");
-                    rc = GetBranchRenewalCommisionValues(tplan, t.t_recurrency);
-                    ComCheckData myobj_b = new ComCheckData(t.t_bmpCustID, rc, "Recurrent Commission");
+                        if (HTableBranch.Contains(t.t_branch)) {
+                            CheckEnvelope CE = (CheckEnvelope)HTableBranch[t.t_branch];
+                            //ArrayList myAR = (ArrayList)HTableBranch[t.t_branch];
+                            CE.List.Add(myobj_b);
+                            //myAR.Add(myobj_b);
+                            CE.Total += myobj_b.PayAmount;
+                            HTableBranch[t.t_branch] = CE;
+                            //HTableBranch[t.t_branch] = myAR;
+                        } else {
+                            CheckEnvelope CE = new CheckEnvelope("",myobj_b.PayAmount, myobj_b);
+                            //ArrayList myAR = new ArrayList();
+                            //myAR.Add(myobj_b);
+                            HTableBranch[t.t_branch] = CE;
+                            //HTableBranch[t.t_branch] = myAR;
+                        }
+                    } else {
+                        decimal rc = GetAgencyRenewalCommisionValues(tplan, t.t_recurrency);
+                        ComCheckData myobj_a = new ComCheckData(t.t_bmpCustID, rc, "Recurrent Commission");
+                        rc = GetBranchRenewalCommisionValues(tplan, t.t_recurrency);
+                        ComCheckData myobj_b = new ComCheckData(t.t_bmpCustID, rc, "Recurrent Commission");
 
-                    if (HTableAgency.Contains(t.t_agency))
-                    {
-                        ArrayList myAR = (ArrayList)HTableAgency[t.t_agency];
-                        myAR.Add(myobj_a);
-                        HTableAgency[t.t_agency] = myAR;
-                    }
-                    else
-                    {
-                        ArrayList myAR = new ArrayList();
-                        myAR.Add(myobj_a);
-                        HTableAgency[t.t_agency] = myAR;
-                    }
+                        if (HTableAgency.Contains(t.t_agency)) {
+                            CheckEnvelope CE = (CheckEnvelope)HTableAgency[t.t_agency];
+                            //ArrayList myAR = (ArrayList)HTableAgency[t.t_agency];
+                            CE.List.Add(myobj_a);
+                            //myAR.Add(myobj_a);
+                            CE.Total += myobj_a.PayAmount;
+                            HTableAgency[t.t_agency] = CE;
+                            //HTableAgency[t.t_agency] = myAR;
+                        } else {
+                            CheckEnvelope CE = new CheckEnvelope("",myobj_a.PayAmount, myobj_a);
+                            //ArrayList myAR = new ArrayList();
+                            //myAR.Add(myobj_a);
+                            HTableAgency[t.t_agency] = CE;
+                            //HTableAgency[t.t_agency] = myAR;
+                        }
 
-                    if (HTableBranch.Contains(t.t_branch))
-                    {
-                        ArrayList myAR = (ArrayList)HTableAgency[t.t_agency];
-                        myAR.Add(myobj_b);
-                        HTableBranch[t.t_branch] = myAR;
-                    }
-                    else
-                    {
-                        ArrayList myAR = new ArrayList();
-                        myAR.Add(myobj_b);
-                        HTableBranch[t.t_branch] = myAR;
-                    }
+                        if (HTableBranch.Contains(t.t_branch)) {
+                            CheckEnvelope CE = (CheckEnvelope)HTableBranch[t.t_branch];
+                            //ArrayList myAR = (ArrayList)HTableBranch[t.t_branch];
+                            CE.List.Add(myobj_b);
+                            //myAR.Add(myobj_b);
+                            CE.Total += myobj_b.PayAmount;
+                            HTableBranch[t.t_branch] = CE;
+                            //HTableBranch[t.t_branch] = myAR;
+                        } else {
+                            CheckEnvelope CE = new CheckEnvelope("",myobj_b.PayAmount, myobj_b);
+                            //ArrayList myAR = new ArrayList();
+                            //myAR.Add(myobj_b);
+                            HTableBranch[t.t_branch] = CE;
+                            //HTableBranch[t.t_branch] = myAR;
+                        }
 
-                }                
+                    }
+                }
             }
+    
+            foreach (DictionaryEntry h in HTableAgency) {
+                CheckEnvelope tempCE = (CheckEnvelope)h.Value;
 
-          
-            
-            
+                string check_name = GetCheckName(h.Key.ToString(),0);
+                CheckEnvelope newCE = new CheckEnvelope(check_name, tempCE.Total, tempCE.List);
+                HTableAgencyCheck[h.Key] = newCE;
+                
+            }
+            foreach (DictionaryEntry h in HTableBranch) {
+                CheckEnvelope tempCE = (CheckEnvelope)h.Value;
+
+                string check_name = GetCheckName(h.Key.ToString(), 1);
+                CheckEnvelope newCE = new CheckEnvelope(check_name, tempCE.Total, tempCE.List);
+                HTableBranchCheck[h.Key] = newCE;
+            }
+            //test
+            int a = 9;   
         }
 
         public ArrayList GetBatchesInPeriod(String ApiLoginID, String ApiTransactionKey, DateTime startDate, DateTime endDate) {
@@ -615,6 +651,52 @@ namespace BMP_Console {
             return cost;
         }
 
+        public string GetCheckName(string in_value, short type ) {
+            // in value is either an agency name or a branch name
+            // type is either agency(0) or branch(1)
+
+            string res = string.Empty;
+            MySqlDataReader ret = null;
+            MySqlCommand cmd = null;
+            MySqlConnection conn = null;
+            string query = (type == 0) ? "select * from agencies where agency_name = '" : "select * from branches where branch_name = '";
+            try {
+                
+                conn = new MySql.Data.MySqlClient.MySqlConnection();
+                conn.ConnectionString = Form1.mySQLConnectionString;
+                conn.Open();
+                cmd = new MySqlCommand(query + in_value + "'", conn);
+                ret = cmd.ExecuteReader();
+
+                while (ret.Read()) {
+                    string use_name = "";
+                    short id = ret.GetInt16(0);
+                    string name = ret.GetString(1);
+                    string addres = ret.GetString(2);
+                    string address2 = ret.GetString(3);
+                    string pcode = ret.GetString(4);
+                    string contact = ret.GetString(5);
+                    string email = ret.GetString(6);
+                    string ph = ret.GetString(7);
+                    if(type == 0)
+                        use_name = ret.GetString(8);
+                    else {
+                        string bagency = ret.GetString(8);
+                        use_name = ret.GetString(9);
+                    }
+
+                    res = (use_name == "Yes") ? name : contact;
+
+                }
+                ret.Close();
+                conn.Close();
+            } catch (Exception e) {
+                ret.Close();
+                conn.Close();
+            }
+
+            return res;
+        }
 
     }
 }

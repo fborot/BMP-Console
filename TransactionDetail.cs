@@ -30,15 +30,21 @@ namespace BMP_Console {
         public bool isValid() {
             bool res = false;
             string[] tt = null;
-            if (t_id.Length > 0 && t_type.Length > 0 && t_bmpCustID.Length > 0 && t_amount > 0 && t_agency.Length > 0 && t_branch.Length > 0 && t_plan.Length > 0 && t_recurrency >= 0)
-                if(t_type == "renewal") {
-                    if (t_subscriptionid.Length < 1)
+            if (t_id.Length > 0 && t_type.Length > 0 && t_bmpCustID.Length > 0 && t_amount > 0 && t_agency.Length > 0 && t_branch.Length > 0 && t_plan.Length > 0 && t_recurrency >= 0) {
+                if (t_type == "renewal") {
+                    if (t_subscriptionid.Length < 1) {
                         res = false;
+                        return res;
+                    }
                 }
-                
-                tt = t_id.Split(':');
-                if(tt[0] != "Error" && tt[0] != "Null")
-                    res = true;
+            } else
+                return res;
+
+            tt = t_id.Split(':');
+            if (tt[0] != "Error" && tt[0] != "Null") {
+                res = true;
+                return res;
+            }
 
             return res;
         }
