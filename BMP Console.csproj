@@ -122,6 +122,12 @@
     </Compile>
     <Compile Include="agency.cs" />
     <Compile Include="branch.cs" />
+    <Compile Include="CalibratePrinter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CalibratePrinter.Designer.cs">
+      <DependentUpon>CalibratePrinter.cs</DependentUpon>
+    </Compile>
     <Compile Include="ComCheckData.cs" />
     <Compile Include="CreateProfileResponse.cs" />
     <Compile Include="Dependent.cs" />
@@ -177,6 +183,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AddPlan.resx">
       <DependentUpon>AddPlan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CalibratePrinter.resx">
+      <DependentUpon>CalibratePrinter.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

@@ -29,8 +29,8 @@ namespace BMP_Console {
         ArrayList ChecksPayload = new ArrayList();
         short ChecksCount = -1;
 
-        int x_offset = -5; // the printer adds 5 mm... the (0,0) coordinate is actually at (5,5) in mm with the house printer
-        int y_offset = -5; // the printer adds 5 mm
+        int x_offset = -1 * Form1.X_Offset; // the printer adds 5 mm... the (0,0) coordinate is actually at (5,5) in mm with the house printer
+        int y_offset = -1 * Form1.Y_Offset; // the printer adds 5 mm
         private int checks_counter = 0;
 
 
@@ -54,6 +54,9 @@ namespace BMP_Console {
             
             bPChecksEnabled = false;
             bPrint.Enabled = bPChecksEnabled;
+
+            btCalculate.Enabled = false;
+            btExit.Enabled = false;
 
             startDate = dtStartDate.Value.Date;
             endDate = dtEnddate.Value.Date;
@@ -225,6 +228,9 @@ namespace BMP_Console {
                     ChecksCount = (short)ChecksPayload.Count;
                 }
             }
+
+            btCalculate.Enabled = true;
+            btExit.Enabled = true;
 
         }
 
@@ -978,18 +984,25 @@ namespace BMP_Console {
 
             CheckEnvelope temp = (CheckEnvelope)ChecksPayload[checks_counter]; 
             e.Graphics.PageUnit = GraphicsUnit.Millimeter;
-            e.Graphics.DrawString(DateTime.Now.ToString("MM|dd|yyyy"), this.Font, Brushes.Black, 172 + x_offset, 26 + y_offset);//get it from date.now
-            e.Graphics.DrawString(temp.Name, this.Font, Brushes.Black, 30 + x_offset, 38 + y_offset);    // get it from array
-            e.Graphics.DrawString("$ " + temp.Total.ToString(), this.Font, Brushes.Black, 175 + x_offset, 38 + y_offset);    // get it from array, total
-            e.Graphics.DrawString(ConvertToWords(temp.Total.ToString()), this.Font, Brushes.Black, 30 + x_offset, 46 + y_offset);    // get it from a function that receives the total from array
-            e.Graphics.DrawString("Commission", this.Font, Brushes.Black, 25 + x_offset, 70 + y_offset);
+            Font font = new Font(FontFamily.GenericSansSerif, 12);
+            string tempTotal = temp.Total.ToString();
+            if (!tempTotal.Contains('.'))
+            {
+                tempTotal += ".00";
+            }
 
-            e.Graphics.DrawString("Details", this.Font, Brushes.Black, 25 + x_offset, 100 + y_offset);
+            e.Graphics.DrawString(DateTime.Now.ToString("MM|dd|yyyy"), font, Brushes.Black, 175 + x_offset, 26 + y_offset);//get it from date.now
+            e.Graphics.DrawString(temp.Name, font, Brushes.Black, 35 + x_offset, 38 + y_offset);    // get it from array
+            e.Graphics.DrawString(tempTotal, font, Brushes.Black, 175 + x_offset, 38 + y_offset);    // get it from array, total
+            e.Graphics.DrawString(ConvertToWords(temp.Total.ToString()), font, Brushes.Black, 30 + x_offset, 46 + y_offset);    // get it from a function that receives the total from array
+            e.Graphics.DrawString("Commission", font, Brushes.Black, 25 + x_offset, 70 + y_offset);
+
+            e.Graphics.DrawString("Details", font, Brushes.Black, 25 + x_offset, 100 + y_offset);
             short off = 0;
             foreach(ComCheckData c in temp.List)
             {
                 off += 5;
-                e.Graphics.DrawString(c.bmp_cid + " " + c.type + " $" + c.PayAmount.ToString(), this.Font, Brushes.Black, 25 + x_offset, 100 + off + y_offset);
+                e.Graphics.DrawString(c.bmp_cid + "\t" + c.type + "\t" + "$ " + c.PayAmount.ToString(), font, Brushes.Black, 25 + x_offset, 100 + off + y_offset);
             }
 
             checks_counter++;
@@ -997,16 +1010,18 @@ namespace BMP_Console {
         }
 
         private void bPrint_Click(object sender, EventArgs e) {
-
-            //printDialog1.Document = printDocument1;
-            //if (printDialog1.ShowDialog() == DialogResult.OK) {
-            //    printDocument1.Print();
-            //}
-
-            printPreviewDialog1.Document = printDocument1;
-            if (printPreviewDialog1.ShowDialog() == DialogResult.OK) {
+            printDialog1.Document = printDocument1;
+            if (printDialog1.ShowDialog() == DialogResult.OK)
+            {
                 printDocument1.Print();
             }
+
+
+            //printPreviewDialog1.Document = printDocument1;
+            //if (printPreviewDialog1.ShowDialog() == DialogResult.OK)
+            //{
+            //    printDocument1.Print();
+            //}
 
         }
     }

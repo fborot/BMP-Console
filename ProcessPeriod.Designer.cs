@@ -41,10 +41,10 @@
             // btExit
             // 
             this.btExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btExit.Location = new System.Drawing.Point(1175, 110);
-            this.btExit.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btExit.Location = new System.Drawing.Point(881, 89);
+            this.btExit.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btExit.Name = "btExit";
-            this.btExit.Size = new System.Drawing.Size(109, 23);
+            this.btExit.Size = new System.Drawing.Size(82, 19);
             this.btExit.TabIndex = 0;
             this.btExit.Text = "Exit";
             this.btExit.UseVisualStyleBackColor = true;
@@ -53,10 +53,10 @@
             // btCalculate
             // 
             this.btCalculate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btCalculate.Location = new System.Drawing.Point(1175, 30);
-            this.btCalculate.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btCalculate.Location = new System.Drawing.Point(881, 24);
+            this.btCalculate.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btCalculate.Name = "btCalculate";
-            this.btCalculate.Size = new System.Drawing.Size(109, 23);
+            this.btCalculate.Size = new System.Drawing.Size(82, 19);
             this.btCalculate.TabIndex = 1;
             this.btCalculate.Text = "Calculate";
             this.btCalculate.UseVisualStyleBackColor = true;
@@ -64,37 +64,33 @@
             // 
             // dtStartDate
             // 
-            this.dtStartDate.Location = new System.Drawing.Point(133, 31);
-            this.dtStartDate.Margin = new System.Windows.Forms.Padding(4);
+            this.dtStartDate.Location = new System.Drawing.Point(100, 25);
             this.dtStartDate.Name = "dtStartDate";
-            this.dtStartDate.Size = new System.Drawing.Size(265, 22);
+            this.dtStartDate.Size = new System.Drawing.Size(200, 20);
             this.dtStartDate.TabIndex = 2;
             // 
             // dtEnddate
             // 
-            this.dtEnddate.Location = new System.Drawing.Point(133, 79);
-            this.dtEnddate.Margin = new System.Windows.Forms.Padding(4);
+            this.dtEnddate.Location = new System.Drawing.Point(100, 64);
             this.dtEnddate.Name = "dtEnddate";
-            this.dtEnddate.Size = new System.Drawing.Size(265, 22);
+            this.dtEnddate.Size = new System.Drawing.Size(200, 20);
             this.dtEnddate.TabIndex = 3;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(17, 31);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(13, 25);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(72, 17);
+            this.label1.Size = new System.Drawing.Size(55, 13);
             this.label1.TabIndex = 4;
             this.label1.Text = "Start Date";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(17, 86);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Location = new System.Drawing.Point(13, 70);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(67, 17);
+            this.label2.Size = new System.Drawing.Size(52, 13);
             this.label2.TabIndex = 5;
             this.label2.Text = "End Date";
             // 
@@ -102,30 +98,29 @@
             // 
             this.rTBResults.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.rTBResults.BackColor = System.Drawing.SystemColors.Window;
-            this.rTBResults.Location = new System.Drawing.Point(8, 153);
-            this.rTBResults.Margin = new System.Windows.Forms.Padding(4);
+            this.rTBResults.Location = new System.Drawing.Point(6, 124);
             this.rTBResults.Name = "rTBResults";
             this.rTBResults.ReadOnly = true;
-            this.rTBResults.Size = new System.Drawing.Size(1279, 720);
+            this.rTBResults.Size = new System.Drawing.Size(960, 586);
             this.rTBResults.TabIndex = 6;
             this.rTBResults.Text = "";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 132);
-            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Location = new System.Drawing.Point(9, 107);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(209, 17);
+            this.label3.Size = new System.Drawing.Size(157, 13);
             this.label3.TabIndex = 7;
             this.label3.Text = "Transactions in Selected Period";
             // 
             // bPrint
             // 
             this.bPrint.Enabled = false;
-            this.bPrint.Location = new System.Drawing.Point(1175, 70);
+            this.bPrint.Location = new System.Drawing.Point(881, 57);
+            this.bPrint.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.bPrint.Name = "bPrint";
-            this.bPrint.Size = new System.Drawing.Size(109, 24);
+            this.bPrint.Size = new System.Drawing.Size(82, 20);
             this.bPrint.TabIndex = 8;
             this.bPrint.Text = "Print checks";
             this.bPrint.UseVisualStyleBackColor = true;
@@ -147,13 +142,17 @@
             // 
             // printDialog1
             // 
+            this.printDialog1.AllowCurrentPage = true;
+            this.printDialog1.AllowSelection = true;
+            this.printDialog1.AllowSomePages = true;
+            this.printDialog1.ShowHelp = true;
             this.printDialog1.UseEXDialog = true;
             // 
             // ProcessPeriod
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1300, 877);
+            this.ClientSize = new System.Drawing.Size(975, 713);
             this.Controls.Add(this.bPrint);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.rTBResults);
@@ -164,7 +163,7 @@
             this.Controls.Add(this.btCalculate);
             this.Controls.Add(this.btExit);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.MaximizeBox = false;
             this.Name = "ProcessPeriod";
             this.Text = "ProcessPeriod";

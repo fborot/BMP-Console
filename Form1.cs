@@ -24,6 +24,8 @@ namespace BMP_Console {
         static public ShowAgencies ShowAgencies = null;
         static public ShowBranches ShowBranches = null;
         static public ProcessPeriod PPeriod = null;
+        static public CalibratePrinter CPrinter = null;
+
         static public string db_host = string.Empty;
         static public string db_name = string.Empty;
         static public string db_user = string.Empty;
@@ -32,6 +34,10 @@ namespace BMP_Console {
 
         static public string APILoginID = string.Empty;
         static public string APITransactionKey = string.Empty;
+
+        static public int X_Offset = 5;
+        static public int Y_Offset = 5;
+
         private void versionToolStripMenuItem_Click(object sender, EventArgs e) {
             MessageBox.Show("test");
         }
@@ -110,6 +116,8 @@ namespace BMP_Console {
                 APILoginID = source.Configs["AuthorizedNet"].Get("APILoginID", "3GQB2ens6x");
                 APITransactionKey = source.Configs["AuthorizedNet"].Get("ApiTransactionKey", "9887PZn64wQ3rTxk");
 
+                X_Offset = source.Configs["Printer"].GetInt("X_Offset", 5);
+                Y_Offset = source.Configs["Printer"].GetInt("Y_Offset", 5);
 
                 mySQLConnectionString = "server=" + db_host + ";uid=" + db_user + ";pwd=" + db_password + ";database=" + db_name;
                 res = true;
@@ -189,6 +197,23 @@ namespace BMP_Console {
 
             } else {
                 PPeriod.Focus();
+            }
+        }
+
+        private void calibratePrinterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //CPrinter.ShowDialog();
+            if (CPrinter == null)
+            {
+                CPrinter = new CalibratePrinter();
+                CPrinter.MdiParent = this;
+                CPrinter.StartPosition = FormStartPosition.Manual;
+                CPrinter.Show();
+
+            }
+            else
+            {
+                CPrinter.Focus();
             }
         }
     }
