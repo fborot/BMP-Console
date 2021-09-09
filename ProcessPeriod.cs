@@ -26,10 +26,12 @@ namespace BMP_Console {
         Hashtable HTableAgencyCheck = new Hashtable();
         Hashtable HTableBranchCheck = new Hashtable();
 
+        ArrayList ChecksPayload = new ArrayList();
+        short ChecksCount = -1;
 
         int x_offset = -5; // the printer adds 5 mm... the (0,0) coordinate is actually at (5,5) in mm with the house printer
         int y_offset = -5; // the printer adds 5 mm
-        private int count = 0;
+        private int checks_counter = 0;
 
 
         public ProcessPeriod() {
@@ -178,7 +180,8 @@ namespace BMP_Console {
                 string check_name = GetCheckName(h.Key.ToString(),0);
                 CheckEnvelope newCE = new CheckEnvelope(check_name, tempCE.Total, tempCE.List);
                 HTableAgencyCheck[h.Key] = newCE;
-                
+                ChecksPayload.Add(newCE);
+
                 check_data.Append(h.Key.ToString() + "\t\t\t" + "$" + newCE.Total.ToString() + "\t\t\t" + Environment.NewLine);    
                 foreach(ComCheckData c in tempCE.List) {
                     check_data.Append(c.bmp_cid + "\t\t\t" + c.type + "\t\t\t" + "$" + c.PayAmount + Environment.NewLine);
@@ -194,6 +197,7 @@ namespace BMP_Console {
                 string check_name = GetCheckName(h.Key.ToString(), 1);
                 CheckEnvelope newCE = new CheckEnvelope(check_name, tempCE.Total, tempCE.List);
                 HTableBranchCheck[h.Key] = newCE;
+                ChecksPayload.Add(newCE);
 
                 check_data.Append(h.Key.ToString() + "\t\t\t" + "$" + newCE.Total.ToString() + "\t\t\t" + Environment.NewLine);
                 foreach (ComCheckData c in tempCE.List) {
@@ -218,6 +222,7 @@ namespace BMP_Console {
                 if (!bPChecksEnabled) {
                     bPChecksEnabled = true;
                     bPrint.Enabled = bPChecksEnabled;
+                    ChecksCount = (short)ChecksPayload.Count;
                 }
             }
 
@@ -960,22 +965,35 @@ namespace BMP_Console {
         //
 
         private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e) {
-            ++count;
+            //++count;
+            //e.Graphics.PageUnit = GraphicsUnit.Millimeter;
+            //e.Graphics.DrawString("07|05|2021", this.Font, Brushes.Black, 172 + x_offset, 26 + y_offset);//get it from date.now
+            //e.Graphics.DrawString("Paola Diaz", this.Font, Brushes.Black, 30 + x_offset, 38 + y_offset);    // get it from array
+            //e.Graphics.DrawString("84.00", this.Font, Brushes.Black, 175 + x_offset, 38 + y_offset);    // get it from array, total
+            //e.Graphics.DrawString("Eighty four dollars and zero cents", this.Font, Brushes.Black, 30 + x_offset, 46 + y_offset);    // get it from a function that receives the total from array
+            //e.Graphics.DrawString("Rec.Payments", this.Font, Brushes.Black, 25 + x_offset, 70 + y_offset);
+            //// add details, member info
+
+            //e.HasMorePages = count < 2 ? true : false; // 2 here is the number of pages
+
+            CheckEnvelope temp = (CheckEnvelope)ChecksPayload[checks_counter]; 
             e.Graphics.PageUnit = GraphicsUnit.Millimeter;
-            //int mbh = e.MarginBounds.Height;
-            //Pen p1 = new Pen(Brushes.Black);
-            //p1.Width = 0.5F;
+            e.Graphics.DrawString(DateTime.Now.ToString("MM|dd|yyyy"), this.Font, Brushes.Black, 172 + x_offset, 26 + y_offset);//get it from date.now
+            e.Graphics.DrawString(temp.Name, this.Font, Brushes.Black, 30 + x_offset, 38 + y_offset);    // get it from array
+            e.Graphics.DrawString("$ " + temp.Total.ToString(), this.Font, Brushes.Black, 175 + x_offset, 38 + y_offset);    // get it from array, total
+            e.Graphics.DrawString(ConvertToWords(temp.Total.ToString()), this.Font, Brushes.Black, 30 + x_offset, 46 + y_offset);    // get it from a function that receives the total from array
+            e.Graphics.DrawString("Commission", this.Font, Brushes.Black, 25 + x_offset, 70 + y_offset);
 
-            //number = Convert.ToDouble(number).ToString();
+            e.Graphics.DrawString("Details", this.Font, Brushes.Black, 25 + x_offset, 100 + y_offset);
+            short off = 0;
+            foreach(ComCheckData c in temp.List)
+            {
+                off += 5;
+                e.Graphics.DrawString(c.bmp_cid + " " + c.type + " $" + c.PayAmount.ToString(), this.Font, Brushes.Black, 25 + x_offset, 100 + off + y_offset);
+            }
 
-            e.Graphics.DrawString("07|05|2021", this.Font, Brushes.Black, 172 + x_offset, 26 + y_offset);//get it from date.now
-            e.Graphics.DrawString("Paola Diaz", this.Font, Brushes.Black, 30 + x_offset, 38 + y_offset);    // get it from array
-            e.Graphics.DrawString("84.00", this.Font, Brushes.Black, 175 + x_offset, 38 + y_offset);    // get it from array, total
-            e.Graphics.DrawString("Eighty four dollars and zero cents", this.Font, Brushes.Black, 30 + x_offset, 46 + y_offset);    // get it from a function that receives the total from array
-            e.Graphics.DrawString("Rec.Payments", this.Font, Brushes.Black, 25 + x_offset, 70 + y_offset);
-            // add details, member info
-
-            e.HasMorePages = count < 2 ? true : false; // 2 here is the number of pages
+            checks_counter++;
+            e.HasMorePages = (checks_counter < ChecksCount) ? true : false;
         }
 
         private void bPrint_Click(object sender, EventArgs e) {
