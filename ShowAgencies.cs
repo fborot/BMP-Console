@@ -19,7 +19,42 @@ namespace BMP_Console {
             InitializeComponent();
         }
 
+        public bool PingDB()
+        {
+            bool res = false;
+
+            MySqlConnection conn = null;
+            var ret = -1;
+            conn = new MySql.Data.MySqlClient.MySqlConnection();
+            conn.ConnectionString = Form1.mySQLConnectionString;
+            try
+            {
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand("select COUNT(*) from plans", conn);
+                ret = Int16.Parse(cmd.ExecuteScalar().ToString());
+                if (ret >= 0)
+                    res = true;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Show Agencies", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                if (conn != null)
+                    conn.Close();
+            }
+            return res;
+        }
+
         private void ShowAgencies_Load(object sender, EventArgs e) {
+
+            if (!PingDB())
+            {
+                MessageBox.Show("Can not connect to the database", "Show Agencies", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             MySqlConnection conn = null;
             conn = new MySql.Data.MySqlClient.MySqlConnection();
             conn.ConnectionString = Form1.mySQLConnectionString;

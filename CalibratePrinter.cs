@@ -30,8 +30,11 @@ namespace BMP_Console
             {
                tbX.Text = source.Configs["Printer"].Get("X_Offset", "5");
                tbY.Text = source.Configs["Printer"].Get("Y_Offset", "5");
+               tbFSize.Text = source.Configs["Printer"].Get("FontSize", "12");
+
                Form1.X_Offset = Int32.Parse(tbX.Text);
                Form1.Y_Offset = Int32.Parse(tbY.Text);
+               Form1.Font_Size = float.Parse(tbFSize.Text); 
 
             }
             catch (Nini.Ini.IniException NINI_ex)
@@ -48,6 +51,7 @@ namespace BMP_Console
             {
                 source.Configs["Printer"].Set("X_Offset", tbX.Text);
                 source.Configs["Printer"].Set("Y_Offset", tbY.Text);
+                source.Configs["Printer"].Set("FontSize", tbFSize.Text);
                 source.Save();
             }
             catch (Nini.Ini.IniException NINI_ex)

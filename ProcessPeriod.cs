@@ -31,6 +31,7 @@ namespace BMP_Console {
 
         int x_offset = -1 * Form1.X_Offset; // the printer adds 5 mm... the (0,0) coordinate is actually at (5,5) in mm with the house printer
         int y_offset = -1 * Form1.Y_Offset; // the printer adds 5 mm
+        float font_size = Form1.Font_Size;
         private int checks_counter = 0;
 
 
@@ -51,7 +52,13 @@ namespace BMP_Console {
             // calculate commisions
             //startDate = DateTime.Today.Subtract(TimeSpan.FromDays(0));
             //endDate = DateTime.Today.AddDays(1);
-            
+
+            if (!PingDB())
+            {
+                MessageBox.Show("Can not connect to the database", "Processing Period", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             bPChecksEnabled = false;
             bPrint.Enabled = bPChecksEnabled;
 
@@ -376,19 +383,31 @@ namespace BMP_Console {
             string res = "" ;
 
             MySqlConnection conn = null;
+            MySqlDataReader ret = null;
             conn = new MySql.Data.MySqlClient.MySqlConnection();
             conn.ConnectionString = Form1.mySQLConnectionString;
-            conn.Open();
-            MySqlCommand cmd = new MySqlCommand("select * from transactions where trans_id = '"  + trans + "'", conn);
-            MySqlDataReader ret = cmd.ExecuteReader();
+            try
+            {
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand("select * from transactions where trans_id = '" + trans + "'", conn);
+                ret = cmd.ExecuteReader();
 
-            while (ret.Read()) {
-                res = ret.GetString(3) + "-" + ret.GetDouble(4).ToString() + "-"
-                    + ret.GetString(5) + "-" + ret.GetString(6) + "-" + ret.GetInt16(7);
+                while (ret.Read())
+                {
+                    res = ret.GetString(3) + "-" + ret.GetDouble(4).ToString() + "-"
+                        + ret.GetString(5) + "-" + ret.GetString(6) + "-" + ret.GetInt16(7);
 
+                }
+            } catch(Exception e)
+            {
+                MessageBox.Show(e.Message, "Processing Period", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            } finally
+            {
+                if (ret != null)
+                    ret.Close();
+                if (conn != null)
+                    conn.Close();
             }
-            ret.Close();
-            conn.Close();
             return res;
 
         }
@@ -396,19 +415,31 @@ namespace BMP_Console {
             string res = "";
 
             MySqlConnection conn = null;
+            MySqlDataReader ret = null;
             conn = new MySql.Data.MySqlClient.MySqlConnection();
             conn.ConnectionString = Form1.mySQLConnectionString;
-            conn.Open();
-            MySqlCommand cmd = new MySqlCommand("select * from subscriptions where an_subscription_id = '" + subscription_id + "'", conn);
-            MySqlDataReader ret = cmd.ExecuteReader();
+            try
+            {
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand("select * from subscriptions where an_subscription_id = '" + subscription_id + "'", conn);
+                ret = cmd.ExecuteReader();
 
-            while (ret.Read()) {
-                res = ret.GetString(3) + "-" + ret.GetDouble(4).ToString() + "-"
-                    + ret.GetString(5) + "-" + ret.GetString(6) + "-" + ret.GetInt16(7);
+                while (ret.Read())
+                {
+                    res = ret.GetString(3) + "-" + ret.GetDouble(4).ToString() + "-"
+                        + ret.GetString(5) + "-" + ret.GetString(6) + "-" + ret.GetInt16(7);
 
+                }
+            } catch( Exception e)
+            {
+                MessageBox.Show(e.Message, "Processing Period", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            } finally
+            {
+                if(ret!= null)
+                    ret.Close();
+                if(conn != null)
+                    conn.Close();
             }
-            ret.Close();
-            conn.Close();
             return res;
 
         }
@@ -984,7 +1015,7 @@ namespace BMP_Console {
 
             CheckEnvelope temp = (CheckEnvelope)ChecksPayload[checks_counter]; 
             e.Graphics.PageUnit = GraphicsUnit.Millimeter;
-            Font font = new Font(FontFamily.GenericSansSerif, 12);
+            Font font = new Font(FontFamily.GenericSansSerif, font_size);
             string tempTotal = temp.Total.ToString();
             if (!tempTotal.Contains('.'))
             {
@@ -1023,6 +1054,35 @@ namespace BMP_Console {
             //    printDocument1.Print();
             //}
 
+        }
+
+
+        public bool PingDB()
+        {
+            bool res = false;
+
+            MySqlConnection conn = null;
+            var ret = -1;
+            conn = new MySql.Data.MySqlClient.MySqlConnection();
+            conn.ConnectionString = Form1.mySQLConnectionString;
+            try
+            {
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand("select COUNT(*) from plans" , conn);
+                ret = Int16.Parse(cmd.ExecuteScalar().ToString());
+                if (ret >= 0)
+                    res = true;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Processing Period", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                if (conn != null)
+                    conn.Close();
+            }
+            return res;
         }
     }
 }

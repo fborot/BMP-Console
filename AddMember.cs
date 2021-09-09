@@ -35,8 +35,41 @@ namespace BMP_Console {
 
         }
 
+        public bool PingDB()
+        {
+            bool res = false;
+
+            MySqlConnection conn = null;
+            var ret = -1;
+            conn = new MySql.Data.MySqlClient.MySqlConnection();
+            conn.ConnectionString = Form1.mySQLConnectionString;
+            try
+            {
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand("select COUNT(*) from plans", conn);
+                ret = Int16.Parse(cmd.ExecuteScalar().ToString());
+                if (ret >= 0)
+                    res = true;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Processing Period", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                if (conn != null)
+                    conn.Close();
+            }
+            return res;
+        }
+
         private void button1_Click(object sender, EventArgs e) {
-            
+            if (!PingDB())
+            {
+                MessageBox.Show("Can not connect to the database", "Add Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             string strBMPID = "";
             strBMPID=  CreateMemberID() + "-" + tbMemberID.Text;
             if (strBMPID.Length == 0)

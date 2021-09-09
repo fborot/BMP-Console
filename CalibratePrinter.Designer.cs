@@ -39,11 +39,15 @@
             this.printDocument1 = new System.Drawing.Printing.PrintDocument();
             this.printPreviewDialog1 = new System.Windows.Forms.PrintPreviewDialog();
             this.printDialog1 = new System.Windows.Forms.PrintDialog();
+            this.label3 = new System.Windows.Forms.Label();
+            this.tbFSize = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.tbFSize);
+            this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.button2);
             this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Controls.Add(this.tbY);
@@ -52,7 +56,7 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(405, 103);
+            this.groupBox1.Size = new System.Drawing.Size(405, 123);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Printer Calibration";
@@ -125,13 +129,33 @@
             // 
             // printDialog1
             // 
+            this.printDialog1.AllowCurrentPage = true;
+            this.printDialog1.AllowSelection = true;
+            this.printDialog1.AllowSomePages = true;
+            this.printDialog1.ShowHelp = true;
             this.printDialog1.UseEXDialog = true;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(7, 81);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(51, 13);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "Font Size";
+            // 
+            // tbFSize
+            // 
+            this.tbFSize.Location = new System.Drawing.Point(90, 81);
+            this.tbFSize.Name = "tbFSize";
+            this.tbFSize.Size = new System.Drawing.Size(64, 20);
+            this.tbFSize.TabIndex = 7;
             // 
             // CalibratePrinter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(422, 127);
+            this.ClientSize = new System.Drawing.Size(429, 147);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
@@ -157,5 +181,7 @@
         private System.Drawing.Printing.PrintDocument printDocument1;
         private System.Windows.Forms.PrintPreviewDialog printPreviewDialog1;
         private System.Windows.Forms.PrintDialog printDialog1;
+        private System.Windows.Forms.TextBox tbFSize;
+        private System.Windows.Forms.Label label3;
     }
 }

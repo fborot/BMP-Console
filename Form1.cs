@@ -30,6 +30,8 @@ namespace BMP_Console {
         static public string db_name = string.Empty;
         static public string db_user = string.Empty;
         static public string db_password = string.Empty;
+        static public int db_connect_timeout = 5;
+
         static public string mySQLConnectionString = string.Empty;
 
         static public string APILoginID = string.Empty;
@@ -37,6 +39,7 @@ namespace BMP_Console {
 
         static public int X_Offset = 5;
         static public int Y_Offset = 5;
+        static public float Font_Size = 12;
 
         private void versionToolStripMenuItem_Click(object sender, EventArgs e) {
             MessageBox.Show("test");
@@ -111,15 +114,17 @@ namespace BMP_Console {
                 db_user = source.Configs["Database"].Get("Username", "bmpadmin");
                 db_password = source.Configs["Database"].Get("Password", "bmp@dm1n");
                 db_name = source.Configs["Database"].Get("DBName", "bmp");
-
+                db_connect_timeout = source.Configs["Database"].GetInt("ConnectTimeout", 5);
 
                 APILoginID = source.Configs["AuthorizedNet"].Get("APILoginID", "3GQB2ens6x");
                 APITransactionKey = source.Configs["AuthorizedNet"].Get("ApiTransactionKey", "9887PZn64wQ3rTxk");
 
                 X_Offset = source.Configs["Printer"].GetInt("X_Offset", 5);
                 Y_Offset = source.Configs["Printer"].GetInt("Y_Offset", 5);
+                Font_Size = source.Configs["Printer"].GetInt("FontSize", 12);
 
-                mySQLConnectionString = "server=" + db_host + ";uid=" + db_user + ";pwd=" + db_password + ";database=" + db_name;
+                mySQLConnectionString = "server=" + db_host + ";uid=" + db_user + ";pwd=" + db_password + ";database=" + db_name + ";Connect Timeout=" + db_connect_timeout.ToString();
+
                 res = true;
                 return res;
             } catch (Nini.Ini.IniException NINI_ex) {
