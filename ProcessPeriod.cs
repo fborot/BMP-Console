@@ -89,6 +89,12 @@ namespace BMP_Console {
             }
             if (res) {
                 UpdateTransactionsListFromDB(ref transactions);
+            } else
+            {
+                MessageBox.Show("No Transactions Found during the selected period.", "Processing Period", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                btCalculate.Enabled = true;
+                btExit.Enabled = true;
+                return;
             }
 
             //res = t_id + "_" + t_type + "_" + t_bmpCustID + "_" + t_amount + "_" + t_agency + "_" + t_branch + "_" + t_plan + "_" + t_recurrency + "_" + t_subscriptionid;

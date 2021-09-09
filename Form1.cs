@@ -42,7 +42,7 @@ namespace BMP_Console {
         static public float Font_Size = 12;
 
         private void versionToolStripMenuItem_Click(object sender, EventArgs e) {
-            MessageBox.Show("test");
+            MessageBox.Show("BMP Console App" + Environment.NewLine + "Fabian Borot", "About this App", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -63,7 +63,7 @@ namespace BMP_Console {
         }
 
         private void versionToolStripMenuItem1_Click(object sender, EventArgs e) {
-            MessageBox.Show("test");
+            MessageBox.Show("BMP Console App" + Environment.NewLine + "Developer: Fabian Borot" + Environment.NewLine + "Year: 2021", "About this App", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void addAgencyToolStripMenuItem_Click(object sender, EventArgs e) {

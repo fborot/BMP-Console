@@ -64,6 +64,7 @@
             // 
             // dtStartDate
             // 
+            this.dtStartDate.Checked = false;
             this.dtStartDate.Location = new System.Drawing.Point(100, 25);
             this.dtStartDate.Name = "dtStartDate";
             this.dtStartDate.Size = new System.Drawing.Size(200, 20);
@@ -71,6 +72,7 @@
             // 
             // dtEnddate
             // 
+            this.dtEnddate.Checked = false;
             this.dtEnddate.Location = new System.Drawing.Point(100, 64);
             this.dtEnddate.Name = "dtEnddate";
             this.dtEnddate.Size = new System.Drawing.Size(200, 20);
