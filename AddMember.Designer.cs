@@ -48,6 +48,10 @@
             this.tbAddres = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.cbGender = new System.Windows.Forms.ComboBox();
+            this.label41 = new System.Windows.Forms.Label();
+            this.tbMI = new System.Windows.Forms.TextBox();
+            this.label40 = new System.Windows.Forms.Label();
             this.tbOtherPh = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.tbMobilePH = new System.Windows.Forms.TextBox();
@@ -88,6 +92,10 @@
             this.tbMemberID = new System.Windows.Forms.TextBox();
             this.label19 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.tbANAuthCode = new System.Windows.Forms.TextBox();
+            this.tbANetTID = new System.Windows.Forms.TextBox();
+            this.label38 = new System.Windows.Forms.Label();
+            this.label37 = new System.Windows.Forms.Label();
             this.ckbCCAuto = new System.Windows.Forms.CheckBox();
             this.tbCCExpDate = new System.Windows.Forms.TextBox();
             this.label28 = new System.Windows.Forms.Label();
@@ -98,44 +106,36 @@
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.gbLD = new System.Windows.Forms.GroupBox();
-            this.tbLD1Name = new System.Windows.Forms.TextBox();
-            this.tbLD1MI = new System.Windows.Forms.TextBox();
-            this.tbLD1LN = new System.Windows.Forms.TextBox();
-            this.cbLD1Gender = new System.Windows.Forms.ComboBox();
-            this.tbLD1DOB = new System.Windows.Forms.TextBox();
-            this.tbLD2DOB = new System.Windows.Forms.TextBox();
-            this.cbLD2Gender = new System.Windows.Forms.ComboBox();
-            this.tbLD2LN = new System.Windows.Forms.TextBox();
-            this.tbLD2MI = new System.Windows.Forms.TextBox();
-            this.tbLD2Name = new System.Windows.Forms.TextBox();
-            this.tbLD3DOB = new System.Windows.Forms.TextBox();
-            this.cbLD3Gender = new System.Windows.Forms.ComboBox();
-            this.tbLD3LN = new System.Windows.Forms.TextBox();
-            this.tbLD3MI = new System.Windows.Forms.TextBox();
-            this.tbLD3Name = new System.Windows.Forms.TextBox();
+            this.label39 = new System.Windows.Forms.Label();
+            this.cbLD4Rel = new System.Windows.Forms.ComboBox();
+            this.cbLD3Rel = new System.Windows.Forms.ComboBox();
+            this.cbLD2Rel = new System.Windows.Forms.ComboBox();
+            this.cbLD1Rel = new System.Windows.Forms.ComboBox();
+            this.label36 = new System.Windows.Forms.Label();
+            this.label35 = new System.Windows.Forms.Label();
+            this.label34 = new System.Windows.Forms.Label();
+            this.label33 = new System.Windows.Forms.Label();
+            this.label32 = new System.Windows.Forms.Label();
             this.tbLD4DOB = new System.Windows.Forms.TextBox();
             this.cbLD4Gender = new System.Windows.Forms.ComboBox();
             this.tbLD4LN = new System.Windows.Forms.TextBox();
             this.tbLD4MI = new System.Windows.Forms.TextBox();
             this.tbLD4Name = new System.Windows.Forms.TextBox();
-            this.label32 = new System.Windows.Forms.Label();
-            this.label33 = new System.Windows.Forms.Label();
-            this.label34 = new System.Windows.Forms.Label();
-            this.label35 = new System.Windows.Forms.Label();
-            this.label36 = new System.Windows.Forms.Label();
-            this.cbLD1Rel = new System.Windows.Forms.ComboBox();
-            this.cbLD2Rel = new System.Windows.Forms.ComboBox();
-            this.cbLD3Rel = new System.Windows.Forms.ComboBox();
-            this.cbLD4Rel = new System.Windows.Forms.ComboBox();
-            this.label37 = new System.Windows.Forms.Label();
-            this.label38 = new System.Windows.Forms.Label();
-            this.tbANetTID = new System.Windows.Forms.TextBox();
-            this.tbANAuthCode = new System.Windows.Forms.TextBox();
-            this.label39 = new System.Windows.Forms.Label();
-            this.label40 = new System.Windows.Forms.Label();
-            this.tbMI = new System.Windows.Forms.TextBox();
-            this.label41 = new System.Windows.Forms.Label();
-            this.cbGender = new System.Windows.Forms.ComboBox();
+            this.tbLD3DOB = new System.Windows.Forms.TextBox();
+            this.cbLD3Gender = new System.Windows.Forms.ComboBox();
+            this.tbLD3LN = new System.Windows.Forms.TextBox();
+            this.tbLD3MI = new System.Windows.Forms.TextBox();
+            this.tbLD3Name = new System.Windows.Forms.TextBox();
+            this.tbLD2DOB = new System.Windows.Forms.TextBox();
+            this.cbLD2Gender = new System.Windows.Forms.ComboBox();
+            this.tbLD2LN = new System.Windows.Forms.TextBox();
+            this.tbLD2MI = new System.Windows.Forms.TextBox();
+            this.tbLD2Name = new System.Windows.Forms.TextBox();
+            this.tbLD1DOB = new System.Windows.Forms.TextBox();
+            this.cbLD1Gender = new System.Windows.Forms.ComboBox();
+            this.tbLD1LN = new System.Windows.Forms.TextBox();
+            this.tbLD1MI = new System.Windows.Forms.TextBox();
+            this.tbLD1Name = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -410,6 +410,40 @@
             this.groupBox4.TabIndex = 0;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Personal Information";
+            // 
+            // cbGender
+            // 
+            this.cbGender.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbGender.FormattingEnabled = true;
+            this.cbGender.Location = new System.Drawing.Point(479, 93);
+            this.cbGender.Name = "cbGender";
+            this.cbGender.Size = new System.Drawing.Size(89, 24);
+            this.cbGender.TabIndex = 7;
+            // 
+            // label41
+            // 
+            this.label41.AutoSize = true;
+            this.label41.Location = new System.Drawing.Point(476, 72);
+            this.label41.Name = "label41";
+            this.label41.Size = new System.Drawing.Size(56, 17);
+            this.label41.TabIndex = 20;
+            this.label41.Text = "Gender";
+            // 
+            // tbMI
+            // 
+            this.tbMI.Location = new System.Drawing.Point(239, 42);
+            this.tbMI.Name = "tbMI";
+            this.tbMI.Size = new System.Drawing.Size(94, 22);
+            this.tbMI.TabIndex = 2;
+            // 
+            // label40
+            // 
+            this.label40.AutoSize = true;
+            this.label40.Location = new System.Drawing.Point(237, 22);
+            this.label40.Name = "label40";
+            this.label40.Size = new System.Drawing.Size(22, 17);
+            this.label40.TabIndex = 18;
+            this.label40.Text = "MI";
             // 
             // tbOtherPh
             // 
@@ -786,9 +820,44 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Payment Information";
             // 
+            // tbANAuthCode
+            // 
+            this.tbANAuthCode.Location = new System.Drawing.Point(580, 95);
+            this.tbANAuthCode.Name = "tbANAuthCode";
+            this.tbANAuthCode.Size = new System.Drawing.Size(177, 22);
+            this.tbANAuthCode.TabIndex = 10;
+            // 
+            // tbANetTID
+            // 
+            this.tbANetTID.Location = new System.Drawing.Point(580, 42);
+            this.tbANetTID.Name = "tbANetTID";
+            this.tbANetTID.Size = new System.Drawing.Size(177, 22);
+            this.tbANetTID.TabIndex = 9;
+            // 
+            // label38
+            // 
+            this.label38.AutoSize = true;
+            this.label38.Location = new System.Drawing.Point(332, 99);
+            this.label38.Name = "label38";
+            this.label38.Size = new System.Drawing.Size(218, 17);
+            this.label38.TabIndex = 8;
+            this.label38.Text = "Authorize.Net Authorization Code";
+            // 
+            // label37
+            // 
+            this.label37.AutoSize = true;
+            this.label37.Location = new System.Drawing.Point(332, 43);
+            this.label37.Name = "label37";
+            this.label37.Size = new System.Drawing.Size(186, 17);
+            this.label37.TabIndex = 7;
+            this.label37.Text = "Authorize.Net TransactionID";
+            // 
             // ckbCCAuto
             // 
             this.ckbCCAuto.AutoSize = true;
+            this.ckbCCAuto.Checked = true;
+            this.ckbCCAuto.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ckbCCAuto.Enabled = false;
             this.ckbCCAuto.Location = new System.Drawing.Point(353, 139);
             this.ckbCCAuto.Name = "ckbCCAuto";
             this.ckbCCAuto.Size = new System.Drawing.Size(83, 21);
@@ -909,116 +978,95 @@
             this.gbLD.TabStop = false;
             this.gbLD.Text = "Legal Dependents";
             // 
-            // tbLD1Name
+            // label39
             // 
-            this.tbLD1Name.Location = new System.Drawing.Point(24, 45);
-            this.tbLD1Name.Name = "tbLD1Name";
-            this.tbLD1Name.Size = new System.Drawing.Size(150, 22);
-            this.tbLD1Name.TabIndex = 0;
+            this.label39.AutoSize = true;
+            this.label39.Location = new System.Drawing.Point(24, 22);
+            this.label39.Name = "label39";
+            this.label39.Size = new System.Drawing.Size(45, 17);
+            this.label39.TabIndex = 38;
+            this.label39.Text = "Name";
             // 
-            // tbLD1MI
+            // cbLD4Rel
             // 
-            this.tbLD1MI.Location = new System.Drawing.Point(184, 45);
-            this.tbLD1MI.Name = "tbLD1MI";
-            this.tbLD1MI.Size = new System.Drawing.Size(46, 22);
-            this.tbLD1MI.TabIndex = 1;
+            this.cbLD4Rel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbLD4Rel.FormattingEnabled = true;
+            this.cbLD4Rel.Location = new System.Drawing.Point(619, 152);
+            this.cbLD4Rel.Name = "cbLD4Rel";
+            this.cbLD4Rel.Size = new System.Drawing.Size(121, 24);
+            this.cbLD4Rel.TabIndex = 23;
             // 
-            // tbLD1LN
+            // cbLD3Rel
             // 
-            this.tbLD1LN.Location = new System.Drawing.Point(241, 45);
-            this.tbLD1LN.Name = "tbLD1LN";
-            this.tbLD1LN.Size = new System.Drawing.Size(150, 22);
-            this.tbLD1LN.TabIndex = 2;
+            this.cbLD3Rel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbLD3Rel.FormattingEnabled = true;
+            this.cbLD3Rel.Location = new System.Drawing.Point(619, 117);
+            this.cbLD3Rel.Name = "cbLD3Rel";
+            this.cbLD3Rel.Size = new System.Drawing.Size(121, 24);
+            this.cbLD3Rel.TabIndex = 17;
             // 
-            // cbLD1Gender
+            // cbLD2Rel
             // 
-            this.cbLD1Gender.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbLD1Gender.FormattingEnabled = true;
-            this.cbLD1Gender.Location = new System.Drawing.Point(401, 45);
-            this.cbLD1Gender.Name = "cbLD1Gender";
-            this.cbLD1Gender.Size = new System.Drawing.Size(73, 24);
-            this.cbLD1Gender.TabIndex = 3;
+            this.cbLD2Rel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbLD2Rel.FormattingEnabled = true;
+            this.cbLD2Rel.Location = new System.Drawing.Point(619, 82);
+            this.cbLD2Rel.Name = "cbLD2Rel";
+            this.cbLD2Rel.Size = new System.Drawing.Size(121, 24);
+            this.cbLD2Rel.TabIndex = 11;
             // 
-            // tbLD1DOB
+            // cbLD1Rel
             // 
-            this.tbLD1DOB.Location = new System.Drawing.Point(485, 45);
-            this.tbLD1DOB.Name = "tbLD1DOB";
-            this.tbLD1DOB.Size = new System.Drawing.Size(120, 22);
-            this.tbLD1DOB.TabIndex = 4;
+            this.cbLD1Rel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbLD1Rel.FormattingEnabled = true;
+            this.cbLD1Rel.Location = new System.Drawing.Point(619, 45);
+            this.cbLD1Rel.Name = "cbLD1Rel";
+            this.cbLD1Rel.Size = new System.Drawing.Size(121, 24);
+            this.cbLD1Rel.TabIndex = 30;
             // 
-            // tbLD2DOB
+            // label36
             // 
-            this.tbLD2DOB.Location = new System.Drawing.Point(485, 82);
-            this.tbLD2DOB.Name = "tbLD2DOB";
-            this.tbLD2DOB.Size = new System.Drawing.Size(120, 22);
-            this.tbLD2DOB.TabIndex = 10;
+            this.label36.AutoSize = true;
+            this.label36.Location = new System.Drawing.Point(616, 22);
+            this.label36.Name = "label36";
+            this.label36.Size = new System.Drawing.Size(86, 17);
+            this.label36.TabIndex = 29;
+            this.label36.Text = "Relationship";
             // 
-            // cbLD2Gender
+            // label35
             // 
-            this.cbLD2Gender.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbLD2Gender.FormattingEnabled = true;
-            this.cbLD2Gender.Location = new System.Drawing.Point(401, 82);
-            this.cbLD2Gender.Name = "cbLD2Gender";
-            this.cbLD2Gender.Size = new System.Drawing.Size(73, 24);
-            this.cbLD2Gender.TabIndex = 9;
+            this.label35.AutoSize = true;
+            this.label35.Location = new System.Drawing.Point(484, 22);
+            this.label35.Name = "label35";
+            this.label35.Size = new System.Drawing.Size(123, 17);
+            this.label35.TabIndex = 28;
+            this.label35.Text = "DoB (mm/dd/yyyy)";
             // 
-            // tbLD2LN
+            // label34
             // 
-            this.tbLD2LN.Location = new System.Drawing.Point(241, 82);
-            this.tbLD2LN.Name = "tbLD2LN";
-            this.tbLD2LN.Size = new System.Drawing.Size(150, 22);
-            this.tbLD2LN.TabIndex = 8;
+            this.label34.AutoSize = true;
+            this.label34.Location = new System.Drawing.Point(398, 22);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(56, 17);
+            this.label34.TabIndex = 27;
+            this.label34.Text = "Gender";
             // 
-            // tbLD2MI
+            // label33
             // 
-            this.tbLD2MI.Location = new System.Drawing.Point(184, 82);
-            this.tbLD2MI.Name = "tbLD2MI";
-            this.tbLD2MI.Size = new System.Drawing.Size(46, 22);
-            this.tbLD2MI.TabIndex = 7;
+            this.label33.AutoSize = true;
+            this.label33.Location = new System.Drawing.Point(246, 22);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(76, 17);
+            this.label33.TabIndex = 26;
+            this.label33.Text = "Last Name";
             // 
-            // tbLD2Name
+            // label32
             // 
-            this.tbLD2Name.Location = new System.Drawing.Point(24, 82);
-            this.tbLD2Name.Name = "tbLD2Name";
-            this.tbLD2Name.Size = new System.Drawing.Size(150, 22);
-            this.tbLD2Name.TabIndex = 6;
-            // 
-            // tbLD3DOB
-            // 
-            this.tbLD3DOB.Location = new System.Drawing.Point(485, 117);
-            this.tbLD3DOB.Name = "tbLD3DOB";
-            this.tbLD3DOB.Size = new System.Drawing.Size(120, 22);
-            this.tbLD3DOB.TabIndex = 16;
-            // 
-            // cbLD3Gender
-            // 
-            this.cbLD3Gender.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbLD3Gender.FormattingEnabled = true;
-            this.cbLD3Gender.Location = new System.Drawing.Point(401, 117);
-            this.cbLD3Gender.Name = "cbLD3Gender";
-            this.cbLD3Gender.Size = new System.Drawing.Size(73, 24);
-            this.cbLD3Gender.TabIndex = 15;
-            // 
-            // tbLD3LN
-            // 
-            this.tbLD3LN.Location = new System.Drawing.Point(241, 117);
-            this.tbLD3LN.Name = "tbLD3LN";
-            this.tbLD3LN.Size = new System.Drawing.Size(150, 22);
-            this.tbLD3LN.TabIndex = 14;
-            // 
-            // tbLD3MI
-            // 
-            this.tbLD3MI.Location = new System.Drawing.Point(184, 117);
-            this.tbLD3MI.Name = "tbLD3MI";
-            this.tbLD3MI.Size = new System.Drawing.Size(46, 22);
-            this.tbLD3MI.TabIndex = 13;
-            // 
-            // tbLD3Name
-            // 
-            this.tbLD3Name.Location = new System.Drawing.Point(24, 117);
-            this.tbLD3Name.Name = "tbLD3Name";
-            this.tbLD3Name.Size = new System.Drawing.Size(150, 22);
-            this.tbLD3Name.TabIndex = 12;
+            this.label32.AutoSize = true;
+            this.label32.Location = new System.Drawing.Point(181, 22);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(22, 17);
+            this.label32.TabIndex = 25;
+            this.label32.Text = "MI";
             // 
             // tbLD4DOB
             // 
@@ -1057,161 +1105,116 @@
             this.tbLD4Name.Size = new System.Drawing.Size(150, 22);
             this.tbLD4Name.TabIndex = 18;
             // 
-            // label32
+            // tbLD3DOB
             // 
-            this.label32.AutoSize = true;
-            this.label32.Location = new System.Drawing.Point(181, 22);
-            this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(22, 17);
-            this.label32.TabIndex = 25;
-            this.label32.Text = "MI";
+            this.tbLD3DOB.Location = new System.Drawing.Point(485, 117);
+            this.tbLD3DOB.Name = "tbLD3DOB";
+            this.tbLD3DOB.Size = new System.Drawing.Size(120, 22);
+            this.tbLD3DOB.TabIndex = 16;
             // 
-            // label33
+            // cbLD3Gender
             // 
-            this.label33.AutoSize = true;
-            this.label33.Location = new System.Drawing.Point(246, 22);
-            this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(76, 17);
-            this.label33.TabIndex = 26;
-            this.label33.Text = "Last Name";
+            this.cbLD3Gender.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbLD3Gender.FormattingEnabled = true;
+            this.cbLD3Gender.Location = new System.Drawing.Point(401, 117);
+            this.cbLD3Gender.Name = "cbLD3Gender";
+            this.cbLD3Gender.Size = new System.Drawing.Size(73, 24);
+            this.cbLD3Gender.TabIndex = 15;
             // 
-            // label34
+            // tbLD3LN
             // 
-            this.label34.AutoSize = true;
-            this.label34.Location = new System.Drawing.Point(398, 22);
-            this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(56, 17);
-            this.label34.TabIndex = 27;
-            this.label34.Text = "Gender";
+            this.tbLD3LN.Location = new System.Drawing.Point(241, 117);
+            this.tbLD3LN.Name = "tbLD3LN";
+            this.tbLD3LN.Size = new System.Drawing.Size(150, 22);
+            this.tbLD3LN.TabIndex = 14;
             // 
-            // label35
+            // tbLD3MI
             // 
-            this.label35.AutoSize = true;
-            this.label35.Location = new System.Drawing.Point(484, 22);
-            this.label35.Name = "label35";
-            this.label35.Size = new System.Drawing.Size(123, 17);
-            this.label35.TabIndex = 28;
-            this.label35.Text = "DoB (mm/dd/yyyy)";
+            this.tbLD3MI.Location = new System.Drawing.Point(184, 117);
+            this.tbLD3MI.Name = "tbLD3MI";
+            this.tbLD3MI.Size = new System.Drawing.Size(46, 22);
+            this.tbLD3MI.TabIndex = 13;
             // 
-            // label36
+            // tbLD3Name
             // 
-            this.label36.AutoSize = true;
-            this.label36.Location = new System.Drawing.Point(616, 22);
-            this.label36.Name = "label36";
-            this.label36.Size = new System.Drawing.Size(86, 17);
-            this.label36.TabIndex = 29;
-            this.label36.Text = "Relationship";
+            this.tbLD3Name.Location = new System.Drawing.Point(24, 117);
+            this.tbLD3Name.Name = "tbLD3Name";
+            this.tbLD3Name.Size = new System.Drawing.Size(150, 22);
+            this.tbLD3Name.TabIndex = 12;
             // 
-            // cbLD1Rel
+            // tbLD2DOB
             // 
-            this.cbLD1Rel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbLD1Rel.FormattingEnabled = true;
-            this.cbLD1Rel.Location = new System.Drawing.Point(619, 45);
-            this.cbLD1Rel.Name = "cbLD1Rel";
-            this.cbLD1Rel.Size = new System.Drawing.Size(121, 24);
-            this.cbLD1Rel.TabIndex = 30;
+            this.tbLD2DOB.Location = new System.Drawing.Point(485, 82);
+            this.tbLD2DOB.Name = "tbLD2DOB";
+            this.tbLD2DOB.Size = new System.Drawing.Size(120, 22);
+            this.tbLD2DOB.TabIndex = 10;
             // 
-            // cbLD2Rel
+            // cbLD2Gender
             // 
-            this.cbLD2Rel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbLD2Rel.FormattingEnabled = true;
-            this.cbLD2Rel.Location = new System.Drawing.Point(619, 82);
-            this.cbLD2Rel.Name = "cbLD2Rel";
-            this.cbLD2Rel.Size = new System.Drawing.Size(121, 24);
-            this.cbLD2Rel.TabIndex = 11;
+            this.cbLD2Gender.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbLD2Gender.FormattingEnabled = true;
+            this.cbLD2Gender.Location = new System.Drawing.Point(401, 82);
+            this.cbLD2Gender.Name = "cbLD2Gender";
+            this.cbLD2Gender.Size = new System.Drawing.Size(73, 24);
+            this.cbLD2Gender.TabIndex = 9;
             // 
-            // cbLD3Rel
+            // tbLD2LN
             // 
-            this.cbLD3Rel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbLD3Rel.FormattingEnabled = true;
-            this.cbLD3Rel.Location = new System.Drawing.Point(619, 117);
-            this.cbLD3Rel.Name = "cbLD3Rel";
-            this.cbLD3Rel.Size = new System.Drawing.Size(121, 24);
-            this.cbLD3Rel.TabIndex = 17;
+            this.tbLD2LN.Location = new System.Drawing.Point(241, 82);
+            this.tbLD2LN.Name = "tbLD2LN";
+            this.tbLD2LN.Size = new System.Drawing.Size(150, 22);
+            this.tbLD2LN.TabIndex = 8;
             // 
-            // cbLD4Rel
+            // tbLD2MI
             // 
-            this.cbLD4Rel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbLD4Rel.FormattingEnabled = true;
-            this.cbLD4Rel.Location = new System.Drawing.Point(619, 152);
-            this.cbLD4Rel.Name = "cbLD4Rel";
-            this.cbLD4Rel.Size = new System.Drawing.Size(121, 24);
-            this.cbLD4Rel.TabIndex = 23;
+            this.tbLD2MI.Location = new System.Drawing.Point(184, 82);
+            this.tbLD2MI.Name = "tbLD2MI";
+            this.tbLD2MI.Size = new System.Drawing.Size(46, 22);
+            this.tbLD2MI.TabIndex = 7;
             // 
-            // label37
+            // tbLD2Name
             // 
-            this.label37.AutoSize = true;
-            this.label37.Location = new System.Drawing.Point(332, 43);
-            this.label37.Name = "label37";
-            this.label37.Size = new System.Drawing.Size(186, 17);
-            this.label37.TabIndex = 7;
-            this.label37.Text = "Authorize.Net TransactionID";
+            this.tbLD2Name.Location = new System.Drawing.Point(24, 82);
+            this.tbLD2Name.Name = "tbLD2Name";
+            this.tbLD2Name.Size = new System.Drawing.Size(150, 22);
+            this.tbLD2Name.TabIndex = 6;
             // 
-            // label38
+            // tbLD1DOB
             // 
-            this.label38.AutoSize = true;
-            this.label38.Location = new System.Drawing.Point(332, 99);
-            this.label38.Name = "label38";
-            this.label38.Size = new System.Drawing.Size(218, 17);
-            this.label38.TabIndex = 8;
-            this.label38.Text = "Authorize.Net Authorization Code";
+            this.tbLD1DOB.Location = new System.Drawing.Point(485, 45);
+            this.tbLD1DOB.Name = "tbLD1DOB";
+            this.tbLD1DOB.Size = new System.Drawing.Size(120, 22);
+            this.tbLD1DOB.TabIndex = 4;
             // 
-            // tbANetTID
+            // cbLD1Gender
             // 
-            this.tbANetTID.Location = new System.Drawing.Point(580, 42);
-            this.tbANetTID.Name = "tbANetTID";
-            this.tbANetTID.Size = new System.Drawing.Size(177, 22);
-            this.tbANetTID.TabIndex = 9;
+            this.cbLD1Gender.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbLD1Gender.FormattingEnabled = true;
+            this.cbLD1Gender.Location = new System.Drawing.Point(401, 45);
+            this.cbLD1Gender.Name = "cbLD1Gender";
+            this.cbLD1Gender.Size = new System.Drawing.Size(73, 24);
+            this.cbLD1Gender.TabIndex = 3;
             // 
-            // tbANAuthCode
+            // tbLD1LN
             // 
-            this.tbANAuthCode.Location = new System.Drawing.Point(580, 95);
-            this.tbANAuthCode.Name = "tbANAuthCode";
-            this.tbANAuthCode.Size = new System.Drawing.Size(177, 22);
-            this.tbANAuthCode.TabIndex = 10;
+            this.tbLD1LN.Location = new System.Drawing.Point(241, 45);
+            this.tbLD1LN.Name = "tbLD1LN";
+            this.tbLD1LN.Size = new System.Drawing.Size(150, 22);
+            this.tbLD1LN.TabIndex = 2;
             // 
-            // label39
+            // tbLD1MI
             // 
-            this.label39.AutoSize = true;
-            this.label39.Location = new System.Drawing.Point(24, 22);
-            this.label39.Name = "label39";
-            this.label39.Size = new System.Drawing.Size(45, 17);
-            this.label39.TabIndex = 38;
-            this.label39.Text = "Name";
+            this.tbLD1MI.Location = new System.Drawing.Point(184, 45);
+            this.tbLD1MI.Name = "tbLD1MI";
+            this.tbLD1MI.Size = new System.Drawing.Size(46, 22);
+            this.tbLD1MI.TabIndex = 1;
             // 
-            // label40
+            // tbLD1Name
             // 
-            this.label40.AutoSize = true;
-            this.label40.Location = new System.Drawing.Point(237, 22);
-            this.label40.Name = "label40";
-            this.label40.Size = new System.Drawing.Size(22, 17);
-            this.label40.TabIndex = 18;
-            this.label40.Text = "MI";
-            // 
-            // tbMI
-            // 
-            this.tbMI.Location = new System.Drawing.Point(239, 42);
-            this.tbMI.Name = "tbMI";
-            this.tbMI.Size = new System.Drawing.Size(94, 22);
-            this.tbMI.TabIndex = 2;
-            // 
-            // label41
-            // 
-            this.label41.AutoSize = true;
-            this.label41.Location = new System.Drawing.Point(476, 72);
-            this.label41.Name = "label41";
-            this.label41.Size = new System.Drawing.Size(56, 17);
-            this.label41.TabIndex = 20;
-            this.label41.Text = "Gender";
-            // 
-            // cbGender
-            // 
-            this.cbGender.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbGender.FormattingEnabled = true;
-            this.cbGender.Location = new System.Drawing.Point(479, 93);
-            this.cbGender.Name = "cbGender";
-            this.cbGender.Size = new System.Drawing.Size(89, 24);
-            this.cbGender.TabIndex = 7;
+            this.tbLD1Name.Location = new System.Drawing.Point(24, 45);
+            this.tbLD1Name.Name = "tbLD1Name";
+            this.tbLD1Name.Size = new System.Drawing.Size(150, 22);
+            this.tbLD1Name.TabIndex = 0;
             // 
             // AddMember
             // 

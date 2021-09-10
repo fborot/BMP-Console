@@ -77,7 +77,10 @@ namespace BMP_Console {
                 MessageBox.Show("An error occured creating the Memebr ID", "Saving new Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            if(ckbUseHome.Enabled == true) {
+            
+            ckbCCAuto.Checked = true; // it will always be autopay
+
+            if (ckbUseHome.Enabled == true) {
                 tbShAddress.Text = tbAddres.Text;
                 tbShAddress2.Text = tbAddress2.Text;
                 tbShCity.Text = tbCity.Text;
