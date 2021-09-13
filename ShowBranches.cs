@@ -73,9 +73,9 @@ namespace BMP_Console {
                 string branch_cemail = ret.GetString(6);
                 string branch_ph = ret.GetString(7);
                 string branch_agency = ret.GetString(8);
-                string use_branch_name = ret.GetString(9);
+                string name_for_checks = ret.GetString(9);
 
-                BranchesContainer.Add(new branch(id, branch_name, branch_address, branch_address2, branch_pcode, branch_cname, branch_cemail, branch_ph, branch_agency,use_branch_name));
+                BranchesContainer.Add(new branch(id, branch_name, branch_address, branch_address2, branch_pcode, branch_cname, branch_cemail, branch_ph, branch_agency,name_for_checks));
             }
             ret.Close();
             conn.Close();
@@ -89,7 +89,7 @@ namespace BMP_Console {
             dgBranches.Columns.Add("Branch Contact Email", "Branch Contact Email");
             dgBranches.Columns.Add("Branch Phone Number", "Branch Phone Number");
             dgBranches.Columns.Add("Branch Agency", "Branch Agency");
-            dgBranches.Columns.Add("Use Branch Name for Checks", "Use Branch Name for Checks");
+            dgBranches.Columns.Add("Name for Checks", "Name for Checks");
 
             dgBranches.Rows.Clear();
 
@@ -107,7 +107,7 @@ namespace BMP_Console {
                 newRow.Cells[6].Value = t.branch_email;
                 newRow.Cells[7].Value = t.branch_phone;
                 newRow.Cells[8].Value = t.branch_agency;
-                newRow.Cells[9].Value = t.use_branch_name_for_checks;
+                newRow.Cells[9].Value = t.name_for_checks;
 
                 dgBranches.Rows.Add(newRow);
             }
@@ -188,8 +188,8 @@ namespace BMP_Console {
                 conn.ConnectionString = Form1.mySQLConnectionString;
                 conn.Open();
                 string strQuery = "update branches set branch_name='" + b.branch_name + "',branch_address='" + b.branch_address + "',branch_address2='" + b.branch_address2 + "',branch_postal_code='" + b.branch_postal_code +
-                    "',branch_contact_name='" + b.branch_contact_name + "',branch_email='" + b.branch_email + "',branch_phone='" + b.branch_phone + "',branch_agency='" + b.branch_agency +"',use_branch_name_for_checks='" + 
-                    b.use_branch_name_for_checks + "' where branch_id = " + b.branch_id.ToString();
+                    "',branch_contact_name='" + b.branch_contact_name + "',branch_email='" + b.branch_email + "',branch_phone='" + b.branch_phone + "',branch_agency='" + b.branch_agency +"',name_for_checks='" + 
+                    b.name_for_checks + "' where branch_id = " + b.branch_id.ToString();
                 //Console.WriteLine(s);
                 MySqlCommand cmd = new MySqlCommand(strQuery, conn);
                 ret = cmd.ExecuteNonQuery();
@@ -214,9 +214,9 @@ namespace BMP_Console {
             string bemail = dgBranches.Rows[e.RowIndex].Cells[6].Value.ToString();
             string bphone = dgBranches.Rows[e.RowIndex].Cells[7].Value.ToString();
             string bagency = dgBranches.Rows[e.RowIndex].Cells[8].Value.ToString();
-            string buse = dgBranches.Rows[e.RowIndex].Cells[9].Value.ToString();
+            string bchecksname = dgBranches.Rows[e.RowIndex].Cells[9].Value.ToString();
 
-            branch tempB = new branch(bid,bname,baddr,baddr2,bpcode,bcname,bemail,bphone,bagency,buse);
+            branch tempB = new branch(bid,bname,baddr,baddr2,bpcode,bcname,bemail,bphone,bagency,bchecksname);
             ToBeUpdated.Add(tempB);
             btCancel.Enabled = true;
             btSave.Enabled = true;
@@ -233,7 +233,7 @@ namespace BMP_Console {
             string bemail = dgBranches.Rows[dgBranches.SelectedRows[0].Index].Cells[6].Value.ToString();
             string bphone = dgBranches.Rows[dgBranches.SelectedRows[0].Index].Cells[7].Value.ToString();
             string bagency = dgBranches.Rows[dgBranches.SelectedRows[0].Index].Cells[8].Value.ToString();
-            string buse = dgBranches.Rows[dgBranches.SelectedRows[0].Index].Cells[9].Value.ToString();
+            string bchecksname = dgBranches.Rows[dgBranches.SelectedRows[0].Index].Cells[9].Value.ToString();
 
             string message = "You are about to delete a branch and this action can not be undone. Do you want to continue?";
             string title = "Delete Branch Confirmation";
@@ -243,7 +243,7 @@ namespace BMP_Console {
                 //this.Close();
             } else {
                 if (dgBranches.SelectedRows.Count > 0) {
-                    branch tempB = new branch(bid, bname, baddr, baddr2, bpcode, bcname, bemail, bphone,bagency,buse);
+                    branch tempB = new branch(bid, bname, baddr, baddr2, bpcode, bcname, bemail, bphone,bagency,bchecksname);
                     if (DeleteBranchFromDB(tempB))
                         dgBranches.Rows.RemoveAt(dgBranches.SelectedRows[0].Index);
                     else

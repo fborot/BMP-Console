@@ -72,9 +72,9 @@ namespace BMP_Console {
                 string agency_cname = ret.GetString(5);
                 string agency_cemail = ret.GetString(6);
                 string agency_ph = ret.GetString(7);
-                string use_agency_name = ret.GetString(8);
+                string name_for_checks = ret.GetString(8);
 
-                AgenciesContainer.Add(new agency(id, agency_name, agency_address, agency_address2, agency_pcode, agency_cname, agency_cemail, agency_ph, use_agency_name));
+                AgenciesContainer.Add(new agency(id, agency_name, agency_address, agency_address2, agency_pcode, agency_cname, agency_cemail, agency_ph, name_for_checks));
             }
             ret.Close();
             conn.Close();
@@ -87,7 +87,7 @@ namespace BMP_Console {
             dgAgencies.Columns.Add("Agency Contact Name", "Agency Contact Name");
             dgAgencies.Columns.Add("Agency Contact Email", "Agency Contact Email");
             dgAgencies.Columns.Add("Agency Phone Number", "Agency Phone Number");
-            dgAgencies.Columns.Add("Use Agency Name For Checks", "Use Agency Name For Checks");
+            dgAgencies.Columns.Add("Name For Checks", "Name For Checks");
 
             dgAgencies.Rows.Clear();
 
@@ -104,7 +104,7 @@ namespace BMP_Console {
                 newRow.Cells[5].Value = t.agency_contact_name;
                 newRow.Cells[6].Value = t.agency_email;
                 newRow.Cells[7].Value = t.agency_phone_number;
-                newRow.Cells[8].Value = t.use_agency_name_for_checks;
+                newRow.Cells[8].Value = t.name_for_checks;
 
                 dgAgencies.Rows.Add(newRow);
             }
@@ -213,7 +213,7 @@ namespace BMP_Console {
                 conn.ConnectionString = Form1.mySQLConnectionString;
                 conn.Open();
                 string strQuery = "update agencies set agency_name='" + a.agency_name + "',agency_address='" + a.agency_address + "',agency_address2='" + a.agency_address2 + "',agency_postal_code='" + a.agency_postal_code +
-                "',agency_contact_name='" + a.agency_contact_name + "',agency_email='" + a.agency_email + "',agency_phone_number='" + a.agency_phone_number + "',use_agency_name_for_checks='" + a.use_agency_name_for_checks + "' where agency_id = " + a.agency_id.ToString();
+                "',agency_contact_name='" + a.agency_contact_name + "',agency_email='" + a.agency_email + "',agency_phone_number='" + a.agency_phone_number + "',name_for_checks='" + a.name_for_checks + "' where agency_id = " + a.agency_id.ToString();
                 
                 //Console.WriteLine(s);
                 MySqlCommand cmd = new MySqlCommand(strQuery, conn);
@@ -238,10 +238,10 @@ namespace BMP_Console {
             string acname = dgAgencies.Rows[e.RowIndex].Cells[5].Value.ToString();
             string aemail = dgAgencies.Rows[e.RowIndex].Cells[6].Value.ToString();
             string aphone = dgAgencies.Rows[e.RowIndex].Cells[7].Value.ToString();
-            string ause = dgAgencies.Rows[e.RowIndex].Cells[8].Value.ToString();
+            string checks_name = dgAgencies.Rows[e.RowIndex].Cells[8].Value.ToString();
 
 
-            agency tempA = new agency(aid, aname, aaddr, aaddr2, apcode, acname, aemail, aphone, ause);
+            agency tempA = new agency(aid, aname, aaddr, aaddr2, apcode, acname, aemail, aphone, checks_name);
             ToBeUpdated.Add(tempA);
             btCancel.Enabled = true;
             btSave.Enabled = true;

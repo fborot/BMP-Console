@@ -15,9 +15,9 @@ namespace BMP_Console {
         public string branch_email;
         public string branch_phone;
         public string branch_agency;
-        public string use_branch_name_for_checks = string.Empty;
+        public string name_for_checks = string.Empty;
 
-        public branch(int id, string name, string addr, string addr2, string p_code, string c_name, string email, string ph_number, string agency, string use_bname) {
+        public branch(int id, string name, string addr, string addr2, string p_code, string c_name, string email, string ph_number, string agency, string name_checks) {
             branch_id = id;
             branch_name = name;
             branch_address = addr;
@@ -27,7 +27,7 @@ namespace BMP_Console {
             branch_email = email;
             branch_phone = ph_number;
             branch_agency = agency;
-            use_branch_name_for_checks = use_bname;            
+            name_for_checks = name_checks;            
         }
     }
 }

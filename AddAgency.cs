@@ -25,7 +25,7 @@ namespace BMP_Console {
         }
 
         private void button1_Click(object sender, EventArgs e) {
-            if (tbAgcyName.Text.Length > 0 && tbaddress.Text.Length > 0 && tbcontact.Text.Length > 0 && tbemail.Text.Length > 0 && tbphone.Text.Length > 0 && tbpostalcode.Text.Length > 0) {
+            if (tbAgcyName.Text.Length > 0 && tbaddress.Text.Length > 0 && tbcontact.Text.Length > 0 && tbemail.Text.Length > 0 && tbphone.Text.Length > 0 && tbpostalcode.Text.Length > 0 && tbNameChecks.Text.Length > 0) {
 
                 if (!isValidEmail(tbemail.Text)) {
                     MessageBox.Show("Invalid value for the Email Address", "Saving new Agency", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -41,7 +41,7 @@ namespace BMP_Console {
                     return;
                 }
 
-                string use_agency_name = ckUse.Checked ? "Yes" : "No";
+                
                 //string ServerIP = "127.0.0.1"; string DBUserName = "fborot"; string DBUserPassword = "Fab!anB0"; string DBName = "bmp";
                 //string mySQLConnectionString = "server=" + ServerIP + ";uid=" + DBUserName + ";pwd=" + DBUserPassword + ";database=" + DBName;
                 MySqlConnection conn = null;
@@ -50,8 +50,8 @@ namespace BMP_Console {
                 conn.Open();
 
 
-                MySqlCommand cmd = new MySqlCommand("insert into agencies (agency_name,agency_address, agency_address2, agency_postal_code, agency_contact_name, agency_email, agency_phone_number, use_agency_name_for_checks)" +
-                    "values (@agency_name, @agency_address, @agency_address2, @agency_postal_code, @agency_contact_name, @agency_email, @agency_phone_number,@use_agency_name_for_checks)", conn);
+                MySqlCommand cmd = new MySqlCommand("insert into agencies (agency_name,agency_address, agency_address2, agency_postal_code, agency_contact_name, agency_email, agency_phone_number, name_for_checks)" +
+                    "values (@agency_name, @agency_address, @agency_address2, @agency_postal_code, @agency_contact_name, @agency_email, @agency_phone_number,@name_for_checks)", conn);
 
                 cmd.Parameters.Add("@agency_name", MySqlDbType.VarChar, tbAgcyName.Text.Length).Value = tbAgcyName.Text;
                 cmd.Parameters.Add("@agency_address", MySqlDbType.VarChar, tbaddress.Text.Length).Value = tbaddress.Text;
@@ -60,7 +60,7 @@ namespace BMP_Console {
                 cmd.Parameters.Add("@agency_postal_code", MySqlDbType.VarChar, tbpostalcode.Text.Length).Value = tbpostalcode.Text;
                 cmd.Parameters.Add("@agency_email", MySqlDbType.VarChar, tbemail.Text.Length).Value = tbemail.Text;
                 cmd.Parameters.Add("@agency_phone_number", MySqlDbType.VarChar, tbphone.Text.Length).Value = tbphone.Text;
-                cmd.Parameters.Add("@use_agency_name_for_checks", MySqlDbType.VarChar,use_agency_name.Length ).Value = use_agency_name;
+                cmd.Parameters.Add("@name_for_checks", MySqlDbType.VarChar,tbNameChecks.Text.Length ).Value = tbNameChecks;
 
                 int res = cmd.ExecuteNonQuery();
                 if (res > 0) {
@@ -72,6 +72,7 @@ namespace BMP_Console {
                     tbpostalcode.Text = "";
                     tbphone.Text = "";
                     tbemail.Text = "";
+                    tbNameChecks.Text = "";
 
                     tbAgencyID.Text = (Int16.Parse(tbAgencyID.Text) + 1).ToString();
                 }

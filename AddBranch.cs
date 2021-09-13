@@ -22,7 +22,7 @@ namespace BMP_Console {
         }
 
         private void btsave_Click(object sender, EventArgs e) {
-            if(tbBranchID.Text.Length > 0 && tbaddress.Text.Length > 0 && tbpostalcode.Text.Length > 0 && tbcontactname.Text.Length > 0 && tbcontactemail.Text.Length > 0 && tbcontactphone.Text.Length > 0) {
+            if(tbBranchID.Text.Length > 0 && tbaddress.Text.Length > 0 && tbpostalcode.Text.Length > 0 && tbcontactname.Text.Length > 0 && tbcontactemail.Text.Length > 0 && tbcontactphone.Text.Length > 0 && tbChecksName.Text.Length > 0) {
                 //string ServerIP = "127.0.0.1"; string DBUserName = "fborot"; string DBUserPassword = "Fab!anB0"; string DBName = "bmp";
                 //string mySQLConnectionString = "server=" + ServerIP + ";uid=" + DBUserName + ";pwd=" + DBUserPassword + ";database=" + DBName;
 
@@ -39,15 +39,14 @@ namespace BMP_Console {
                     return;
                 }
                 
-                string use_branch_name = ckUse.Checked ? "Yes" : "No";
-
+                
                 MySqlConnection conn = null;
                 conn = new MySql.Data.MySqlClient.MySqlConnection();
                 conn.ConnectionString = Form1.mySQLConnectionString;
                 conn.Open();
 
-                MySqlCommand cmd = new MySqlCommand("insert into branches (branch_name,branch_address, branch_address2, branch_postal_code, branch_contact_name, branch_email, branch_phone, branch_agency, use_branch_name_for_checks)" +
-                    "values (@branch_name, @branch_address, @branch_address2, @branch_postal_code, @branch_contact_name, @branch_email, @branch_phone_number, @branch_agency, @use_branch_name_for_checks)", conn);
+                MySqlCommand cmd = new MySqlCommand("insert into branches (branch_name,branch_address, branch_address2, branch_postal_code, branch_contact_name, branch_email, branch_phone, branch_agency, name_for_checks)" +
+                    "values (@branch_name, @branch_address, @branch_address2, @branch_postal_code, @branch_contact_name, @branch_email, @branch_phone_number, @branch_agency, @name_for_checks)", conn);
 
                 cmd.Parameters.Add("@branch_name", MySqlDbType.VarChar, tbbranchname.Text.Length).Value = tbbranchname.Text;
                 cmd.Parameters.Add("@branch_address", MySqlDbType.VarChar, tbaddress.Text.Length).Value = tbaddress.Text;
@@ -57,7 +56,7 @@ namespace BMP_Console {
                 cmd.Parameters.Add("@branch_email", MySqlDbType.VarChar, tbcontactemail.Text.Length).Value = tbcontactemail.Text;
                 cmd.Parameters.Add("@branch_phone_number", MySqlDbType.VarChar, tbcontactphone.Text.Length).Value = tbcontactphone.Text;
                 cmd.Parameters.Add("@branch_agency", MySqlDbType.VarChar, cbagencies.SelectedItem.ToString().Length).Value = cbagencies.SelectedItem.ToString(); 
-                cmd.Parameters.Add("@use_branch_name_for_checks", MySqlDbType.VarChar, use_branch_name.Length).Value = use_branch_name;
+                cmd.Parameters.Add("@name_for_checks", MySqlDbType.VarChar, tbChecksName.Text.Length).Value = tbChecksName;
 
                 int res = cmd.ExecuteNonQuery();
                 if(res > 0) {
@@ -69,7 +68,7 @@ namespace BMP_Console {
                     tbcontactname.Text = "";
                     tbcontactphone.Text = "";
                     tbpostalcode.Text = "";
-                    ckUse.Enabled = false;
+                    tbChecksName.Text = "";
 
                     tbBranchID.Text = (Int16.Parse(tbBranchID.Text) + 1).ToString();
                 }

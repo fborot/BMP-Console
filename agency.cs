@@ -14,9 +14,9 @@ namespace BMP_Console {
         public string agency_contact_name;
         public string agency_email;
         public string agency_phone_number;
-        public string use_agency_name_for_checks;
+        public string name_for_checks;
 
-        public agency(int id, string name, string addr, string addr2, string pcode, string contact_name, string email, string ph_number, string use_agcy_name) {
+        public agency(int id, string name, string addr, string addr2, string pcode, string contact_name, string email, string ph_number, string name_checks) {
             agency_id = id;
             agency_name = name;
             agency_address = addr;
@@ -25,7 +25,7 @@ namespace BMP_Console {
             agency_contact_name = contact_name;
             agency_email = email;
             agency_phone_number = ph_number;
-            use_agency_name_for_checks = use_agcy_name;
+            name_for_checks = name_checks;
         }
     }
 }

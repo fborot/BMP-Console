@@ -764,7 +764,7 @@ namespace BMP_Console {
                 ret = cmd.ExecuteReader();
 
                 while (ret.Read()) {
-                    string use_name = "";
+                    string name_for_checks = "";
                     short id = ret.GetInt16(0);
                     string name = ret.GetString(1);
                     string addres = ret.GetString(2);
@@ -774,13 +774,13 @@ namespace BMP_Console {
                     string email = ret.GetString(6);
                     string ph = ret.GetString(7);
                     if(type == 0)
-                        use_name = ret.GetString(8);
+                        name_for_checks = ret.GetString(8);
                     else {
                         string bagency = ret.GetString(8);
-                        use_name = ret.GetString(9);
+                        name_for_checks = ret.GetString(9);
                     }
 
-                    res = (use_name == "Yes") ? name : contact;
+                    res = name_for_checks;
 
                 }
                 ret.Close();
