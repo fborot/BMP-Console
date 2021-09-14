@@ -1028,11 +1028,11 @@ namespace BMP_Console {
                 tempTotal += ".00";
             }
 
-            e.Graphics.DrawString(DateTime.Now.ToString("MM|dd|yyyy"), font, Brushes.Black, 175 + x_offset, 26 + y_offset);//get it from date.now
-            e.Graphics.DrawString(temp.Name, font, Brushes.Black, 35 + x_offset, 38 + y_offset);    // get it from array
-            e.Graphics.DrawString(tempTotal, font, Brushes.Black, 175 + x_offset, 38 + y_offset);    // get it from array, total
-            e.Graphics.DrawString(ConvertToWords(temp.Total.ToString()), font, Brushes.Black, 30 + x_offset, 46 + y_offset);    // get it from a function that receives the total from array
-            e.Graphics.DrawString("Commission", font, Brushes.Black, 25 + x_offset, 70 + y_offset);
+            e.Graphics.DrawString(DateTime.Now.ToString("MM|dd|yyyy"), font, Brushes.Black, 177 + x_offset, 21 + y_offset);//get it from date.now
+            e.Graphics.DrawString(temp.Name, font, Brushes.Black, 35 + x_offset, 32 + y_offset);    // get it from array
+            e.Graphics.DrawString(tempTotal, font, Brushes.Black, 177 + x_offset, 33 + y_offset);    // get it from array, total
+            e.Graphics.DrawString(ConvertToWords(temp.Total.ToString()), font, Brushes.Black, 30 + x_offset, 41 + y_offset);    // get it from a function that receives the total from array
+            e.Graphics.DrawString("Commission", font, Brushes.Black, 25 + x_offset, 67 + y_offset);
 
             e.Graphics.DrawString("Details", font, Brushes.Black, 25 + x_offset, 100 + y_offset);
             short off = 0;
