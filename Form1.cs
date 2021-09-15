@@ -15,6 +15,7 @@ namespace BMP_Console {
         public Form1() {
             InitializeComponent();
         }
+        public bool bLive = false;
         static public AddMember Addmember = null;
         static public AddAgency AddAgency= null;
         static public AddBranch AddBranch = null;
@@ -117,7 +118,7 @@ namespace BMP_Console {
                 db_connect_timeout = source.Configs["Database"].GetInt("ConnectTimeout", 5);
 
                 APILoginID = source.Configs["AuthorizedNet"].Get("APILoginID", "3GQB2ens6x");
-                APITransactionKey = source.Configs["AuthorizedNet"].Get("ApiTransactionKey", "9887PZn64wQ3rTxk");
+                APITransactionKey = source.Configs["AuthorizedNet"].Get("APITransactionKey", "9887PZn64wQ3rTxk");
 
                 X_Offset = source.Configs["Printer"].GetInt("X_Offset", 5);
                 Y_Offset = source.Configs["Printer"].GetInt("Y_Offset", 5);
@@ -138,6 +139,10 @@ namespace BMP_Console {
 
         private void Form1_Load(object sender, EventArgs e) {
             LoadSettings();
+            if (APILoginID == "7Za36XtrB8g" && APITransactionKey == "7u66fwN7t3XF7cBr") {
+                bLive = true;
+                Text += ":: Live";
+            }
         }
 
         private void showPlansToolStripMenuItem_Click(object sender, EventArgs e) {
