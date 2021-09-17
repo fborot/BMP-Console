@@ -848,86 +848,15 @@ namespace BMP_Console {
             }
         }
 
-        private bool ChargeCC(String ApiLoginID, String ApiTransactionKey, member m) {
-            bool res = false;
-            return true;
-
-            ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = AuthorizeNet.Environment.SANDBOX;
-            // define the merchant information (authentication / transaction id)
-            ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = new merchantAuthenticationType() {
-                name = ApiLoginID,
-                ItemElementName = ItemChoiceType.transactionKey,
-                Item = ApiTransactionKey,
-            };
-
-            customerAddressType billingAddress = new customerAddressType {
-                firstName = tbName.Text,//"John",
-                lastName = tbLName.Text,//"Doe",
-                address = tbAddres.Text,//"123 My St",
-                city = tbCity.Text,//"OurTown",
-                zip = tbPostalCode.Text,//"98004"
-                phoneNumber = tbHomePh.Text,
-                email = tbEmail.Text
-            };
-
-            var creditCard = new creditCardType {
-                cardNumber = tbCCInfo.Text,         // "4111111111111111",
-                expirationDate = tbCCExpDate.Text   //"0718"
-            };
-
-            //standard api call to retrieve response
-            var paymentType = new paymentType { Item = creditCard };
-
-            //"transactionSettings": {
-            //    "setting": {
-            //        "settingName": "testRequest",
-            //        "settingValue": "false"
-            //    }
-            //}
-            // Add line Items
-            var lineItems = new lineItemType[2];
-            lineItems[0] = new lineItemType { itemId = "1", name = "t-shirt", quantity = 2, unitPrice = new Decimal(15.00) };
-            lineItems[1] = new lineItemType { itemId = "2", name = "snowboard", quantity = 1, unitPrice = new Decimal(450.00) };
-
-
-            var transactionRequest = new transactionRequestType {
-                transactionType = transactionTypeEnum.authCaptureTransaction.ToString(),   // charge the card
-                amount = Convert.ToDecimal(tbRecurringTotal.Text),// 133.45m,
-                payment = paymentType,
-                billTo = billingAddress,
-                shipTo = billingAddress
-            };
-
-            var request = new createTransactionRequest { transactionRequest = transactionRequest };
-
-            // instantiate the contoller that will call the service
-            var controller = new createTransactionController(request);
-            controller.Execute();
-
-            // get the response from the service (errors contained if any)
-            var response = controller.GetApiResponse();
-
-            if (response.messages.resultCode == messageTypeEnum.Ok) {
-                if (response.transactionResponse != null) {
-                    Console.WriteLine("Success, Auth Code : " + response.transactionResponse.authCode);
-                    res = true;
-                }
-            } else {
-                Console.WriteLine("Error: " + response.messages.message[0].code + "  " + response.messages.message[0].text);
-                if (response.transactionResponse != null) {
-                    Console.WriteLine("Transaction Error : " + response.transactionResponse.errors[0].errorCode + " " + response.transactionResponse.errors[0].errorText);
-                }
-                res = false;
-            }
-
-            return res;
-        }
-
         private CreateProfileResponse CreateCustomerProfileFromTransaction(string ApiLoginID, string ApiTransactionKey, string transactionId, member m) {
             bool res = false;
             //Console.WriteLine("CreateCustomerProfileFromTransaction Sample");
 
-            ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = AuthorizeNet.Environment.SANDBOX;
+            if(!Form1.bLive)
+                ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = AuthorizeNet.Environment.SANDBOX;
+            else
+                ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = AuthorizeNet.Environment.PRODUCTION;
+
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = new merchantAuthenticationType() {
                 name = ApiLoginID,
                 ItemElementName = ItemChoiceType.transactionKey,
@@ -972,7 +901,12 @@ namespace BMP_Console {
         public bool CreateSubscriptionFromProfile(String ApiLoginID, String ApiTransactionKey, short intervalLength,string bmp_id, string customerProfileId, string customerPaymentProfileId, string customerAddressId, string str_amount, ref string subs_id) {
             bool res = false;
 
-            ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = AuthorizeNet.Environment.SANDBOX;
+            //ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = AuthorizeNet.Environment.SANDBOX;
+            if (!Form1.bLive)
+                ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = AuthorizeNet.Environment.SANDBOX;
+            else
+                ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = AuthorizeNet.Environment.PRODUCTION;
+
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = new merchantAuthenticationType() {
                 name = ApiLoginID,
                 ItemElementName = ItemChoiceType.transactionKey,
@@ -1036,57 +970,16 @@ namespace BMP_Console {
             return res;
         }
 
-        //public ANetApiResponse Run(String ApiLoginID, String ApiTransactionKey, string customerProfileId,string customerPaymentProfileId) {
-            
-        //    ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = AuthorizeNet.Environment.SANDBOX;
-        //    // define the merchant information (authentication / transaction id)
-        //    ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = new merchantAuthenticationType() {
-        //        name = ApiLoginID,
-        //        ItemElementName = ItemChoiceType.transactionKey,
-        //        Item = ApiTransactionKey,
-        //    };
-
-        //    var request = new getCustomerPaymentProfileRequest();
-        //    request.customerProfileId = customerProfileId;
-        //    request.customerPaymentProfileId = customerPaymentProfileId;
-
-        //    // Set this optional property to true to return an unmasked expiration date
-        //    //request.unmaskExpirationDateSpecified = true;
-        //    //request.unmaskExpirationDate = true;
-
-
-        //    // instantiate the controller that will call the service
-        //    var controller = new getCustomerPaymentProfileController(request);
-        //    controller.Execute();
-
-        //    // get the response from the service (errors contained if any)
-        //    var response = controller.GetApiResponse();
-
-        //    if (response != null && response.messages.resultCode == messageTypeEnum.Ok) {
-        //        Console.WriteLine(response.messages.message[0].text);
-        //        Console.WriteLine("Customer Payment Profile Id: " + response.paymentProfile.customerPaymentProfileId);
-        //        if (response.paymentProfile.payment.Item is creditCardMaskedType) {
-        //            Console.WriteLine("Customer Payment Profile Last 4: " + (response.paymentProfile.payment.Item as creditCardMaskedType).cardNumber);
-        //            Console.WriteLine("Customer Payment Profile Expiration Date: " + (response.paymentProfile.payment.Item as creditCardMaskedType).expirationDate);
-
-        //            if (response.paymentProfile.subscriptionIds != null && response.paymentProfile.subscriptionIds.Length > 0) {
-        //                Console.WriteLine("List of subscriptions : ");
-        //                for (int i = 0; i < response.paymentProfile.subscriptionIds.Length; i++)
-        //                    Console.WriteLine(response.paymentProfile.subscriptionIds[i]);
-        //            }
-        //        }
-        //    } else if (response != null) {
-        //        Console.WriteLine("Error: " + response.messages.message[0].code + "  " +
-        //                          response.messages.message[0].text);
-        //    }
-
-        //    return response;
-        //}
-
         public string GetCustomerPayProfileDetails(String ApiLoginID, String ApiTransactionKey, string customerProfileId, string customerPaymentProfileId) {
             string CCExpDate = string.Empty;
 
-            ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = AuthorizeNet.Environment.SANDBOX;
+            //ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = AuthorizeNet.Environment.SANDBOX;
+
+            if (!Form1.bLive)
+                ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = AuthorizeNet.Environment.SANDBOX;
+            else
+                ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = AuthorizeNet.Environment.PRODUCTION;
+
             // define the merchant information (authentication / transaction id)
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = new merchantAuthenticationType() {
                 name = ApiLoginID,

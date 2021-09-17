@@ -15,7 +15,7 @@ namespace BMP_Console {
         public Form1() {
             InitializeComponent();
         }
-        public bool bLive = false;
+        static public bool bLive = false;
         static public AddMember Addmember = null;
         static public AddAgency AddAgency= null;
         static public AddBranch AddBranch = null;
@@ -142,7 +142,12 @@ namespace BMP_Console {
             if (APILoginID == "7Za36XtrB8g" && APITransactionKey == "7u66fwN7t3XF7cBr") {
                 bLive = true;
                 Text += ":: Live";
+            } else
+            {
+                bLive = false;
+                Text += ":: Test";
             }
+
         }
 
         private void showPlansToolStripMenuItem_Click(object sender, EventArgs e) {
