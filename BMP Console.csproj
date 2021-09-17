@@ -131,6 +131,12 @@
     <Compile Include="ComCheckData.cs" />
     <Compile Include="CreateProfileResponse.cs" />
     <Compile Include="Dependent.cs" />
+    <Compile Include="DrawingTest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DrawingTest.Designer.cs">
+      <DependentUpon>DrawingTest.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -186,6 +192,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CalibratePrinter.resx">
       <DependentUpon>CalibratePrinter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DrawingTest.resx">
+      <DependentUpon>DrawingTest.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
