@@ -66,20 +66,20 @@ namespace BMP_Console {
         }
 
         private void versionToolStripMenuItem1_Click(object sender, EventArgs e) {
-            //MessageBox.Show("BMP Console App" + Environment.NewLine + "Developer: Fabian Borot" + Environment.NewLine + "Year: 2021", "About this App", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("BMP Console App" + Environment.NewLine + "Developer: Fabian Borot" + Environment.NewLine + "Year: 2021", "About this App", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            if (DTest == null)
-            {
-                DTest = new DrawingTest();
-                DTest.MdiParent = this;
-                DTest.StartPosition = FormStartPosition.Manual;
-                DTest.Show();
+            //if (DTest == null)
+            //{
+            //    DTest = new DrawingTest();
+            //    DTest.MdiParent = this;
+            //    DTest.StartPosition = FormStartPosition.Manual;
+            //    DTest.Show();
 
-            }
-            else
-            {
-                DTest.Focus();
-            }
+            //}
+            //else
+            //{
+            //    DTest.Focus();
+            //}
         }
 
         private void addAgencyToolStripMenuItem_Click(object sender, EventArgs e) {
