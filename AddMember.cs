@@ -918,7 +918,7 @@ namespace BMP_Console {
             interval.length = intervalLength;         // months can be indicated between 1 and 12
             interval.unit = ARBSubscriptionUnitEnum.months;
 
-            //testing
+            //testing/////////////////////////////
             //interval.length = 7;
             //interval.unit = ARBSubscriptionUnitEnum.days;
 
@@ -926,7 +926,7 @@ namespace BMP_Console {
             paymentScheduleType schedule = new paymentScheduleType {
                 interval = interval,
                 startDate = DateTime.Now.AddMonths(intervalLength),      // start date should be tomorrow
-                //testing
+                //testing///////////////////////////////////
                 //startDate = DateTime.Now.AddDays(7),      // start date should be tomorrow
                 totalOccurrences = 9999,                          // 999 indicates no end date
                 trialOccurrences = 0
