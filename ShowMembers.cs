@@ -373,5 +373,17 @@ namespace BMP_Console {
             return res;
         }
 
+        private void dgmembers_MouseUp(object sender, MouseEventArgs e) {
+           if (e.Button == MouseButtons.Right) {
+                int rIndex = dgmembers.HitTest(e.X, e.Y).RowIndex;
+                MessageBox.Show("Row " + rIndex + " has been selected", "Hey");
+                contextMenuStrip1.Show(dgmembers, new Point(e.X, e.Y));
+            }
+            
+        }
+
+        private void contextMenuStrip1_Opening(object sender, CancelEventArgs e) {
+
+        }
     }
 }

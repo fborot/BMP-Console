@@ -112,76 +112,79 @@ namespace BMP_Console {
                         ComCheckData myobj_a = new ComCheckData(t.t_bmpCustID, ic, "Initial Sales Commission");
                         ic = GetBranchInitialCommisionValues(tplan, t.t_recurrency);
                         ComCheckData myobj_b = new ComCheckData(t.t_bmpCustID, ic, "Initial Sales Commission");
-
-                        if (HTableAgency.Contains(t.t_agency)) {
-                            CheckEnvelope CE = (CheckEnvelope)HTableAgency[t.t_agency];
-                            //ArrayList myAR = (ArrayList)HTableAgency[t.t_agency];
-                            CE.List.Add(myobj_a);
-                            //myAR.Add(myobj_a);
-                            CE.Total += myobj_a.PayAmount;
-                            HTableAgency[t.t_agency] = CE;
-                            //HTableAgency[t.t_agency] = myAR;
-                        } else {
-                            CheckEnvelope CE = new CheckEnvelope("",myobj_a.PayAmount, myobj_a);
-                            //ArrayList myAR = new ArrayList();
-                            //myAR.Add(myobj_a);
-                            HTableAgency[t.t_agency] = CE;
-                            //HTableAgency[t.t_agency] = myAR;
+                        if (t.t_agency != "1BMP") {
+                            if (HTableAgency.Contains(t.t_agency)) {
+                                CheckEnvelope CE = (CheckEnvelope)HTableAgency[t.t_agency];
+                                //ArrayList myAR = (ArrayList)HTableAgency[t.t_agency];
+                                CE.List.Add(myobj_a);
+                                //myAR.Add(myobj_a);
+                                CE.Total += myobj_a.PayAmount;
+                                HTableAgency[t.t_agency] = CE;
+                                //HTableAgency[t.t_agency] = myAR;
+                            } else {
+                                CheckEnvelope CE = new CheckEnvelope("", myobj_a.PayAmount, myobj_a);
+                                //ArrayList myAR = new ArrayList();
+                                //myAR.Add(myobj_a);
+                                HTableAgency[t.t_agency] = CE;
+                                //HTableAgency[t.t_agency] = myAR;
+                            }
                         }
-
-                        if (HTableBranch.Contains(t.t_branch)) {
-                            CheckEnvelope CE = (CheckEnvelope)HTableBranch[t.t_branch];
-                            //ArrayList myAR = (ArrayList)HTableBranch[t.t_branch];
-                            CE.List.Add(myobj_b);
-                            //myAR.Add(myobj_b);
-                            CE.Total += myobj_b.PayAmount;
-                            HTableBranch[t.t_branch] = CE;
-                            //HTableBranch[t.t_branch] = myAR;
-                        } else {
-                            CheckEnvelope CE = new CheckEnvelope("",myobj_b.PayAmount, myobj_b);
-                            //ArrayList myAR = new ArrayList();
-                            //myAR.Add(myobj_b);
-                            HTableBranch[t.t_branch] = CE;
-                            //HTableBranch[t.t_branch] = myAR;
+                        if (t.t_branch != "Direct Sales") {
+                            if (HTableBranch.Contains(t.t_branch)) {
+                                CheckEnvelope CE = (CheckEnvelope)HTableBranch[t.t_branch];
+                                //ArrayList myAR = (ArrayList)HTableBranch[t.t_branch];
+                                CE.List.Add(myobj_b);
+                                //myAR.Add(myobj_b);
+                                CE.Total += myobj_b.PayAmount;
+                                HTableBranch[t.t_branch] = CE;
+                                //HTableBranch[t.t_branch] = myAR;
+                            } else {
+                                CheckEnvelope CE = new CheckEnvelope("", myobj_b.PayAmount, myobj_b);
+                                //ArrayList myAR = new ArrayList();
+                                //myAR.Add(myobj_b);
+                                HTableBranch[t.t_branch] = CE;
+                                //HTableBranch[t.t_branch] = myAR;
+                            }
                         }
                     } else {
                         decimal rc = GetAgencyRenewalCommisionValues(tplan, t.t_recurrency);
                         ComCheckData myobj_a = new ComCheckData(t.t_bmpCustID, rc, "Renewal Commission");
                         rc = GetBranchRenewalCommisionValues(tplan, t.t_recurrency);
                         ComCheckData myobj_b = new ComCheckData(t.t_bmpCustID, rc, "Renewal Commission");
-
-                        if (HTableAgency.Contains(t.t_agency)) {
-                            CheckEnvelope CE = (CheckEnvelope)HTableAgency[t.t_agency];
-                            //ArrayList myAR = (ArrayList)HTableAgency[t.t_agency];
-                            CE.List.Add(myobj_a);
-                            //myAR.Add(myobj_a);
-                            CE.Total += myobj_a.PayAmount;
-                            HTableAgency[t.t_agency] = CE;
-                            //HTableAgency[t.t_agency] = myAR;
-                        } else {
-                            CheckEnvelope CE = new CheckEnvelope("",myobj_a.PayAmount, myobj_a);
-                            //ArrayList myAR = new ArrayList();
-                            //myAR.Add(myobj_a);
-                            HTableAgency[t.t_agency] = CE;
-                            //HTableAgency[t.t_agency] = myAR;
+                        if (t.t_agency != "1BMP") {
+                            if (HTableAgency.Contains(t.t_agency)) {
+                                CheckEnvelope CE = (CheckEnvelope)HTableAgency[t.t_agency];
+                                //ArrayList myAR = (ArrayList)HTableAgency[t.t_agency];
+                                CE.List.Add(myobj_a);
+                                //myAR.Add(myobj_a);
+                                CE.Total += myobj_a.PayAmount;
+                                HTableAgency[t.t_agency] = CE;
+                                //HTableAgency[t.t_agency] = myAR;
+                            } else {
+                                CheckEnvelope CE = new CheckEnvelope("", myobj_a.PayAmount, myobj_a);
+                                //ArrayList myAR = new ArrayList();
+                                //myAR.Add(myobj_a);
+                                HTableAgency[t.t_agency] = CE;
+                                //HTableAgency[t.t_agency] = myAR;
+                            }
                         }
-
-                        if (HTableBranch.Contains(t.t_branch)) {
-                            CheckEnvelope CE = (CheckEnvelope)HTableBranch[t.t_branch];
-                            //ArrayList myAR = (ArrayList)HTableBranch[t.t_branch];
-                            CE.List.Add(myobj_b);
-                            //myAR.Add(myobj_b);
-                            CE.Total += myobj_b.PayAmount;
-                            HTableBranch[t.t_branch] = CE;
-                            //HTableBranch[t.t_branch] = myAR;
-                        } else {
-                            CheckEnvelope CE = new CheckEnvelope("",myobj_b.PayAmount, myobj_b);
-                            //ArrayList myAR = new ArrayList();
-                            //myAR.Add(myobj_b);
-                            HTableBranch[t.t_branch] = CE;
-                            //HTableBranch[t.t_branch] = myAR;
+                        if (t.t_branch != "Direct Sales") {
+                            if (HTableBranch.Contains(t.t_branch)) {
+                                CheckEnvelope CE = (CheckEnvelope)HTableBranch[t.t_branch];
+                                //ArrayList myAR = (ArrayList)HTableBranch[t.t_branch];
+                                CE.List.Add(myobj_b);
+                                //myAR.Add(myobj_b);
+                                CE.Total += myobj_b.PayAmount;
+                                HTableBranch[t.t_branch] = CE;
+                                //HTableBranch[t.t_branch] = myAR;
+                            } else {
+                                CheckEnvelope CE = new CheckEnvelope("", myobj_b.PayAmount, myobj_b);
+                                //ArrayList myAR = new ArrayList();
+                                //myAR.Add(myobj_b);
+                                HTableBranch[t.t_branch] = CE;
+                                //HTableBranch[t.t_branch] = myAR;
+                            }
                         }
-
                     }
                 }
             }

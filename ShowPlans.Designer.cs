@@ -49,14 +49,12 @@
             // 
             this.dgPlans.AllowUserToAddRows = false;
             this.dgPlans.AllowUserToOrderColumns = true;
-            this.dgPlans.AllowUserToResizeColumns = false;
             this.dgPlans.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgPlans.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
             this.dgPlans.ColumnHeadersHeight = 29;
             this.dgPlans.Location = new System.Drawing.Point(6, 21);
-            this.dgPlans.MultiSelect = false;
             this.dgPlans.Name = "dgPlans";
             this.dgPlans.RowHeadersVisible = false;
             this.dgPlans.RowHeadersWidth = 51;
@@ -111,7 +109,7 @@
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.Name = "ShowPlans";
             this.Text = "ShowPlans";

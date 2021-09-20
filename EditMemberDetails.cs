@@ -15,7 +15,7 @@ using AuthorizeNet.Api.Contracts.V1;
 using AuthorizeNet.Api.Controllers.Bases;
 
 namespace BMP_Console {
-    public partial class AddMember : Form {
+    public partial class EditMemberDetails : Form {
 
         ArrayList PlansContainer = new ArrayList();
         ArrayList AgenciesContainer = new ArrayList();
@@ -23,7 +23,7 @@ namespace BMP_Console {
         ArrayList DependentsContainer = new ArrayList();
         bool ResettingForm = false;
        
-        public AddMember() {
+        public EditMemberDetails() {
             InitializeComponent();
         }
 
@@ -331,7 +331,7 @@ namespace BMP_Console {
             this.gbLD.Enabled = false;
 
 
-            //this.Size = new Size(1950, 1042);
+            //this.Size = new Size(1300, 680);
             cbLanguage.Items.Add("English");
             cbLanguage.Items.Add("Spanish");
             cbLanguage.Items.Add("Creole");

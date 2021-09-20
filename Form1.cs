@@ -29,6 +29,8 @@ namespace BMP_Console {
 
         static public DrawingTest DTest = null;
 
+        static public EditMember EMember = null;
+
         static public string db_host = string.Empty;
         static public string db_name = string.Empty;
         static public string db_user = string.Empty;
@@ -244,6 +246,19 @@ namespace BMP_Console {
             else
             {
                 CPrinter.Focus();
+            }
+        }
+
+        private void editToolStripMenuItem_Click(object sender, EventArgs e) {
+            //EMember.ShowDialog();
+            if (EMember == null) {
+                EMember = new EditMember();
+                EMember.MdiParent = this;
+                EMember.StartPosition = FormStartPosition.Manual;
+                EMember.Show();
+
+            } else {
+                EMember.Focus();
             }
         }
     }

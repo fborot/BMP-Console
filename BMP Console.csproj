@@ -108,6 +108,12 @@
     <Compile Include="AddBranch.Designer.cs">
       <DependentUpon>AddBranch.cs</DependentUpon>
     </Compile>
+    <Compile Include="EditMemberDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditMemberDetails.Designer.cs">
+      <DependentUpon>EditMemberDetails.cs</DependentUpon>
+    </Compile>
     <Compile Include="AddMember.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -136,6 +142,12 @@
     </Compile>
     <Compile Include="DrawingTest.Designer.cs">
       <DependentUpon>DrawingTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditMember.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditMember.Designer.cs">
+      <DependentUpon>EditMember.cs</DependentUpon>
     </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -184,6 +196,9 @@
     <EmbeddedResource Include="AddBranch.resx">
       <DependentUpon>AddBranch.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="EditMemberDetails.resx">
+      <DependentUpon>EditMemberDetails.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AddMember.resx">
       <DependentUpon>AddMember.cs</DependentUpon>
     </EmbeddedResource>
@@ -195,6 +210,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DrawingTest.resx">
       <DependentUpon>DrawingTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditMember.resx">
+      <DependentUpon>EditMember.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
