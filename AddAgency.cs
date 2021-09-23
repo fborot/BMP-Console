@@ -60,7 +60,7 @@ namespace BMP_Console {
                 cmd.Parameters.Add("@agency_postal_code", MySqlDbType.VarChar, tbpostalcode.Text.Length).Value = tbpostalcode.Text;
                 cmd.Parameters.Add("@agency_email", MySqlDbType.VarChar, tbemail.Text.Length).Value = tbemail.Text;
                 cmd.Parameters.Add("@agency_phone_number", MySqlDbType.VarChar, tbphone.Text.Length).Value = tbphone.Text;
-                cmd.Parameters.Add("@name_for_checks", MySqlDbType.VarChar,tbNameChecks.Text.Length ).Value = tbNameChecks;
+                cmd.Parameters.Add("@name_for_checks", MySqlDbType.VarChar,tbNameChecks.Text.Length ).Value = tbNameChecks.Text;
 
                 int res = cmd.ExecuteNonQuery();
                 if (res > 0) {

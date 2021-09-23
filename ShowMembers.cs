@@ -521,6 +521,8 @@ namespace BMP_Console {
                 MessageBox.Show(e.Message, "Error searching for user", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
+            dgmembers.Columns.Clear();
+
             dgmembers.Columns.Add("Member Id", "Member ID");
             dgmembers.Columns.Add("BMP Member Id", "BMP Member ID");
             dgmembers.Columns.Add("Member Name", "Member Name");

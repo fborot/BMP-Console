@@ -56,7 +56,7 @@ namespace BMP_Console {
                 cmd.Parameters.Add("@branch_email", MySqlDbType.VarChar, tbcontactemail.Text.Length).Value = tbcontactemail.Text;
                 cmd.Parameters.Add("@branch_phone_number", MySqlDbType.VarChar, tbcontactphone.Text.Length).Value = tbcontactphone.Text;
                 cmd.Parameters.Add("@branch_agency", MySqlDbType.VarChar, cbagencies.SelectedItem.ToString().Length).Value = cbagencies.SelectedItem.ToString(); 
-                cmd.Parameters.Add("@name_for_checks", MySqlDbType.VarChar, tbChecksName.Text.Length).Value = tbChecksName;
+                cmd.Parameters.Add("@name_for_checks", MySqlDbType.VarChar, tbChecksName.Text.Length).Value = tbChecksName.Text;
 
                 int res = cmd.ExecuteNonQuery();
                 if(res > 0) {
