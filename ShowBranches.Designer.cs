@@ -38,11 +38,11 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.dgBranches);
-            this.groupBox1.Location = new System.Drawing.Point(13, 14);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox1.Location = new System.Drawing.Point(10, 11);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox1.Size = new System.Drawing.Size(1399, 338);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Size = new System.Drawing.Size(1049, 275);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Branches Details";
@@ -55,25 +55,25 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgBranches.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
-            this.dgBranches.ColumnHeadersHeight = 36;
-            this.dgBranches.Location = new System.Drawing.Point(12, 21);
-            this.dgBranches.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.dgBranches.ColumnHeadersHeight = 40;
+            this.dgBranches.Location = new System.Drawing.Point(13, 17);
+            this.dgBranches.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.dgBranches.Name = "dgBranches";
             this.dgBranches.RowHeadersVisible = false;
             this.dgBranches.RowHeadersWidth = 51;
             this.dgBranches.RowTemplate.Height = 24;
             this.dgBranches.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgBranches.Size = new System.Drawing.Size(1381, 304);
+            this.dgBranches.Size = new System.Drawing.Size(1036, 247);
             this.dgBranches.TabIndex = 0;
             this.dgBranches.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgBranches_CellValueChanged);
             // 
             // btDelete
             // 
             this.btDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btDelete.Location = new System.Drawing.Point(917, 359);
-            this.btDelete.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btDelete.Location = new System.Drawing.Point(688, 292);
+            this.btDelete.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btDelete.Name = "btDelete";
-            this.btDelete.Size = new System.Drawing.Size(159, 25);
+            this.btDelete.Size = new System.Drawing.Size(119, 20);
             this.btDelete.TabIndex = 1;
             this.btDelete.Text = "Delete Branch";
             this.btDelete.UseVisualStyleBackColor = true;
@@ -83,10 +83,10 @@
             // 
             this.btCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btCancel.Enabled = false;
-            this.btCancel.Location = new System.Drawing.Point(1100, 359);
-            this.btCancel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btCancel.Location = new System.Drawing.Point(825, 292);
+            this.btCancel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btCancel.Name = "btCancel";
-            this.btCancel.Size = new System.Drawing.Size(124, 25);
+            this.btCancel.Size = new System.Drawing.Size(93, 20);
             this.btCancel.TabIndex = 2;
             this.btCancel.Text = "Cancel and Exit";
             this.btCancel.UseVisualStyleBackColor = true;
@@ -96,10 +96,10 @@
             // 
             this.btSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btSave.Enabled = false;
-            this.btSave.Location = new System.Drawing.Point(1271, 359);
-            this.btSave.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btSave.Location = new System.Drawing.Point(953, 292);
+            this.btSave.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btSave.Name = "btSave";
-            this.btSave.Size = new System.Drawing.Size(141, 25);
+            this.btSave.Size = new System.Drawing.Size(106, 20);
             this.btSave.TabIndex = 3;
             this.btSave.Text = "Save and Exit";
             this.btSave.UseVisualStyleBackColor = true;
@@ -107,15 +107,15 @@
             // 
             // ShowBranches
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1423, 395);
+            this.ClientSize = new System.Drawing.Size(1067, 321);
             this.Controls.Add(this.btSave);
             this.Controls.Add(this.btCancel);
             this.Controls.Add(this.btDelete);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "ShowBranches";
             this.Text = "ShowBranches";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ShowBranches_FormClosing);
