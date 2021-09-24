@@ -51,7 +51,9 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.dgmembers);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(7, 122);
@@ -67,7 +69,9 @@
             // 
             this.dgmembers.AllowUserToAddRows = false;
             this.dgmembers.AllowUserToOrderColumns = true;
-            this.dgmembers.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgmembers.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dgmembers.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
             this.dgmembers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgmembers.Location = new System.Drawing.Point(8, 20);
@@ -78,7 +82,7 @@
             this.dgmembers.RowHeadersWidth = 51;
             this.dgmembers.RowTemplate.Height = 24;
             this.dgmembers.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgmembers.Size = new System.Drawing.Size(1376, 568);
+            this.dgmembers.Size = new System.Drawing.Size(1367, 568);
             this.dgmembers.TabIndex = 0;
             this.dgmembers.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgmembers_CellValueChanged);
             this.dgmembers.MouseUp += new System.Windows.Forms.MouseEventHandler(this.dgmembers_MouseUp);
@@ -159,7 +163,8 @@
             // 
             // gbSearch
             // 
-            this.gbSearch.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.gbSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gbSearch.Controls.Add(this.lFound);
             this.gbSearch.Controls.Add(this.btSearch);
             this.gbSearch.Controls.Add(this.tbPN);
@@ -180,6 +185,7 @@
             // 
             // lFound
             // 
+            this.lFound.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.lFound.AutoSize = true;
             this.lFound.Location = new System.Drawing.Point(1047, 53);
             this.lFound.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -203,6 +209,7 @@
             // 
             // tbPN
             // 
+            this.tbPN.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.tbPN.Location = new System.Drawing.Point(588, 53);
             this.tbPN.Margin = new System.Windows.Forms.Padding(4);
             this.tbPN.Name = "tbPN";
@@ -211,6 +218,7 @@
             // 
             // label3
             // 
+            this.label3.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(583, 19);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -221,6 +229,7 @@
             // 
             // tbLN
             // 
+            this.tbLN.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.tbLN.Location = new System.Drawing.Point(287, 53);
             this.tbLN.Margin = new System.Windows.Forms.Padding(4);
             this.tbLN.Name = "tbLN";
@@ -229,6 +238,7 @@
             // 
             // label2
             // 
+            this.label2.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(297, 19);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -239,6 +249,7 @@
             // 
             // tbMID
             // 
+            this.tbMID.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.tbMID.Location = new System.Drawing.Point(9, 53);
             this.tbMID.Margin = new System.Windows.Forms.Padding(4);
             this.tbMID.Name = "tbMID";
@@ -247,8 +258,9 @@
             // 
             // label1
             // 
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(26, 19);
+            this.label1.Location = new System.Drawing.Point(9, 19);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(76, 17);
@@ -268,7 +280,6 @@
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.MaximizeBox = false;
             this.Name = "ShowMembers";
             this.Text = "ShowMembers";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ShowMembers_FormClosing);
