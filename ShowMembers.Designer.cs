@@ -51,16 +51,14 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.groupBox1.Controls.Add(this.dgmembers);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(15, 146);
+            this.groupBox1.Location = new System.Drawing.Point(7, 122);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.groupBox1.Size = new System.Drawing.Size(1688, 704);
+            this.groupBox1.Size = new System.Drawing.Size(1383, 598);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Members List";
@@ -69,12 +67,10 @@
             // 
             this.dgmembers.AllowUserToAddRows = false;
             this.dgmembers.AllowUserToOrderColumns = true;
-            this.dgmembers.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgmembers.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.dgmembers.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
             this.dgmembers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgmembers.Location = new System.Drawing.Point(6, 24);
+            this.dgmembers.Location = new System.Drawing.Point(8, 20);
             this.dgmembers.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.dgmembers.MultiSelect = false;
             this.dgmembers.Name = "dgmembers";
@@ -82,7 +78,7 @@
             this.dgmembers.RowHeadersWidth = 51;
             this.dgmembers.RowTemplate.Height = 24;
             this.dgmembers.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgmembers.Size = new System.Drawing.Size(1673, 659);
+            this.dgmembers.Size = new System.Drawing.Size(1376, 568);
             this.dgmembers.TabIndex = 0;
             this.dgmembers.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgmembers_CellValueChanged);
             this.dgmembers.MouseUp += new System.Windows.Forms.MouseEventHandler(this.dgmembers_MouseUp);
@@ -90,7 +86,7 @@
             // btDelete
             // 
             this.btDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btDelete.Location = new System.Drawing.Point(865, 880);
+            this.btDelete.Location = new System.Drawing.Point(594, 724);
             this.btDelete.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.btDelete.Name = "btDelete";
             this.btDelete.Size = new System.Drawing.Size(221, 31);
@@ -103,7 +99,7 @@
             // 
             this.btCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btCancel.Enabled = false;
-            this.btCancel.Location = new System.Drawing.Point(1180, 880);
+            this.btCancel.Location = new System.Drawing.Point(873, 724);
             this.btCancel.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.btCancel.Name = "btCancel";
             this.btCancel.Size = new System.Drawing.Size(221, 31);
@@ -116,7 +112,7 @@
             // 
             this.btSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btSave.Enabled = false;
-            this.btSave.Location = new System.Drawing.Point(1475, 880);
+            this.btSave.Location = new System.Drawing.Point(1171, 724);
             this.btSave.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.btSave.Name = "btSave";
             this.btSave.Size = new System.Drawing.Size(219, 31);
@@ -163,8 +159,7 @@
             // 
             // gbSearch
             // 
-            this.gbSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbSearch.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.gbSearch.Controls.Add(this.lFound);
             this.gbSearch.Controls.Add(this.btSearch);
             this.gbSearch.Controls.Add(this.tbPN);
@@ -174,11 +169,11 @@
             this.gbSearch.Controls.Add(this.tbMID);
             this.gbSearch.Controls.Add(this.label1);
             this.gbSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gbSearch.Location = new System.Drawing.Point(16, 16);
+            this.gbSearch.Location = new System.Drawing.Point(8, 14);
             this.gbSearch.Margin = new System.Windows.Forms.Padding(5);
             this.gbSearch.Name = "gbSearch";
             this.gbSearch.Padding = new System.Windows.Forms.Padding(5);
-            this.gbSearch.Size = new System.Drawing.Size(1687, 122);
+            this.gbSearch.Size = new System.Drawing.Size(1383, 93);
             this.gbSearch.TabIndex = 4;
             this.gbSearch.TabStop = false;
             this.gbSearch.Text = "Enter Search Criteria:";
@@ -186,7 +181,7 @@
             // lFound
             // 
             this.lFound.AutoSize = true;
-            this.lFound.Location = new System.Drawing.Point(1009, 68);
+            this.lFound.Location = new System.Drawing.Point(1047, 53);
             this.lFound.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lFound.Name = "lFound";
             this.lFound.Size = new System.Drawing.Size(48, 17);
@@ -197,10 +192,10 @@
             // btSearch
             // 
             this.btSearch.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.btSearch.Location = new System.Drawing.Point(1480, 60);
+            this.btSearch.Location = new System.Drawing.Point(1166, 41);
             this.btSearch.Margin = new System.Windows.Forms.Padding(4);
             this.btSearch.Name = "btSearch";
-            this.btSearch.Size = new System.Drawing.Size(198, 42);
+            this.btSearch.Size = new System.Drawing.Size(198, 35);
             this.btSearch.TabIndex = 6;
             this.btSearch.Text = "Search";
             this.btSearch.UseVisualStyleBackColor = true;
@@ -208,7 +203,7 @@
             // 
             // tbPN
             // 
-            this.tbPN.Location = new System.Drawing.Point(625, 68);
+            this.tbPN.Location = new System.Drawing.Point(588, 53);
             this.tbPN.Margin = new System.Windows.Forms.Padding(4);
             this.tbPN.Name = "tbPN";
             this.tbPN.Size = new System.Drawing.Size(268, 23);
@@ -217,7 +212,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(620, 34);
+            this.label3.Location = new System.Drawing.Point(583, 19);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(103, 17);
@@ -226,7 +221,7 @@
             // 
             // tbLN
             // 
-            this.tbLN.Location = new System.Drawing.Point(324, 68);
+            this.tbLN.Location = new System.Drawing.Point(287, 53);
             this.tbLN.Margin = new System.Windows.Forms.Padding(4);
             this.tbLN.Name = "tbLN";
             this.tbLN.Size = new System.Drawing.Size(268, 23);
@@ -235,7 +230,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(334, 34);
+            this.label2.Location = new System.Drawing.Point(297, 19);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(76, 17);
@@ -244,7 +239,7 @@
             // 
             // tbMID
             // 
-            this.tbMID.Location = new System.Drawing.Point(15, 68);
+            this.tbMID.Location = new System.Drawing.Point(9, 53);
             this.tbMID.Margin = new System.Windows.Forms.Padding(4);
             this.tbMID.Name = "tbMID";
             this.tbMID.Size = new System.Drawing.Size(268, 23);
@@ -253,7 +248,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(10, 34);
+            this.label1.Location = new System.Drawing.Point(26, 19);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(76, 17);
@@ -264,7 +259,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1718, 939);
+            this.ClientSize = new System.Drawing.Size(1404, 762);
             this.Controls.Add(this.gbSearch);
             this.Controls.Add(this.btSave);
             this.Controls.Add(this.btCancel);
