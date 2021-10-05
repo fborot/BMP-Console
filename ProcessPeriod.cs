@@ -99,7 +99,7 @@ namespace BMP_Console {
 
             //res = t_id + "_" + t_type + "_" + t_bmpCustID + "_" + t_amount + "_" + t_agency + "_" + t_branch + "_" + t_plan + "_" + t_recurrency + "_" + t_subscriptionid;
             //rTBResults.SelectionFont = new Font(rTBResults.Font, FontStyle.Bold);
-            rTBResults.AppendText("Transaction#\t" + "Transaction Type\t" + "CustomerID\t\t" + "Amount\t" + "Agency\t\t" + "Branch\t\t" + "Plan\t" + "Recurrency\t" + "SubscriptionID\t" + Environment.NewLine);
+            rTBResults.AppendText("Transaction#\t" + "Transaction Type\t" + "MemberID\t\t" + "Amount\t" + "Agency\t\t" + "Branch\t\t" + "Plan\t" + "Recurrency\t" + "SubscriptionID\t" + Environment.NewLine);
             //rTBResults.SelectionFont = new Font(rTBResults.Font, FontStyle.Regular);
             foreach (TransactionDetail t in transactions)
             {

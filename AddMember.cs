@@ -146,6 +146,7 @@ namespace BMP_Console {
                 }
                 int ndob = Int32.Parse(dtDOB.Value.ToString("yyyyMMdd"));
                 int nStart = Int32.Parse(dtStart.Value.ToString("yyyyMMdd"));
+                DateTime dtEnrollmentDate = dtStart.Value;
                 int nEnd = Int32.Parse(dtEnd.Value.ToString("yyyyMMdd"));
                 int nDAdded = Int32.Parse(DateTime.Now.ToString("yyyyMMdd"));
                 
@@ -168,7 +169,7 @@ namespace BMP_Console {
                             temp_member.cc_expiration_date = IsValidANetExpDate(CCExpDate);
                             temp_member.cc_info = CCInfo.Substring(4,4);
                             string subscriptionID = "";
-                            if (CreateSubscriptionFromProfile(Form1.APILoginID, Form1.APITransactionKey, interval, temp_member.bmp_id, tempProfile.CustomerProfileID, tempProfile.CustomerPayProfileID, tempProfile.CustomerShProfileID, tbRecurringTotal.Text, ref subscriptionID)) {
+                            if (CreateSubscriptionFromProfile(Form1.APILoginID, Form1.APITransactionKey, dtEnrollmentDate, interval, temp_member.bmp_id, tempProfile.CustomerProfileID, tempProfile.CustomerPayProfileID, tempProfile.CustomerShProfileID, tbRecurringTotal.Text, ref subscriptionID)) {
                                 if (SaveMemberInDB(temp_member)) {
                                     MessageBox.Show("Member Successfully Created", "Saving member in Database", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                     if (NumberMembers > 0) {
@@ -900,7 +901,7 @@ namespace BMP_Console {
             return prof;            
         }
 
-        public bool CreateSubscriptionFromProfile(String ApiLoginID, String ApiTransactionKey, short intervalLength,string bmp_id, string customerProfileId, string customerPaymentProfileId, string customerAddressId, string str_amount, ref string subs_id) {
+        public bool CreateSubscriptionFromProfile(String ApiLoginID, String ApiTransactionKey, DateTime EnrrolmentDate, short intervalLength,string bmp_id, string customerProfileId, string customerPaymentProfileId, string customerAddressId, string str_amount, ref string subs_id) {
             bool res = false;
 
             //ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = AuthorizeNet.Environment.SANDBOX;
@@ -927,7 +928,8 @@ namespace BMP_Console {
 
             paymentScheduleType schedule = new paymentScheduleType {
                 interval = interval,
-                startDate = DateTime.Now.AddMonths(intervalLength),      // start date should be tomorrow
+                //startDate = DateTime.Now.AddMonths(intervalLength),      // 
+                startDate = EnrrolmentDate.AddMonths(intervalLength),      // FB 20211005 I cnaged it to use Enrollment date instead of Now bc they dont add the member necesseraly the same day that they user enroll in the web site
                 //testing///////////////////////////////////
                 //startDate = DateTime.Now.AddDays(7),      // start date should be tomorrow
                 totalOccurrences = 9999,                          // 999 indicates no end date
