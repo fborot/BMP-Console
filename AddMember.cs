@@ -929,7 +929,7 @@ namespace BMP_Console {
             paymentScheduleType schedule = new paymentScheduleType {
                 interval = interval,
                 //startDate = DateTime.Now.AddMonths(intervalLength),      // 
-                startDate = EnrrolmentDate.AddMonths(intervalLength),      // FB 20211005 I cnaged it to use Enrollment date instead of Now bc they dont add the member necesseraly the same day that they user enroll in the web site
+                startDate = EnrrolmentDate.AddMonths(intervalLength),      // FB 20211005 I changed it to use Enrollment date instead of Now bc they dont add the member necesseraly the same day that they user enroll in the web site
                 //testing///////////////////////////////////
                 //startDate = DateTime.Now.AddDays(7),      // start date should be tomorrow
                 totalOccurrences = 9999,                          // 999 indicates no end date
