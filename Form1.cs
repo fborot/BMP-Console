@@ -142,6 +142,7 @@ namespace BMP_Console {
                 Font_Size = source.Configs["Printer"].GetInt("FontSize", 12);
 
                 mySQLConnectionString = "server=" + db_host + ";uid=" + db_user + ";pwd=" + db_password + ";database=" + db_name + ";Connect Timeout=" + db_connect_timeout.ToString();
+                //mySQLConnectionString = "server=db-mysql-nyc3-68572-do-user-2952478-0.b.db.ondigitalocean.com;uid=doadmin;pwd=4fmj6HspAFi1SQwg;database=" + db_name + ";Port=25060;Connect Timeout=" + db_connect_timeout.ToString();
 
                 res = true;
                 return res;
