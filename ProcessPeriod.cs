@@ -1063,6 +1063,7 @@ namespace BMP_Console {
         }
 
         private void bPrint_Click(object sender, EventArgs e) {
+            checks_counter = 0;
             printDialog1.Document = printDocument1;
             if (printDialog1.ShowDialog() == DialogResult.OK)
             {
