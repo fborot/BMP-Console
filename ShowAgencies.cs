@@ -81,12 +81,12 @@ namespace BMP_Console {
 
             dgAgencies.Columns.Add("Agency Id", "Agency ID");
             dgAgencies.Columns.Add("Agency Name", "Agency Name");
-            dgAgencies.Columns.Add("Agency Address", "Agency Address");
-            dgAgencies.Columns.Add("Agency Address2", "Agency Address2");
-            dgAgencies.Columns.Add("Agency Postal Code", "Agency Postal Code");
-            dgAgencies.Columns.Add("Agency Contact Name", "Agency Contact Name");
-            dgAgencies.Columns.Add("Agency Contact Email", "Agency Contact Email");
-            dgAgencies.Columns.Add("Agency Phone Number", "Agency Phone Number");
+            dgAgencies.Columns.Add("Agency Address", "Address");
+            dgAgencies.Columns.Add("Agency Address2", "Address2");
+            dgAgencies.Columns.Add("Agency Postal Code", "Postal Code");
+            dgAgencies.Columns.Add("Agency Contact Name", "Contact Name");
+            dgAgencies.Columns.Add("Agency Contact Email", "Contact Email");
+            dgAgencies.Columns.Add("Agency Phone Number", "Phone Number");
             dgAgencies.Columns.Add("Name For Checks", "Name For Checks");
 
             dgAgencies.Rows.Clear();

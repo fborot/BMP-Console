@@ -82,14 +82,14 @@ namespace BMP_Console {
 
             dgBranches.Columns.Add("Branch Id", "Branch ID");
             dgBranches.Columns.Add("Branch Name", "Branch Name");
-            dgBranches.Columns.Add("Branch Address", "Branch Address");
-            dgBranches.Columns.Add("Branch Address2", "Branch Address2");
-            dgBranches.Columns.Add("Branch Postal Code", "Branch Postal Code");
-            dgBranches.Columns.Add("Branch Contact Name", "Branch Contact Name");
-            dgBranches.Columns.Add("Branch Contact Email", "Branch Contact Email");
-            dgBranches.Columns.Add("Branch Phone Number", "Branch Phone Number");
-            dgBranches.Columns.Add("Branch Agency", "Branch Agency");
-            dgBranches.Columns.Add("Name for Checks", "Name for Checks");
+            dgBranches.Columns.Add("Branch Address", "Address");
+            dgBranches.Columns.Add("Branch Address2", "Address2");
+            dgBranches.Columns.Add("Branch Postal Code", "Postal Code");
+            dgBranches.Columns.Add("Branch Contact Name", "Contact Name");
+            dgBranches.Columns.Add("Branch Contact Email", "Contact Email");
+            dgBranches.Columns.Add("Branch Phone Number", "Phone Number");
+            dgBranches.Columns.Add("Branch Agency", "Agency");
+            dgBranches.Columns.Add("Name for Checks", "Payment Name");
 
             dgBranches.Rows.Clear();
 
