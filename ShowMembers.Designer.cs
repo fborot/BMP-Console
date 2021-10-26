@@ -134,32 +134,35 @@
             this.toolStripSeparator1,
             this.disableToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(211, 76);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(247, 110);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // showTransactionsHistoryToolStripMenuItem
             // 
             this.showTransactionsHistoryToolStripMenuItem.Name = "showTransactionsHistoryToolStripMenuItem";
-            this.showTransactionsHistoryToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.showTransactionsHistoryToolStripMenuItem.Size = new System.Drawing.Size(246, 24);
             this.showTransactionsHistoryToolStripMenuItem.Text = "Show TransactionsHistory";
+            this.showTransactionsHistoryToolStripMenuItem.Click += new System.EventHandler(this.showTransactionsHistoryToolStripMenuItem_Click);
             // 
             // showPaymentStatusToolStripMenuItem
             // 
             this.showPaymentStatusToolStripMenuItem.Name = "showPaymentStatusToolStripMenuItem";
-            this.showPaymentStatusToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.showPaymentStatusToolStripMenuItem.Size = new System.Drawing.Size(246, 24);
             this.showPaymentStatusToolStripMenuItem.Text = "Show Payment Status";
+            this.showPaymentStatusToolStripMenuItem.Click += new System.EventHandler(this.showPaymentStatusToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(207, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(243, 6);
             // 
             // disableToolStripMenuItem
             // 
             this.disableToolStripMenuItem.ForeColor = System.Drawing.Color.Red;
             this.disableToolStripMenuItem.Name = "disableToolStripMenuItem";
-            this.disableToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.disableToolStripMenuItem.Size = new System.Drawing.Size(246, 24);
             this.disableToolStripMenuItem.Text = "Disable";
+            this.disableToolStripMenuItem.Click += new System.EventHandler(this.disableToolStripMenuItem_Click);
             // 
             // gbSearch
             // 
@@ -190,7 +193,7 @@
             this.lFound.Location = new System.Drawing.Point(1047, 53);
             this.lFound.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lFound.Name = "lFound";
-            this.lFound.Size = new System.Drawing.Size(48, 17);
+            this.lFound.Size = new System.Drawing.Size(55, 20);
             this.lFound.TabIndex = 7;
             this.lFound.Text = "Found";
             this.lFound.Visible = false;
@@ -213,7 +216,7 @@
             this.tbPN.Location = new System.Drawing.Point(588, 53);
             this.tbPN.Margin = new System.Windows.Forms.Padding(4);
             this.tbPN.Name = "tbPN";
-            this.tbPN.Size = new System.Drawing.Size(268, 23);
+            this.tbPN.Size = new System.Drawing.Size(268, 27);
             this.tbPN.TabIndex = 5;
             // 
             // label3
@@ -223,7 +226,7 @@
             this.label3.Location = new System.Drawing.Point(583, 19);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(103, 17);
+            this.label3.Size = new System.Drawing.Size(120, 20);
             this.label3.TabIndex = 4;
             this.label3.Text = "Phone Number";
             // 
@@ -233,7 +236,7 @@
             this.tbLN.Location = new System.Drawing.Point(287, 53);
             this.tbLN.Margin = new System.Windows.Forms.Padding(4);
             this.tbLN.Name = "tbLN";
-            this.tbLN.Size = new System.Drawing.Size(268, 23);
+            this.tbLN.Size = new System.Drawing.Size(268, 27);
             this.tbLN.TabIndex = 3;
             // 
             // label2
@@ -243,7 +246,7 @@
             this.label2.Location = new System.Drawing.Point(297, 19);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(76, 17);
+            this.label2.Size = new System.Drawing.Size(91, 20);
             this.label2.TabIndex = 2;
             this.label2.Text = "Last Name";
             // 
@@ -253,7 +256,7 @@
             this.tbMID.Location = new System.Drawing.Point(9, 53);
             this.tbMID.Margin = new System.Windows.Forms.Padding(4);
             this.tbMID.Name = "tbMID";
-            this.tbMID.Size = new System.Drawing.Size(268, 23);
+            this.tbMID.Size = new System.Drawing.Size(268, 27);
             this.tbMID.TabIndex = 1;
             // 
             // label1
@@ -263,13 +266,13 @@
             this.label1.Location = new System.Drawing.Point(9, 19);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(76, 17);
+            this.label1.Size = new System.Drawing.Size(92, 20);
             this.label1.TabIndex = 0;
             this.label1.Text = "Member ID";
             // 
             // ShowMembers
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1404, 762);
             this.Controls.Add(this.gbSearch);

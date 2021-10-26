@@ -382,7 +382,7 @@ namespace BMP_Console {
         private void dgmembers_MouseUp(object sender, MouseEventArgs e) {
            if (e.Button == MouseButtons.Right) {
                 int rIndex = dgmembers.HitTest(e.X, e.Y).RowIndex;
-                //MessageBox.Show("Row " + rIndex + " has been selected", "Hey");
+                MessageBox.Show("Row " + rIndex + " has been selected", "Hey");
                 contextMenuStrip1.Show(dgmembers, new Point(e.X, e.Y));
             }
             
@@ -617,6 +617,18 @@ namespace BMP_Console {
             }
 
             return res;
+        }
+
+        private void showTransactionsHistoryToolStripMenuItem_Click(object sender, EventArgs e) {
+            MessageBox.Show("show x history", "context menu", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        private void showPaymentStatusToolStripMenuItem_Click(object sender, EventArgs e) {
+            MessageBox.Show("show pay status", "context menu", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        private void disableToolStripMenuItem_Click(object sender, EventArgs e) {
+            MessageBox.Show("delete", "context menu", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }
