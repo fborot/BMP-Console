@@ -36,6 +36,7 @@ namespace BMP_Console {
         static public string db_user = string.Empty;
         static public string db_password = string.Empty;
         static public int db_connect_timeout = 5;
+        static public int db_port = 25060;
 
         static public string mySQLConnectionString = string.Empty;
 
@@ -133,6 +134,7 @@ namespace BMP_Console {
                 db_password = source.Configs["Database"].Get("Password", "bmp@dm1n");
                 db_name = source.Configs["Database"].Get("DBName", "bmp");
                 db_connect_timeout = source.Configs["Database"].GetInt("ConnectTimeout", 5);
+                db_port = source.Configs["Database"].GetInt("Port", 25060);
 
                 APILoginID = source.Configs["AuthorizedNet"].Get("APILoginID", "3GQB2ens6x");
                 APITransactionKey = source.Configs["AuthorizedNet"].Get("APITransactionKey", "9887PZn64wQ3rTxk");
@@ -141,7 +143,7 @@ namespace BMP_Console {
                 Y_Offset = source.Configs["Printer"].GetInt("Y_Offset", 5);
                 Font_Size = source.Configs["Printer"].GetInt("FontSize", 12);
 
-                mySQLConnectionString = "server=" + db_host + ";uid=" + db_user + ";pwd=" + db_password + ";database=" + db_name + ";Connect Timeout=" + db_connect_timeout.ToString();
+                mySQLConnectionString = "server=" + db_host + ";uid=" + db_user + ";pwd=" + db_password + ";database=" + db_name + ";Port=" + db_port.ToString() + ";Connect Timeout=" + db_connect_timeout.ToString();
                 //mySQLConnectionString = "server=db-mysql-nyc3-68572-do-user-2952478-0.b.db.ondigitalocean.com;uid=doadmin;pwd=4fmj6HspAFi1SQwg;database=" + db_name + ";Port=25060;Connect Timeout=" + db_connect_timeout.ToString();
 
                 res = true;
