@@ -223,15 +223,12 @@ namespace BMP_Console {
 
         private void dgmembers_MouseUp(object sender, MouseEventArgs e) {
            if (e.Button == MouseButtons.Right) {
-                int rIndex = dgmembers.HitTest(e.X, e.Y).RowIndex;
-                MessageBox.Show("Row " + rIndex + " has been selected", "Hey");
+                //int rIndex = dgmembers.HitTest(e.X, e.Y).RowIndex;
+                int rIndex = Int32.Parse(dgmembers.Rows[dgmembers.SelectedRows[0].Index].Cells[0].Value.ToString());
+                MessageBox.Show("MemberID " + rIndex + " has been selected", "Hey");
                 contextMenuStrip1.Show(dgmembers, new Point(e.X, e.Y));
             }
             
-        }
-
-        private void contextMenuStrip1_Opening(object sender, CancelEventArgs e) {
-
         }
 
         private void btSearch_Click(object sender, EventArgs e)
@@ -500,7 +497,9 @@ namespace BMP_Console {
         }
 
         private void disableToolStripMenuItem_Click(object sender, EventArgs e) {
-            MessageBox.Show("delete", "context menu", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            int m_id = Int32.Parse(dgmembers.Rows[dgmembers.SelectedRows[0].Index].Cells[0].Value.ToString());
+
+            MessageBox.Show("Disable Member -> " + m_id.ToString(), "context menu", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }

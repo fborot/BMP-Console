@@ -72,6 +72,7 @@
             this.dgmembers.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgmembers.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgmembers.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
             this.dgmembers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgmembers.Location = new System.Drawing.Point(8, 20);
@@ -134,8 +135,7 @@
             this.toolStripSeparator1,
             this.disableToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(247, 110);
-            this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(247, 82);
             // 
             // showTransactionsHistoryToolStripMenuItem
             // 
@@ -161,7 +161,7 @@
             this.disableToolStripMenuItem.ForeColor = System.Drawing.Color.Red;
             this.disableToolStripMenuItem.Name = "disableToolStripMenuItem";
             this.disableToolStripMenuItem.Size = new System.Drawing.Size(246, 24);
-            this.disableToolStripMenuItem.Text = "Disable";
+            this.disableToolStripMenuItem.Text = "Disable Member";
             this.disableToolStripMenuItem.Click += new System.EventHandler(this.disableToolStripMenuItem_Click);
             // 
             // gbSearch
@@ -285,6 +285,7 @@
             this.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.Name = "ShowMembers";
             this.Text = "ShowMembers";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ShowMembers_FormClosing);
             this.Load += new System.EventHandler(this.ShowMembers_Load);
             this.groupBox1.ResumeLayout(false);

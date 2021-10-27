@@ -38,11 +38,11 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.dgAgencies);
-            this.groupBox1.Location = new System.Drawing.Point(10, 11);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Location = new System.Drawing.Point(13, 14);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.groupBox1.Size = new System.Drawing.Size(964, 233);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox1.Size = new System.Drawing.Size(1285, 287);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Agencies Details";
@@ -54,26 +54,27 @@
             this.dgAgencies.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgAgencies.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgAgencies.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
             this.dgAgencies.ColumnHeadersHeight = 40;
-            this.dgAgencies.Location = new System.Drawing.Point(5, 18);
-            this.dgAgencies.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dgAgencies.Location = new System.Drawing.Point(7, 22);
+            this.dgAgencies.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dgAgencies.Name = "dgAgencies";
             this.dgAgencies.RowHeadersVisible = false;
             this.dgAgencies.RowHeadersWidth = 80;
             this.dgAgencies.RowTemplate.Height = 24;
             this.dgAgencies.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgAgencies.Size = new System.Drawing.Size(955, 201);
+            this.dgAgencies.Size = new System.Drawing.Size(1273, 247);
             this.dgAgencies.TabIndex = 0;
             this.dgAgencies.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgAgencies_CellValueChanged);
             // 
             // btDelete
             // 
             this.btDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btDelete.Location = new System.Drawing.Point(542, 249);
-            this.btDelete.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btDelete.Location = new System.Drawing.Point(723, 306);
+            this.btDelete.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btDelete.Name = "btDelete";
-            this.btDelete.Size = new System.Drawing.Size(142, 20);
+            this.btDelete.Size = new System.Drawing.Size(189, 25);
             this.btDelete.TabIndex = 1;
             this.btDelete.Text = "Delete Agency";
             this.btDelete.UseVisualStyleBackColor = true;
@@ -83,10 +84,10 @@
             // 
             this.btCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btCancel.Enabled = false;
-            this.btCancel.Location = new System.Drawing.Point(704, 248);
-            this.btCancel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btCancel.Location = new System.Drawing.Point(939, 305);
+            this.btCancel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btCancel.Name = "btCancel";
-            this.btCancel.Size = new System.Drawing.Size(133, 20);
+            this.btCancel.Size = new System.Drawing.Size(177, 25);
             this.btCancel.TabIndex = 2;
             this.btCancel.Text = "Cancel and Exit";
             this.btCancel.UseVisualStyleBackColor = true;
@@ -96,10 +97,10 @@
             // 
             this.btSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btSave.Enabled = false;
-            this.btSave.Location = new System.Drawing.Point(855, 248);
-            this.btSave.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btSave.Location = new System.Drawing.Point(1140, 305);
+            this.btSave.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btSave.Name = "btSave";
-            this.btSave.Size = new System.Drawing.Size(114, 20);
+            this.btSave.Size = new System.Drawing.Size(152, 25);
             this.btSave.TabIndex = 3;
             this.btSave.Text = "Save and Exit";
             this.btSave.UseVisualStyleBackColor = true;
@@ -107,15 +108,15 @@
             // 
             // ShowAgencies
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(983, 289);
+            this.ClientSize = new System.Drawing.Size(1311, 356);
             this.Controls.Add(this.btSave);
             this.Controls.Add(this.btCancel);
             this.Controls.Add(this.btDelete);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "ShowAgencies";
             this.Text = "ShowAgencies";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ShowAgencies_FormClosing);
