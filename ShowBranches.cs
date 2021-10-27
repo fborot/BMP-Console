@@ -93,6 +93,8 @@ namespace BMP_Console {
 
             dgBranches.Rows.Clear();
 
+            dgBranches.Columns[0].Visible = false;
+
             for (int i = 0; i < BranchesContainer.Count; i++) {
                 DataGridViewRow newRow = new DataGridViewRow();
 

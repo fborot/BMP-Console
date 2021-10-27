@@ -47,168 +47,10 @@ namespace BMP_Console {
         }
 
         private void ShowMembers_Load(object sender, EventArgs e) {
-
-            //if (!PingDB())
-            //{
-            //    MessageBox.Show("Can not connect to the database", "Processing Period", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //    return;
-            //}
-
-            //MySqlConnection conn = null;
-            //conn = new MySql.Data.MySqlClient.MySqlConnection();
-            //conn.ConnectionString = Form1.mySQLConnectionString;
-            //conn.Open();
-            //MySqlCommand cmd = new MySqlCommand("select * from members order by member_id", conn);
-            //MySqlDataReader ret = cmd.ExecuteReader();
-
-            //MembersContainer.Clear();            
-            //while (ret.Read()) {
-
-            //    int id = ret.GetInt32(0);
-            //    string bmp_id = ret.GetString(1);
-            //    string name = ret.GetString(2);
-            //    string mi = ret.GetString(3);
-            //    string lastname = ret.GetString(4);
-            //    string email = ret.GetString(5).ToString();
-            //    string language = ret.GetString(6);
-            //    string marital_status = ret.GetString(7);
-            //    string gender = ret.GetString(8);
-            //    int dob = ret.GetInt32(9);
-            //    string home_ph = ret.GetString(10);
-            //    string mobile_ph = ret.GetString(11);
-            //    string other_ph = ret.GetString(12);
-            //    string address = ret.GetString(13);
-            //    string address2 = ret.GetString(14);
-            //    string city_ = ret.GetString(15);
-            //    string state = ret.GetString(16);
-            //    string postal_code = ret.GetString(17);
-            //    string shipping_address = ret.GetString(18);
-            //    string shipping_address2 = ret.GetString(19);
-            //    string shipping_city = ret.GetString(20);
-            //    string shipping_state = ret.GetString(21);
-            //    string shipping_pcode= ret.GetString(22);
-            //    short use_home = ret.GetInt16(23);
-            //    string ptype = ret.GetString(24);
-            //    string pname = ret.GetString(25);
-            //    float rec_total = ret.GetFloat(26);
-            //    int start_d = ret.GetInt32(27);
-            //    int end_d = ret.GetInt32(28);
-            //    short num = ret.GetInt16(29);
-            //    string agcy_id = ret.GetString(30);
-            //    string branch_id = ret.GetString(31);
-            //    short recurrency = ret.GetInt16(32);
-            //    string cc_info = ret.GetString(33);
-            //    string cc_type = ret.GetString(34);
-            //    string cc_exp_date = ret.GetString(35);
-            //    short cc_auto = ret.GetInt16(36);
-            //    int dateadded = ret.GetInt32(37);
-            //    string policy_holder = ret.GetString(38);
-            //    string relationship = ret.GetString(39);
-
-            //    MembersContainer.Add(new member(id.ToString(),bmp_id,name,mi,lastname,email,language,marital_status,gender,dob,home_ph,mobile_ph,other_ph,address,address2,city_,state,postal_code,
-            //        shipping_address,shipping_address2,shipping_city,shipping_state,shipping_pcode,use_home,ptype,pname,rec_total,start_d,end_d,num,agcy_id,branch_id, recurrency, cc_info,cc_type,cc_exp_date,cc_auto,dateadded,policy_holder, relationship));
-
-            //}
-            //ret.Close();
-            //conn.Close();
-
-            //dgmembers.Columns.Add("Member Id", "Member ID");
-            //dgmembers.Columns.Add("BMP Member Id", "BMP Member ID");
-            //dgmembers.Columns.Add("Member Name", "Member Name");
-            //dgmembers.Columns.Add("Middle Initial", "Middle Initial");
-            //dgmembers.Columns.Add("Last Name", "Last Name");
-            //dgmembers.Columns.Add("Email", "Email");
-            //dgmembers.Columns.Add("Language", "Language");
-            //dgmembers.Columns.Add("Marital Status", "Marital Status");
-            //dgmembers.Columns.Add("Gender", "Gender");
-            //dgmembers.Columns.Add("DoB", "Date of Birth");
-            //dgmembers.Columns.Add("Home Phone Name", "Home Phone Number");
-            //dgmembers.Columns.Add("Mobile Phone Number", "Mobile Phone Number");
-            //dgmembers.Columns.Add("Other Phone NUmber", "Other Phone Number");
-            //dgmembers.Columns.Add("Address", "Address");
-            //dgmembers.Columns.Add("Address2", "Address2");
-            //dgmembers.Columns.Add("City", "City");
-            //dgmembers.Columns.Add("State", "State");
-            //dgmembers.Columns.Add("Postal Code", "Postal Code");
-            //dgmembers.Columns.Add("Shipping Address", "Shipping Address");
-            //dgmembers.Columns.Add("Shipping Address2", "Shipping Address2");
-            //dgmembers.Columns.Add("Shipping City", "Shipping City");
-            //dgmembers.Columns.Add("Shipping State", "Shipping State");
-            //dgmembers.Columns.Add("Shipping Postal Code", "Shipping Postal Code");
-            //dgmembers.Columns.Add("Use Home Address", "Use Home Address");
-            //dgmembers.Columns.Add("Plan Name", "Plan Name");
-            //dgmembers.Columns.Add("Plan Type", "Plan Type");
-            //dgmembers.Columns.Add("Recurring Charges", "Recurring Charges");
-            //dgmembers.Columns.Add("Start Date", "Start Date");
-            //dgmembers.Columns.Add("End Date", "End Date");
-            //dgmembers.Columns.Add("Num of Members", "Num of Members");
-            //dgmembers.Columns.Add("Agency", "Agency");
-            //dgmembers.Columns.Add("Branch", "Branch");
-            //dgmembers.Columns.Add("Recurrency", "Recurrency");
-            //dgmembers.Columns.Add("CC Info", "CC Info");
-            //dgmembers.Columns.Add("CC Type", "CC Type");
-            //dgmembers.Columns.Add("CC Exp Date", "CC Exp Date");
-            //dgmembers.Columns.Add("CC Auto Pay", "CC Auto Pay");
-            //dgmembers.Columns.Add("Date Added", "Date Added");
-            //dgmembers.Columns.Add("Policy Holder", "Policy Holder");
-            //dgmembers.Columns.Add("Relationship", "Relationship");
-
-            //dgmembers.Rows.Clear();
-
-            //for (int i = 0; i < MembersContainer.Count; i++) {
-            //    DataGridViewRow newRow = new DataGridViewRow();
-
-            //    newRow.CreateCells(dgmembers);
-            //    member m = (member)(MembersContainer[i]);
-            //    newRow.Cells[0].Value = m.member_id.ToString();
-            //    newRow.Cells[1].Value = m.bmp_id;
-            //    newRow.Cells[2].Value = m.name;
-            //    newRow.Cells[3].Value = m.mi;
-            //    newRow.Cells[4].Value = m.last_name;
-            //    newRow.Cells[5].Value = m.email;
-            //    newRow.Cells[6].Value = m.language;
-            //    newRow.Cells[7].Value = m.marital_status;
-            //    newRow.Cells[8].Value = m.gender;
-            //    newRow.Cells[9].Value = m.dob;
-            //    newRow.Cells[10].Value = m.home_phone_number;
-            //    newRow.Cells[11].Value = m.mobile_phone_number;
-            //    newRow.Cells[12].Value = m.other_phone_number;
-            //    newRow.Cells[13].Value = m.address;
-            //    newRow.Cells[14].Value = m.address2;
-            //    newRow.Cells[15].Value = m.city;
-            //    newRow.Cells[16].Value = m.state;
-            //    newRow.Cells[17].Value = m.postal_code;
-            //    newRow.Cells[18].Value = m.shipping_address;
-            //    newRow.Cells[19].Value = m.shipping_address2;
-            //    newRow.Cells[20].Value = m.shipping_city;
-            //    newRow.Cells[21].Value = m.shipping_state;
-            //    newRow.Cells[22].Value = m.shipping_postal_code;
-            //    newRow.Cells[23].Value = m.use_home_as_shipping_address;
-            //    newRow.Cells[24].Value = m.plan_name;
-            //    newRow.Cells[25].Value = m.plan_type;
-            //    newRow.Cells[26].Value = m.recurring_total;
-            //    newRow.Cells[27].Value = m.start_date;
-            //    newRow.Cells[28].Value = m.end_date;
-            //    newRow.Cells[29].Value = m.number_members;
-            //    newRow.Cells[30].Value = m.agencyID;
-            //    newRow.Cells[31].Value = m.branchID;
-            //    newRow.Cells[32].Value = m.recurrency;
-            //    newRow.Cells[33].Value = m.cc_info;
-            //    newRow.Cells[34].Value = m.cc_type;
-            //    newRow.Cells[35].Value = m.cc_expiration_date;
-            //    newRow.Cells[36].Value = m.cc_auto_pay;
-            //    newRow.Cells[37].Value = m.dateadded;
-            //    newRow.Cells[38].Value = m.policy_holder;
-            //    newRow.Cells[39].Value = m.relationship;
-
-            //    dgmembers.Rows.Add(newRow);
-            //}
-
             if (!DipIntoDB())
             {
                 MessageBox.Show("An error ocurred!. The record could not be found, please contact Support", "Error searching for user", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
         }
 
         private void ShowMembers_FormClosing(object sender, FormClosingEventArgs e) {
@@ -566,12 +408,42 @@ namespace BMP_Console {
 
             dgmembers.Rows.Clear();
 
+            dgmembers.Columns[0].Visible = false;
+            dgmembers.Columns[5].Visible = false;
+            dgmembers.Columns[6].Visible = false;
+            dgmembers.Columns[7].Visible = false;
+            dgmembers.Columns[8].Visible = false;
+            dgmembers.Columns[9].Visible = false;
+            dgmembers.Columns[11].Visible = false;
+            dgmembers.Columns[12].Visible = false;
+            dgmembers.Columns[13].Visible = false;
+            dgmembers.Columns[14].Visible = false;
+            dgmembers.Columns[15].Visible = false;
+            dgmembers.Columns[16].Visible = false;
+            dgmembers.Columns[17].Visible = false;
+            dgmembers.Columns[18].Visible = false;
+            dgmembers.Columns[19].Visible = false;
+            dgmembers.Columns[20].Visible = false;
+            dgmembers.Columns[21].Visible = false;
+            dgmembers.Columns[22].Visible = false;
+            dgmembers.Columns[23].Visible = false;
+            dgmembers.Columns[24].Visible = false;
+            dgmembers.Columns[25].Visible = false;
+            dgmembers.Columns[28].Visible = false;
+            dgmembers.Columns[29].Visible = false;
+            dgmembers.Columns[33].Visible = false;
+            dgmembers.Columns[34].Visible = false;
+            dgmembers.Columns[35].Visible = false;
+            dgmembers.Columns[36].Visible = false;
+
             for (int i = 0; i < MembersContainer.Count; i++)
             {
                 DataGridViewRow newRow = new DataGridViewRow();
 
                 newRow.CreateCells(dgmembers);
+
                 member m = (member)(MembersContainer[i]);
+
                 newRow.Cells[0].Value = m.member_id.ToString();
                 newRow.Cells[1].Value = m.bmp_id;
                 newRow.Cells[2].Value = m.name;

@@ -89,6 +89,8 @@ namespace BMP_Console {
             dgAgencies.Columns.Add("Agency Phone Number", "Phone Number");
             dgAgencies.Columns.Add("Name For Checks", "Name For Checks");
 
+            dgAgencies.Columns[0].Visible = false;
+
             dgAgencies.Rows.Clear();
 
             for (int i = 0; i < AgenciesContainer.Count; i++) {
