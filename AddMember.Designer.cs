@@ -746,6 +746,7 @@
             this.cbRecurrency.Name = "cbRecurrency";
             this.cbRecurrency.Size = new System.Drawing.Size(84, 28);
             this.cbRecurrency.TabIndex = 19;
+            this.cbRecurrency.TextChanged += new System.EventHandler(this.cbRecurrency_TextChanged);
             // 
             // cbBranchID
             // 
@@ -856,6 +857,7 @@
             // tbRecurringTotal
             // 
             this.tbRecurringTotal.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.tbRecurringTotal.Enabled = false;
             this.tbRecurringTotal.Location = new System.Drawing.Point(8, 109);
             this.tbRecurringTotal.Margin = new System.Windows.Forms.Padding(4);
             this.tbRecurringTotal.Name = "tbRecurringTotal";
@@ -906,6 +908,7 @@
             this.cbPlanType.Name = "cbPlanType";
             this.cbPlanType.Size = new System.Drawing.Size(157, 28);
             this.cbPlanType.TabIndex = 2;
+            this.cbPlanType.TextChanged += new System.EventHandler(this.cbPlanType_TextChanged);
             // 
             // label20
             // 

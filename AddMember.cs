@@ -584,6 +584,7 @@ namespace BMP_Console {
                 int c = PlansContainer.Count;
                 cbPlanType.Items.Clear();
                 cbRecurrency.Items.Clear();
+                tbRecurringTotal.Text = "";
                 for (int i = 0; i < c; i++) {
                     plan t_plan = (plan)PlansContainer[i];
                     string t_pname = t_plan.p_name;
@@ -1408,5 +1409,80 @@ namespace BMP_Console {
             return res;
         }
 
+        private void cbRecurrency_TextChanged(object sender, EventArgs e) {
+            SetRecurringTotal();
+        }
+
+        private void cbPlanType_TextChanged(object sender, EventArgs e) {
+            SetRecurringTotal();
+        }
+
+        private void SetRecurringTotal() {
+            if (cbPlanType.SelectedItem != null && cbPlanType.SelectedItem != null && cbRecurrency.SelectedItem != null) {
+
+                tbRecurringTotal.Text = "";
+
+                if (cbPlanName.SelectedItem.ToString().ToLower() == "core") {
+                    if (cbPlanType.SelectedItem.ToString().ToLower() == "single") {
+                        if (cbRecurrency.SelectedItem.ToString() == "3") {
+                            tbRecurringTotal.Text = "90";
+                        } else if (cbRecurrency.SelectedItem.ToString() == "6") {
+                            tbRecurringTotal.Text = "150";
+                        } else if (cbRecurrency.SelectedItem.ToString() == "12") {
+                            tbRecurringTotal.Text = "240";
+                        }
+                    } else if (cbPlanType.SelectedItem.ToString().ToLower() == "family") {
+                        if (cbRecurrency.SelectedItem.ToString() == "3") {
+                            tbRecurringTotal.Text = "135";
+                        } else if (cbRecurrency.SelectedItem.ToString() == "6") {
+                            tbRecurringTotal.Text = "240";
+                        } else if (cbRecurrency.SelectedItem.ToString() == "12") {
+                            tbRecurringTotal.Text = "420";
+                        }
+                    }
+                }
+
+                if (cbPlanName.SelectedItem.ToString().ToLower() == "core plus") {
+                    if (cbPlanType.SelectedItem.ToString().ToLower() == "single") {
+                        if (cbRecurrency.SelectedItem.ToString() == "3") {
+                            tbRecurringTotal.Text = "120";
+                        } else if (cbRecurrency.SelectedItem.ToString() == "6") {
+                            tbRecurringTotal.Text = "210";
+                        } else if (cbRecurrency.SelectedItem.ToString() == "12") {
+                            tbRecurringTotal.Text = "360";
+                        }
+                    } else if (cbPlanType.SelectedItem.ToString().ToLower() == "family") {
+                        if (cbRecurrency.SelectedItem.ToString() == "3") {
+                            tbRecurringTotal.Text = "180";
+                        } else if (cbRecurrency.SelectedItem.ToString() == "6") {
+                            tbRecurringTotal.Text = "330";
+                        } else if (cbRecurrency.SelectedItem.ToString() == "12") {
+                            tbRecurringTotal.Text = "600";
+                        }
+                    }
+                }
+
+                if (cbPlanName.SelectedItem.ToString().ToLower() == "bmp plus") {
+                    if (cbPlanType.SelectedItem.ToString().ToLower() == "single") {
+                        tbRecurringTotal.Text = "14.99";
+                    } else if (cbPlanType.SelectedItem.ToString().ToLower() == "couples") {
+                        tbRecurringTotal.Text = "19.99";
+                    } else if (cbPlanType.SelectedItem.ToString().ToLower() == "family") {
+                        tbRecurringTotal.Text = "24.99";
+                    }
+                }
+
+                if (cbPlanName.SelectedItem.ToString().ToLower() == "complete") {
+                    if (cbPlanType.SelectedItem.ToString().ToLower() == "single") {
+                        tbRecurringTotal.Text = "44.99";
+                    } else if (cbPlanType.SelectedItem.ToString().ToLower() == "couples") {
+                        tbRecurringTotal.Text = "49.99";
+                    } else if (cbPlanType.SelectedItem.ToString().ToLower() == "family") {
+                        tbRecurringTotal.Text = "54.99";
+                    }
+                }
+
+            }
+        }
     }
 }
