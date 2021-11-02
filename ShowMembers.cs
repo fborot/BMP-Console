@@ -99,10 +99,11 @@ namespace BMP_Console {
             int mdateadded = Int32.Parse(dgmembers.Rows[e.RowIndex].Cells[37].Value.ToString());
             string mpol_holder = dgmembers.Rows[e.RowIndex].Cells[38].Value.ToString();
             string mrelation = dgmembers.Rows[e.RowIndex].Cells[39].Value.ToString();
+            int mactive = Int32.Parse(dgmembers.Rows[e.RowIndex].Cells[40].Value.ToString());
 
             member tempM = new member(mid, mbmp_id, mname, mmi, mlastname, memail, mlanguage, mmarital_status, mgender, mdob, mhome_ph, mmobile_ph, mother_ph, maddress, maddress2, mcity, mstate, mpostal_code,
                     mshipping_address, mshipping_address2, mshipping_city, mshipping_state, mshipping_pcode, muse_home, mptype, mpname, mrec_total, mstart_d, mend_d, mnum, magcy_id, mbranch_id, mrec, mcc_info, mcc_type,
-                    mcc_exp_date, mcc_auto, mdateadded, mpol_holder, mrelation);
+                    mcc_exp_date, mcc_auto, mdateadded, mpol_holder, mrelation, mactive);
 
             ToBeUpdated.Add(tempM);
             btCancel.Enabled = true;
@@ -123,7 +124,7 @@ namespace BMP_Console {
                     m.shipping_city + "',shipping_state='" + m.shipping_state + "',shipping_postal_code='" + m.shipping_postal_code + "',use_home_as_shipping_address=" + m.use_home_as_shipping_address + ",plan_name='" +
                     m.plan_name + "',plan_type='" + m.plan_type + "',recurring_total=" + m.recurring_total + ",start_date=" + m.start_date + ",end_date=" + m.end_date + ",number_members=" + m.number_members + ",agency_id='" +
                     m.agencyID + "',branch_id='" + m.branchID + "',recurrency=" + m.recurrency.ToString() + ",cc_info='" + m.cc_info + "',cc_type='" + m.cc_type + "',cc_expiration_date='" + m.cc_expiration_date + "',cc_auto_pay=" + m.cc_auto_pay.ToString() +
-                    ", dateadded=" + m.dateadded.ToString() + ",policy_holder='" + m.policy_holder  + "',relationship='"+ m.relationship + "' where member_id = " + m.member_id;
+                    ", dateadded=" + m.dateadded.ToString() + ",policy_holder='" + m.policy_holder  + "',relationship='" + m.relationship + "',active=" + m.active + " where member_id = " + m.member_id;
 
                 //Console.WriteLine(s);
                 MySqlCommand cmd = new MySqlCommand(strQuery, conn);
@@ -211,7 +212,10 @@ namespace BMP_Console {
                             ret = cmd.ExecuteNonQuery();
                         }
                     }
+                    cmd = new MySqlCommand("update members_deleted set active = 0 where member_id = " + id.ToString(), conn);
+                    ret = cmd.ExecuteNonQuery();
                 }
+                cmd.Dispose();
                 conn.Close();
             } catch (Exception e) {
                 //MessageBox.Show("An error ocurred!. The record could not be deleted, please contact Support", "Error deleting user", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -346,20 +350,22 @@ namespace BMP_Console {
                     int dateadded = ret.GetInt32(37);
                     string policy_holder = ret.GetString(38);
                     string relationship = ret.GetString(39);
+                    int activ = ret.GetInt32(40);
 
                     MembersContainer.Add(new member(id.ToString(), bmp_id, name, mi, lastname, email, language, marital_status, gender, dob, home_ph, mobile_ph, other_ph, address, address2, city_, state, postal_code,
-                        shipping_address, shipping_address2, shipping_city, shipping_state, shipping_pcode, use_home, ptype, pname, rec_total, start_d, end_d, num, agcy_id, branch_id, recurrency, cc_info, cc_type, cc_exp_date, cc_auto, dateadded, policy_holder, relationship));
+                        shipping_address, shipping_address2, shipping_city, shipping_state, shipping_pcode, use_home, ptype, pname, rec_total, start_d, end_d, num, agcy_id, branch_id, recurrency, cc_info, cc_type, cc_exp_date, cc_auto, dateadded, policy_holder, relationship, activ));
 
                 }
                 ret.Close();
+                cmd.Dispose();
                 conn.Close();
                 
                 res = true;
             } catch (Exception e)
             {
-                MessageBox.Show(e.Message, "Error searching for user", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(e.Message, "Error searching for user", MessageBoxButtons.OK, MessageBoxIcon.Error);               
             }
-
+            
             dgmembers.Columns.Clear();
 
             dgmembers.Columns.Add("Member Id", "Member ID");
@@ -402,6 +408,7 @@ namespace BMP_Console {
             dgmembers.Columns.Add("Date Added", "Date Added");
             dgmembers.Columns.Add("Policy Holder", "Policy Holder");
             dgmembers.Columns.Add("Relationship", "Relationship");
+            dgmembers.Columns.Add("Active", "Active");
 
             dgmembers.Rows.Clear();
 
@@ -481,6 +488,7 @@ namespace BMP_Console {
                 newRow.Cells[37].Value = m.dateadded;
                 newRow.Cells[38].Value = m.policy_holder;
                 newRow.Cells[39].Value = m.relationship;
+                newRow.Cells[40].Value = m.active;
 
                 dgmembers.Rows.Add(newRow);
             }

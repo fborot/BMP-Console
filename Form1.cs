@@ -47,6 +47,9 @@ namespace BMP_Console {
         static public int Y_Offset = 5;
         static public float Font_Size = 12;
 
+        public static string strErrorLog = string.Empty;    //public to be used by the logger class
+        public static int nLogFilesSize = 10 * 1024 * 1024;//10 megabytes
+
         private void versionToolStripMenuItem_Click(object sender, EventArgs e) {
             MessageBox.Show("BMP Console App" + Environment.NewLine + "Fabian Borot", "About this App", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
@@ -139,6 +142,8 @@ namespace BMP_Console {
                 APILoginID = source.Configs["AuthorizedNet"].Get("APILoginID", "3GQB2ens6x");
                 APITransactionKey = source.Configs["AuthorizedNet"].Get("APITransactionKey", "9887PZn64wQ3rTxk");
 
+                strErrorLog = source.Configs["LOG"].Get("LogFile", "console_log.txt");
+
                 X_Offset = source.Configs["Printer"].GetInt("X_Offset", 5);
                 Y_Offset = source.Configs["Printer"].GetInt("Y_Offset", 5);
                 Font_Size = source.Configs["Printer"].GetInt("FontSize", 12);
@@ -167,7 +172,7 @@ namespace BMP_Console {
                 bLive = false;
                 Text += ":: Test";
             }
-
+            logger.Instance.write("Form1_Load::Settings loaded.");
         }
 
         private void showPlansToolStripMenuItem_Click(object sender, EventArgs e) {

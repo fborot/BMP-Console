@@ -154,7 +154,7 @@ namespace BMP_Console {
                     tbMobilePH.Text, tbOtherPh.Text, tbAddres.Text, tbAddress2.Text, tbCity.Text, cbState.SelectedItem.ToString(), tbPostalCode.Text, tbShAddress.Text, tbShAddress2.Text, tbShCity.Text,
                     cbShState.SelectedItem.ToString(),tbShPostalCode.Text, ckbUseHome.Checked?(short)1:(short)0, cbPlanType.SelectedItem.ToString(), cbPlanName.SelectedItem.ToString(),
                     RecurringTotal, nStart, nEnd, NumberMembers,cbAgencyID.SelectedItem.ToString(), cbBranchID.SelectedItem.ToString(), Int16.Parse(cbRecurrency.SelectedItem.ToString()),tbCCInfo.Text, 
-                    cbCCType.SelectedItem.ToString(), tbCCExpDate.Text, ckbCCAuto.Checked?(short)1:(short)0, nDAdded, "Yes", "Self");
+                    cbCCType.SelectedItem.ToString(), tbCCExpDate.Text, ckbCCAuto.Checked?(short)1:(short)0, nDAdded, "Yes", "Self", 1);
 
                 if (temp_member.validate_member_info()) {
                     CreateProfileResponse tempProfile = CreateCustomerProfileFromTransaction(Form1.APILoginID, Form1.APITransactionKey, tbANetTID.Text, temp_member);
@@ -172,11 +172,13 @@ namespace BMP_Console {
                             if (CreateSubscriptionFromProfile(Form1.APILoginID, Form1.APITransactionKey, dtEnrollmentDate, interval, temp_member.bmp_id, tempProfile.CustomerProfileID, tempProfile.CustomerPayProfileID, tempProfile.CustomerShProfileID, tbRecurringTotal.Text, ref subscriptionID)) {
                                 if (SaveMemberInDB(temp_member)) {
                                     MessageBox.Show("Member Successfully Created", "Saving member in Database", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    logger.Instance.write("Save Member::" + temp_member.ToString());
                                     if (NumberMembers > 0) {
                                         member seed_member = temp_member;
                                         for (int n = 0; n < DependentsContainer.Count; n++) {
                                             seed_member = CreateMemberBasedOnDependent((Dependent)DependentsContainer[n], seed_member);
                                             SaveMemberInDB(seed_member);
+                                            logger.Instance.write("Save Dependent::" + seed_member.ToString());
                                         }
                                     }
                                     SaveTransactionInDB(temp_member, tbANetTID.Text, tbANAuthCode.Text);
@@ -195,7 +197,7 @@ namespace BMP_Console {
 
         private bool SaveMemberInDB(member m) {
 
-            bool res = false;
+            bool res = false;            
             try
             {
                 MySqlConnection conn = null;
@@ -205,10 +207,10 @@ namespace BMP_Console {
 
                 MySqlCommand cmd = new MySqlCommand("insert into members (bmp_id, name, mi, last_name, email, language, marital_status, gender ,dob, home_phone_number, mobile_phone_number, other_phone_number, address, address2, city, state," +
                     " postal_code, shipping_address, shipping_address2, shipping_city, shipping_state, shipping_postal_code, use_home_as_shipping_address, plan_name, plan_type, recurring_total, start_date, end_date, number_members, " +
-                    "agency_id, branch_id, recurrency, cc_info, cc_type, cc_expiration_date, cc_auto_pay, dateadded, policy_holder, relationship) values (" +
+                    "agency_id, branch_id, recurrency, cc_info, cc_type, cc_expiration_date, cc_auto_pay, dateadded, policy_holder, relationship, active) values (" +
                     "@bmp_id, @name, @mi, @last_name, @email, @language, @marital_status, @gender, @dob, @home_phone_number, @mobile_phone_number, @other_phone_number, @address, @address2, @city, @state," +
                     " @postal_code, @shipping_address, @shipping_address2, @shipping_city, @shipping_state, @shipping_postal_code, @use_home_as_shipping_address, @plan_name, @plan_type, @recurring_total, @start_date, @end_date," +
-                    " @number_members, @agency_id, @branch_id, @recurrency, @cc_info, @cc_type, @cc_expiration_date, @cc_auto_pay, @dateadded, @policy_holder, @relationship)", conn);
+                    " @number_members, @agency_id, @branch_id, @recurrency, @cc_info, @cc_type, @cc_expiration_date, @cc_auto_pay, @dateadded, @policy_holder, @relationship,@active)", conn);
 
                 cmd.Parameters.Add("@bmp_id", MySqlDbType.VarChar, m.bmp_id.Length).Value = m.bmp_id;
                 cmd.Parameters.Add("@name", MySqlDbType.VarChar, m.name.Length).Value = m.name;
@@ -249,6 +251,7 @@ namespace BMP_Console {
                 cmd.Parameters.Add("@dateadded", MySqlDbType.Int32).Value = m.dateadded;
                 cmd.Parameters.Add("@policy_holder", MySqlDbType.VarChar, m.policy_holder.Length).Value = m.policy_holder;
                 cmd.Parameters.Add("@relationship", MySqlDbType.VarChar, m.relationship.Length).Value = m.relationship;
+                cmd.Parameters.Add("@active", MySqlDbType.Int32).Value = m.active;
 
                 int result = cmd.ExecuteNonQuery();
                 conn.Close();
@@ -294,14 +297,15 @@ namespace BMP_Console {
 
         private bool SaveSubscriptionInDB(member m, string t_id, string subscription) {
             bool res = false;
+            int active = 1;
             try {
                 MySqlConnection conn = null;
                 conn = new MySql.Data.MySqlClient.MySqlConnection();
                 conn.ConnectionString = Form1.mySQLConnectionString;
                 conn.Open();
 
-                MySqlCommand cmd = new MySqlCommand("insert into subscriptions (an_subscription_id, an_orig_trans_id, bmp_id, recurring_total, agency_id,branch_id, recurrency, dateadded ) values (" +
-                    "@an_subscription_id, @an_original_trans_id, @bmp_id, @recurring_total, @agency_id, @branch_id, @recurrency, @dateadded)", conn);
+                MySqlCommand cmd = new MySqlCommand("insert into subscriptions (an_subscription_id, an_orig_trans_id, bmp_id, recurring_total, agency_id,branch_id, recurrency, dateadded,active ) values (" +
+                    "@an_subscription_id, @an_original_trans_id, @bmp_id, @recurring_total, @agency_id, @branch_id, @recurrency, @dateadded, @active)", conn);
 
                 cmd.Parameters.Add("@an_subscription_id", MySqlDbType.VarChar, subscription.Length).Value = subscription;
                 cmd.Parameters.Add("@an_original_trans_id", MySqlDbType.VarChar, t_id.Length).Value = t_id;
@@ -311,6 +315,7 @@ namespace BMP_Console {
                 cmd.Parameters.Add("@branch_id", MySqlDbType.VarChar, m.branchID.Length).Value = m.branchID;
                 cmd.Parameters.Add("@recurrency", MySqlDbType.Int16).Value = m.recurrency;
                 cmd.Parameters.Add("@dateadded", MySqlDbType.Int32).Value = m.dateadded;
+                cmd.Parameters.Add("@active", MySqlDbType.Int32).Value = active;
 
                 int result = cmd.ExecuteNonQuery();
                 conn.Close();
@@ -646,10 +651,12 @@ namespace BMP_Console {
             ResettingForm = true;
 
             tbName.Text = "";
+            tbMI.Text = "";
             tbLName.Text = "";
             tbEmail.Text = "";
             cbLanguage.SelectedIndex = -1;
             cbMarital.SelectedIndex = -1;
+            cbGender.SelectedIndex = -1;
             dtDOB.Value = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Local);
             tbHomePh.Text = "";
             tbMobilePH.Text = "";
@@ -671,7 +678,9 @@ namespace BMP_Console {
 
             cbPlanType.SelectedIndex = -1;
             cbPlanName.SelectedIndex = -1;
-            
+            cbRecurrency.SelectedIndex = -1;
+            tbMemberID.Text = "";
+
             tbRecurringTotal.Text = "";
             dtStart.Value = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Local);
             dtEnd.Value = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Local);
@@ -688,6 +697,34 @@ namespace BMP_Console {
 
             tbMemberID.Text = (Int32.Parse(tbMemberID.Text) + 1).ToString();
             DependentsContainer.Clear();
+
+            tbLD1Name.Text = "";
+            tbLD1LN.Text = "";
+            tbLD1MI.Text = "";
+            tbLD1DOB.Text = "";
+            cbLD1Gender.SelectedIndex = -1;
+            cbLD1Gender.SelectedIndex = -1;
+
+            tbLD2Name.Text = "";
+            tbLD2LN.Text = "";
+            tbLD2MI.Text = "";
+            tbLD2DOB.Text = "";
+            cbLD2Gender.SelectedIndex = -1;
+            cbLD2Gender.SelectedIndex = -1;
+
+            tbLD3Name.Text = "";
+            tbLD3LN.Text = "";
+            tbLD3MI.Text = "";
+            tbLD3DOB.Text = "";
+            cbLD3Gender.SelectedIndex = -1;
+            cbLD3Gender.SelectedIndex = -1;
+
+            tbLD4Name.Text = "";
+            tbLD4LN.Text = "";
+            tbLD4MI.Text = "";
+            tbLD4DOB.Text = "";
+            cbLD4Gender.SelectedIndex = -1;
+            cbLD4Gender.SelectedIndex = -1;
 
             ResettingForm = false;
 
@@ -1398,7 +1435,7 @@ namespace BMP_Console {
             int new_dob = FormatLDDoB(dep.dob);
             member new_member = new member(new_id, new_bmp_id, dep.name, dep.mi, dep.lname, m.email, m.language, m.marital_status, dep.gender, new_dob, m.home_phone_number, m.mobile_phone_number, m.other_phone_number,
                 m.address, m.address2, m.city, m.state, m.postal_code, m.shipping_address, m.shipping_address2, m.shipping_city, m.shipping_state, m.shipping_postal_code,
-                m.use_home_as_shipping_address, m.plan_name, m.plan_type, m.recurring_total, m.start_date, m.end_date, 0, m.agencyID, m.branchID, m.recurrency, m.cc_info, m.cc_type, m.cc_expiration_date, m.cc_auto_pay, m.dateadded, "No", dep.relationship);
+                m.use_home_as_shipping_address, m.plan_name, m.plan_type, m.recurring_total, m.start_date, m.end_date, 0, m.agencyID, m.branchID, m.recurrency, m.cc_info, m.cc_type, m.cc_expiration_date, m.cc_auto_pay, m.dateadded, "No", dep.relationship, m.active);
             return new_member;
         }
 

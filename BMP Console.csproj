@@ -155,6 +155,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="logger.cs" />
     <Compile Include="member.cs" />
     <Compile Include="plan.cs" />
     <Compile Include="ProcessPeriod.cs">

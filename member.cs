@@ -46,10 +46,11 @@ namespace BMP_Console {
         public int dateadded = 0;
         public string policy_holder = string.Empty;
         public string relationship = string.Empty;
+        public int active = 0;
 
         public member(string m_id,string bmpid,string n, string m_i, string ln, string em, string lang, string m_st, string gen, int db, string h_ph_num, string mob_ph_num, string other_ph_num,
             string addr, string addr2, string cty, string st, string pos_code, string sh_addr, string sh_addr2, string sh_city, string sh_state, string sh_pos_code,
-            short use_home_addr, string pname, string ptype, float rec_total, int start, int end, short num_members, string agcyID,string bID,short rec,string cc_inf, string cc_typ, string cc_exp_date, short a_pay, int dadded, string pol_holder, string relation) {
+            short use_home_addr, string pname, string ptype, float rec_total, int start, int end, short num_members, string agcyID,string bID,short rec,string cc_inf, string cc_typ, string cc_exp_date, short a_pay, int dadded, string pol_holder, string relation, int act) {
             member_id = m_id;
             bmp_id = bmpid;
             name = n;
@@ -89,11 +90,22 @@ namespace BMP_Console {
             cc_auto_pay = a_pay;
             dateadded = dadded;
             policy_holder = pol_holder;
-            relationship = relation;            
+            relationship = relation;
+            active = act;
         }
         public bool validate_member_info() {
             return true;//for now until we add the validation logic
         }
        
+        override public string ToString() {
+            string sb = string.Empty;
+
+            sb = member_id + "," + bmp_id + "," + name + "," + mi + "," + last_name + "," + email + "," + language + "," + marital_status + "," + dob.ToString() + "," + home_phone_number + "," + mobile_phone_number + "," + other_phone_number
+                + "," + address + "," + address2 + "," + city + "," + state + "," + postal_code + "," + shipping_address + "," + shipping_address2 + "," + shipping_city + "," + shipping_state + "," + shipping_postal_code
+                + "," + plan_type + "," + plan_name + "," + recurring_total.ToString() + "," + start_date.ToString() + "," + end_date.ToString() + "," + number_members.ToString() + "," + agencyID + "," + branchID
+                + "," + recurrency.ToString() + "," + cc_info + "," + cc_type + "," + cc_expiration_date + "," + dateadded.ToString() + "," + policy_holder + "," + relationship + "," + active.ToString();
+
+            return sb;
+        }
     }
 }
