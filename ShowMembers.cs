@@ -54,6 +54,10 @@ namespace BMP_Console {
         }
 
         private void ShowMembers_FormClosing(object sender, FormClosingEventArgs e) {
+            if (ToBeUpdated.Count > 0) {
+                MessageBox.Show("There were some pending changes. Please notice highlighted rows.", "Closing form", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ToBeUpdated.Clear();             
+            }
             Form1.ShowMembers = null;
         }
 
@@ -100,14 +104,17 @@ namespace BMP_Console {
             string mpol_holder = dgmembers.Rows[e.RowIndex].Cells[38].Value.ToString();
             string mrelation = dgmembers.Rows[e.RowIndex].Cells[39].Value.ToString();
             int mactive = Int32.Parse(dgmembers.Rows[e.RowIndex].Cells[40].Value.ToString());
+            string mpbmp_id = dgmembers.Rows[e.RowIndex].Cells[41].Value.ToString();
 
             member tempM = new member(mid, mbmp_id, mname, mmi, mlastname, memail, mlanguage, mmarital_status, mgender, mdob, mhome_ph, mmobile_ph, mother_ph, maddress, maddress2, mcity, mstate, mpostal_code,
                     mshipping_address, mshipping_address2, mshipping_city, mshipping_state, mshipping_pcode, muse_home, mptype, mpname, mrec_total, mstart_d, mend_d, mnum, magcy_id, mbranch_id, mrec, mcc_info, mcc_type,
-                    mcc_exp_date, mcc_auto, mdateadded, mpol_holder, mrelation, mactive);
+                    mcc_exp_date, mcc_auto, mdateadded, mpol_holder, mrelation, mactive, mpbmp_id);
 
             ToBeUpdated.Add(tempM);
             btCancel.Enabled = true;
             btSave.Enabled = true;
+
+            dgmembers.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.Yellow;
         }
 
         bool UpdateMember(member m) {
@@ -124,7 +131,7 @@ namespace BMP_Console {
                     m.shipping_city + "',shipping_state='" + m.shipping_state + "',shipping_postal_code='" + m.shipping_postal_code + "',use_home_as_shipping_address=" + m.use_home_as_shipping_address + ",plan_name='" +
                     m.plan_name + "',plan_type='" + m.plan_type + "',recurring_total=" + m.recurring_total + ",start_date=" + m.start_date + ",end_date=" + m.end_date + ",number_members=" + m.number_members + ",agency_id='" +
                     m.agencyID + "',branch_id='" + m.branchID + "',recurrency=" + m.recurrency.ToString() + ",cc_info='" + m.cc_info + "',cc_type='" + m.cc_type + "',cc_expiration_date='" + m.cc_expiration_date + "',cc_auto_pay=" + m.cc_auto_pay.ToString() +
-                    ", dateadded=" + m.dateadded.ToString() + ",policy_holder='" + m.policy_holder  + "',relationship='" + m.relationship + "',active=" + m.active + " where member_id = " + m.member_id;
+                    ", dateadded=" + m.dateadded.ToString() + ",policy_holder='" + m.policy_holder  + "',relationship='" + m.relationship + "',active=" + m.active + ",parent_bmp_id='" + m.parent_bmp_id + "' where member_id = " + m.member_id;
 
                 //Console.WriteLine(s);
                 MySqlCommand cmd = new MySqlCommand(strQuery, conn);
@@ -145,6 +152,8 @@ namespace BMP_Console {
         }
 
         private void btSave_Click(object sender, EventArgs e) {
+            string t_mlist = "";
+
             if (ToBeUpdated.Count > 0) {
                 for (int i = 0; i < ToBeUpdated.Count; i++) {
                     bool temp_res = UpdateMember((member)ToBeUpdated[i]);
@@ -155,10 +164,18 @@ namespace BMP_Console {
                         //this.Close();
                         break;
                     } else {
-                        MessageBox.Show("Member: " + ((member)ToBeUpdated[i]).ToString() + " was updated", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        Form1.ShowMembers = null;
-                        this.Close();
+                        //MessageBox.Show("Member: " + ((member)ToBeUpdated[i]).ToString() + " was updated", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        t_mlist += ((member)ToBeUpdated[i]).bmp_id + Environment.NewLine;
+                        //Form1.ShowMembers = null;
+                        //this.Close();
+                        DipIntoDB();
+                        btSave.Enabled = false;
+                        ToBeUpdated.Clear();
                     }
+                }
+                if(t_mlist != "") {
+                    t_mlist += Environment.NewLine;
+                    MessageBox.Show("Member[s]: " + Environment.NewLine + t_mlist + " were updated", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             } else {
                 Form1.ShowMembers = null;
@@ -229,7 +246,7 @@ namespace BMP_Console {
            if (e.Button == MouseButtons.Right) {
                 //int rIndex = dgmembers.HitTest(e.X, e.Y).RowIndex;
                 int rIndex = Int32.Parse(dgmembers.Rows[dgmembers.SelectedRows[0].Index].Cells[0].Value.ToString());
-                MessageBox.Show("MemberID " + rIndex + " has been selected", "Hey");
+                //MessageBox.Show("MemberID " + rIndex + " has been selected", "Hey");
                 contextMenuStrip1.Show(dgmembers, new Point(e.X, e.Y));
             }
             
@@ -351,9 +368,10 @@ namespace BMP_Console {
                     string policy_holder = ret.GetString(38);
                     string relationship = ret.GetString(39);
                     int activ = ret.GetInt32(40);
+                    string p_bmp_id = ret.GetString(41);
 
                     MembersContainer.Add(new member(id.ToString(), bmp_id, name, mi, lastname, email, language, marital_status, gender, dob, home_ph, mobile_ph, other_ph, address, address2, city_, state, postal_code,
-                        shipping_address, shipping_address2, shipping_city, shipping_state, shipping_pcode, use_home, ptype, pname, rec_total, start_d, end_d, num, agcy_id, branch_id, recurrency, cc_info, cc_type, cc_exp_date, cc_auto, dateadded, policy_holder, relationship, activ));
+                        shipping_address, shipping_address2, shipping_city, shipping_state, shipping_pcode, use_home, ptype, pname, rec_total, start_d, end_d, num, agcy_id, branch_id, recurrency, cc_info, cc_type, cc_exp_date, cc_auto, dateadded, policy_holder, relationship, activ, p_bmp_id));
 
                 }
                 ret.Close();
@@ -409,6 +427,7 @@ namespace BMP_Console {
             dgmembers.Columns.Add("Policy Holder", "Policy Holder");
             dgmembers.Columns.Add("Relationship", "Relationship");
             dgmembers.Columns.Add("Active", "Active");
+            dgmembers.Columns.Add("Parent BMP ID", "Parent BMP ID");
 
             dgmembers.Rows.Clear();
 
@@ -439,6 +458,7 @@ namespace BMP_Console {
             dgmembers.Columns[34].Visible = false;
             dgmembers.Columns[35].Visible = false;
             dgmembers.Columns[36].Visible = false;
+            //dgmembers.Columns[41].Visible = false;
 
             for (int i = 0; i < MembersContainer.Count; i++)
             {
@@ -489,6 +509,7 @@ namespace BMP_Console {
                 newRow.Cells[38].Value = m.policy_holder;
                 newRow.Cells[39].Value = m.relationship;
                 newRow.Cells[40].Value = m.active;
+                newRow.Cells[41].Value = m.parent_bmp_id;
 
                 dgmembers.Rows.Add(newRow);
             }
@@ -505,9 +526,70 @@ namespace BMP_Console {
         }
 
         private void disableToolStripMenuItem_Click(object sender, EventArgs e) {
+            
             int m_id = Int32.Parse(dgmembers.Rows[dgmembers.SelectedRows[0].Index].Cells[0].Value.ToString());
+            string bmpid = dgmembers.Rows[dgmembers.SelectedRows[0].Index].Cells[1].Value.ToString();
+            //string pholder = dgmembers.Rows[dgmembers.SelectedRows[0].Index].Cells[38].Value.ToString();
+            //short m_num_members = Int16.Parse(dgmembers.Rows[dgmembers.SelectedRows[0].Index].Cells[29].Value.ToString());
+            //short new_m_num_members = -1;
+            string db_query = string.Empty;
 
-            MessageBox.Show("Disable Member -> " + m_id.ToString(), "context menu", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            db_query = "update members set active = 0 where bmp_id = '" + bmpid + "' OR parent_bmp_id = '" + bmpid + "'";
+            if (GenericUpdateMembersInDB(db_query)) {
+                MessageBox.Show("Disable Member -> " + bmpid + "  was Successful.", "Disable Member", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            } else {
+                MessageBox.Show("Disable Member -> " + bmpid + " failed.", "Disable Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            
+            DipIntoDB();
+            
+            //if (pholder == "Yes") {           
+            //    db_query = "update members set active = 0 where bmp_id = '" + bmpid + "' OR parent_bmp_id = '" + bmpid + "'";
+            //    if (GenericUpdateMembersInDB(db_query)) {
+            //        if (m_num_members > 0) {
+            //            new_m_num_members = (short)(m_num_members - 1);
+            //            db_query = "update members set number_members =" + new_m_num_members.ToString() + " where bmp_id = '" + bmpid + "'";
+            //            if (GenericUpdateMembersInDB(db_query)) {                            
+            //                MessageBox.Show("Disable Member -> " + bmpid + "  was Successful.", "Disable Member", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //            } else {
+            //                MessageBox.Show("Disable Member -> " + bmpid + " failed.", "Disable Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //            }
+            //        }
+            //    } else {
+            //        MessageBox.Show("Disable Member -> " + bmpid + " failed.", "Disable Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //    }
+            //} else {                
+            //    db_query = "update members set active = 0 where bmp_id = '" + bmpid + "'";
+            //    if (GenericUpdateMembersInDB(db_query)) {
+            //        MessageBox.Show("Disable Member -> " + bmpid + " was Successful.", "Disable Member", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //    } else {
+            //        MessageBox.Show("Disable Member -> " + bmpid + " failed.", "Disable Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //    }
+            //}
+
+        }
+
+        private bool GenericUpdateMembersInDB(string strQuery) {
+            bool res = false;
+            int ret = -1;
+            MySqlConnection conn = null;
+            MySqlCommand cmd = null;
+            conn = new MySql.Data.MySqlClient.MySqlConnection();
+            try {
+                conn.ConnectionString = Form1.mySQLConnectionString;
+                conn.Open();
+                
+                cmd = new MySqlCommand(strQuery, conn);
+                ret = cmd.ExecuteNonQuery();
+                res = (ret > 0) ? true : false;
+                cmd.Dispose();
+                conn.Close();
+            } catch (Exception e) {
+                MessageBox.Show("An error ocurred!. The record could not be updated, please contact Support", "Error updating user", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                cmd.Dispose();
+                conn.Close();
+            }
+            return res;
         }
     }
 }

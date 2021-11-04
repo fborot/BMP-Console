@@ -122,7 +122,7 @@
             this.btSave.Name = "btSave";
             this.btSave.Size = new System.Drawing.Size(219, 31);
             this.btSave.TabIndex = 3;
-            this.btSave.Text = "Save and Exit";
+            this.btSave.Text = "Save changes";
             this.btSave.UseVisualStyleBackColor = true;
             this.btSave.Click += new System.EventHandler(this.btSave_Click);
             // 
