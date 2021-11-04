@@ -252,7 +252,7 @@ namespace BMP_Console {
                 cmd.Parameters.Add("@policy_holder", MySqlDbType.VarChar, m.policy_holder.Length).Value = m.policy_holder;
                 cmd.Parameters.Add("@relationship", MySqlDbType.VarChar, m.relationship.Length).Value = m.relationship;
                 cmd.Parameters.Add("@active", MySqlDbType.Int32).Value = m.active;
-                cmd.Parameters.Add("@parent_bm_id", MySqlDbType.VarChar, m.relationship.Length).Value = m.relationship;
+                cmd.Parameters.Add("@parent_bmp_id", MySqlDbType.VarChar, m.parent_bmp_id.Length).Value = m.parent_bmp_id;
 
                 int result = cmd.ExecuteNonQuery();
                 conn.Close();
