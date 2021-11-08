@@ -64,6 +64,11 @@ namespace BMP_Console {
         }
 
         private void button1_Click(object sender, EventArgs e) {
+            bool r = AreControlsOK();
+            if(r == false) { 
+                return; 
+            }
+
             if (!PingDB())
             {
                 MessageBox.Show("Can not connect to the database", "Add Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -87,50 +92,7 @@ namespace BMP_Console {
                 tbShPostalCode.Text = tbPostalCode.Text;
                 cbShState.SelectedIndex = cbState.SelectedIndex;
             }
-            try {
-                
-                if (!isValidCost(tbRecurringTotal.Text)) {
-                    MessageBox.Show("Invalid values for the recurring cost", "Saving new Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-                if (!isValidEmail(tbEmail.Text)) {
-                    MessageBox.Show("Invalid value for the Email Address", "Saving new Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-                if (!isValidPhoneNumber(tbHomePh.Text) ) {
-                    MessageBox.Show("Invalid value for the Home Phone Number", "Saving new Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
-                if (!isValidPhoneNumber(tbMobilePH.Text) ) {
-                    //MessageBox.Show("Invalid value for the Mobile Phone Number", "Saving new Member", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    //return;
-                    tbMobilePH.Text = tbHomePh.Text;
-                }
-                if ( !isValidPhoneNumber(tbOtherPh.Text)) {
-                    //MessageBox.Show("Invalid value for some of the Other Phone Number", "Saving new Member", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    //return;
-                    tbOtherPh.Text = tbHomePh.Text;
-                }
-
-                if (!isValidZipCode(tbPostalCode.Text) || !(isValidZipCode(tbShPostalCode.Text))) {
-                    MessageBox.Show("Invalid value for the Zip Code", "Saving new Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
-                if (!isValidCCNumber(tbCCInfo.Text) || !(isValidCCExpDate(tbCCExpDate.Text))) {
-                    MessageBox.Show("Invalid value for the Credit Card", "Saving new Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
-                if (!(tbANetTID.Text.Length > 0)) {
-                    MessageBox.Show("Invalid value for the Authorize.Net Transaction ID", "Saving new Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-                if (!(tbANAuthCode.Text.Length > 0)) {
-                    MessageBox.Show("Invalid value for the Authorize.Net Authorization Code", "Saving new Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
+            try {                
                 short NumberMembers = tbNumberMembers.Text.Length > 0 ? Int16.Parse(tbNumberMembers.Text) : (Int16)0;
                 float RecurringTotal = tbRecurringTotal.Text.Length > 0 ? float.Parse(tbRecurringTotal.Text) : (float)0;
                 if (NumberMembers > 0) {
@@ -149,7 +111,7 @@ namespace BMP_Console {
                 DateTime dtEnrollmentDate = dtStart.Value;
                 int nEnd = Int32.Parse(dtEnd.Value.ToString("yyyyMMdd"));
                 int nDAdded = Int32.Parse(DateTime.Now.ToString("yyyyMMdd"));
-                
+              
                 member temp_member = new member(tbMemberID.Text,strBMPID, tbName.Text, tbMI.Text, tbLName.Text, tbEmail.Text, cbLanguage.SelectedItem.ToString(), cbMarital.SelectedItem.ToString(), cbGender.SelectedItem.ToString(),ndob, tbHomePh.Text,
                     tbMobilePH.Text, tbOtherPh.Text, tbAddres.Text, tbAddress2.Text, tbCity.Text, cbState.SelectedItem.ToString(), tbPostalCode.Text, tbShAddress.Text, tbShAddress2.Text, tbShCity.Text,
                     cbShState.SelectedItem.ToString(),tbShPostalCode.Text, ckbUseHome.Checked?(short)1:(short)0, cbPlanType.SelectedItem.ToString(), cbPlanName.SelectedItem.ToString(),
@@ -1521,6 +1483,168 @@ namespace BMP_Console {
                 }
 
             }
+        }
+
+        private bool AreControlsOK()
+        {
+            bool res = false;
+            if(tbName.Text.Length == 0)
+            {
+                MessageBox.Show("Invalid values for the Name", "Saving new Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return res;
+            }
+
+            if (tbLName.Text.Length == 0)
+            {
+                MessageBox.Show("Invalid values for the Last Name", "Saving new Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return res;
+            }
+
+            if (cbLanguage.Text.Length == 0)
+            {
+                MessageBox.Show("Invalid values for the Language", "Saving new Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return res;
+            }
+            if (cbMarital.Text.Length == 0)
+            {
+                MessageBox.Show("Invalid values for the Marital Status", "Saving new Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return res;
+            }
+            if (cbGender.Text.Length == 0)
+            {
+                MessageBox.Show("Invalid values for the Gender", "Saving new Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return res;
+            }
+            if (cbLanguage.Text.Length == 0)
+            {
+                MessageBox.Show("Invalid values for the Language", "Saving new Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return res;
+            }
+
+            if (!isValidCost(tbRecurringTotal.Text))
+            {
+                MessageBox.Show("Invalid values for the recurring cost", "Saving new Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return res;
+            }
+            if (!isValidEmail(tbEmail.Text))
+            {
+                MessageBox.Show("Invalid value for the Email Address", "Saving new Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return res;
+            }
+            if (!isValidPhoneNumber(tbHomePh.Text))
+            {
+                MessageBox.Show("Invalid value for the Home Phone Number", "Saving new Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return res;
+            }
+
+            if (!isValidPhoneNumber(tbMobilePH.Text))
+            {
+                tbMobilePH.Text = tbHomePh.Text;
+            }
+            if (!isValidPhoneNumber(tbOtherPh.Text))
+            {                                
+                tbOtherPh.Text = tbHomePh.Text;
+            }
+
+            if (!isValidZipCode(tbPostalCode.Text))
+            {
+                MessageBox.Show("Invalid value for the Zip Code", "Saving new Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return res;
+            }
+
+            if (!isValidCCNumber(tbCCInfo.Text) || !(isValidCCExpDate(tbCCExpDate.Text)))
+            {
+                MessageBox.Show("Invalid value for the Credit Card", "Saving new Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return res;
+            }
+
+            if (!(tbANetTID.Text.Length > 0))
+            {
+                MessageBox.Show("Invalid value for the Authorize.Net Transaction ID", "Saving new Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return res;
+            }
+            if (!(tbANAuthCode.Text.Length > 0))
+            {
+                MessageBox.Show("Invalid value for the Authorize.Net Authorization Code", "Saving new Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return res;
+            }
+
+            if (cbPlanName.Text.Length == 0)
+            {
+                MessageBox.Show("Invalid values for the Plan Name", "Saving new Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return res;
+            }
+
+            if (cbPlanType.Text.Length == 0)
+            {
+                MessageBox.Show("Invalid values for the Plan Type", "Saving new Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return res;
+            }
+
+            if (cbAgencyID.Text.Length == 0)
+            {
+                MessageBox.Show("Invalid values for the Agency", "Saving new Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return res;
+            }
+
+            if (cbBranchID.Text.Length == 0)
+            {
+                MessageBox.Show("Invalid values for the Branch", "Saving new Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return res;
+            }
+
+            if (cbCCType.Text.Length == 0)
+            {
+                MessageBox.Show("Invalid values for the Credit Card type", "Saving new Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return res;
+            }
+            if (ckbUseHome.Enabled != true)
+            {
+                if (tbShAddress.Text.Length == 0)
+                {
+                    MessageBox.Show("Invalid values for the Shipping Address", "Saving new Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return res;
+                }
+                if (tbShCity.Text.Length == 0)
+                {
+                    MessageBox.Show("Invalid values for the Shipping City", "Saving new Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return res;
+                }
+                if (cbShState.Text.Length == 0)
+                {
+                    MessageBox.Show("Invalid values for the Shipping State", "Saving new Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return res;
+                }
+                if (!(isValidZipCode(tbShPostalCode.Text))){
+                    MessageBox.Show("Invalid values for the Shipping Zip Code", "Saving new Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return res;
+                }
+            } else
+            {
+                if (tbAddres.Text.Length == 0)
+                {
+                    MessageBox.Show("Invalid values for the Address", "Saving new Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return res;
+                }
+                if (tbCity.Text.Length == 0)
+                {
+                    MessageBox.Show("Invalid values for the City", "Saving new Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return res;
+                }
+                if (cbState.Text.Length == 0)
+                {
+                    MessageBox.Show("Invalid values for the State", "Saving new Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return res;
+                }
+                if (!(isValidZipCode(tbPostalCode.Text)))
+                {
+                    MessageBox.Show("Invalid values for the Zip Code", "Saving new Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return res;
+                }
+            }
+
+            res = true;
+            return res;
         }
     }
 }
