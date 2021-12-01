@@ -132,15 +132,16 @@ namespace BMP_Console {
                             temp_member.cc_info = CCInfo.Substring(4,4);
                             string subscriptionID = "";
                             if (CreateSubscriptionFromProfile(Form1.APILoginID, Form1.APITransactionKey, dtEnrollmentDate, interval, temp_member.bmp_id, tempProfile.CustomerProfileID, tempProfile.CustomerPayProfileID, tempProfile.CustomerShProfileID, tbRecurringTotal.Text, ref subscriptionID)) {
+                                logger.Instance.write("About to create member::" + temp_member.ToString());
                                 if (SaveMemberInDB(temp_member)) {
                                     MessageBox.Show("Member Successfully Created", "Saving member in Database", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                    logger.Instance.write("Save Member::" + temp_member.ToString());
+                                    logger.Instance.write("Saved Member::" + temp_member.ToString());
                                     if (NumberMembers > 0) {
                                         member seed_member = temp_member;
                                         for (int n = 0; n < DependentsContainer.Count; n++) {
                                             seed_member = CreateMemberBasedOnDependent((Dependent)DependentsContainer[n], seed_member, temp_member.bmp_id);
                                             SaveMemberInDB(seed_member);
-                                            logger.Instance.write("Save Dependent::" + seed_member.ToString());
+                                            logger.Instance.write("Saved Dependent::" + seed_member.ToString());
                                         }
                                     }
                                     SaveTransactionInDB(temp_member, tbANetTID.Text, tbANAuthCode.Text);

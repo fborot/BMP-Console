@@ -201,9 +201,9 @@ namespace BMP_Console {
                 HTableAgencyCheck[h.Key] = newCE;
                 ChecksPayload.Add(newCE);
 
-                check_data.Append(h.Key.ToString() + "\t\t\t" + "$" + newCE.Total.ToString() + "\t\t\t" + Environment.NewLine);    
+                check_data.Append(h.Key.ToString() + "\t\t\t\t" + "$" + newCE.Total.ToString() + "\t\t\t" + Environment.NewLine);    
                 foreach(ComCheckData c in tempCE.List) {
-                    check_data.Append(c.bmp_cid + "\t\t\t" + c.type + "\t\t\t" + "$" + c.PayAmount + Environment.NewLine);
+                    check_data.Append(c.bmp_cid + "\t\t\t\t" + c.type + "\t\t\t" + "$" + c.PayAmount + Environment.NewLine);
                 }
             }
             check_data.Append(Environment.NewLine);
@@ -338,12 +338,21 @@ namespace BMP_Console {
                    
 
                 foreach (var transaction in response.transactions) {                    
+                    //if (transaction.transactionStatus == "declined")
+                    //    continue;
                     string tempID = transaction.transId; string plan = "";
                     string subs = ""; string invoice = "";
                     string bmpCID = ""; string type = "new";
-                    if (transaction.invoiceNumber != null) {                        
+                    if (transaction.invoiceNumber != null && transaction.invoiceNumber != "NOVEMBER MEMBERSHIP") {         // FB 20211201 added to process the 2 transactions made manual by Samira               
                         //if (transaction.invoiceNumber.Length > 0) {
                             subs = transaction.subscription.id.ToString();
+                            //if (transaction.transId == "63378669040") {
+                            //    invoice = "INV-COMS-2110-002039";
+                            //} else if (transaction.transId == "63378669040") {
+                            //    invoice = "INV-COMS-2110-002039";
+                            //} else {
+                            //    invoice = transaction.invoiceNumber;
+                            //}
                             invoice = transaction.invoiceNumber;
                             string[] t = invoice.ToString().Split('-');
                             bmpCID = t[1] + "-" + t[2] + "-" + t[3];

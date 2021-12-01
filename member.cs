@@ -95,7 +95,7 @@ namespace BMP_Console {
             active = act;
             parent_bmp_id = p_bmp_id;
 
-            logger.Instance.write("About to create member::" + this.ToString());
+            //logger.Instance.write("About to create member::" + this.ToString());
         }
         public bool validate_member_info() {
             return true;//for now until we add the validation logic
