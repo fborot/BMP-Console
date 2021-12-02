@@ -155,6 +155,7 @@ namespace BMP_Console {
 
             } catch (Exception excep) {
                 MessageBox.Show(excep.ToString());
+                MessageBox.Show("Error Adding Member:" + excep.Message, "Add Member", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -254,7 +255,7 @@ namespace BMP_Console {
                 res = (result == 1) ? true : false;
             } catch (Exception e)
             {
-                MessageBox.Show("Error Saving Transaction in the Database.", "Saving member in Database", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Error Saving Transaction in the Database: " + e.Message, "Saving member in Database", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             return res;
         }
@@ -285,7 +286,7 @@ namespace BMP_Console {
                 conn.Close();
                 res = (result == 1) ? true : false;
             } catch (Exception e) {
-                MessageBox.Show("Error Saving Subscription in the Database.", "Saving member in Database", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Error Saving Subscription in the Database:" + e.Message, "Saving member in Database", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             return res;
         }
@@ -613,83 +614,87 @@ namespace BMP_Console {
 
         private void ResetForm() {
             ResettingForm = true;
+            try
+            {
+                tbName.Text = "";
+                tbMI.Text = "";
+                tbLName.Text = "";
+                tbEmail.Text = "";
+                cbLanguage.SelectedIndex = -1;
+                cbMarital.SelectedIndex = -1;
+                cbGender.SelectedIndex = -1;
+                dtDOB.Value = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Local);
+                tbHomePh.Text = "";
+                tbMobilePH.Text = "";
+                tbOtherPh.Text = "";
 
-            tbName.Text = "";
-            tbMI.Text = "";
-            tbLName.Text = "";
-            tbEmail.Text = "";
-            cbLanguage.SelectedIndex = -1;
-            cbMarital.SelectedIndex = -1;
-            cbGender.SelectedIndex = -1;
-            dtDOB.Value = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Local);
-            tbHomePh.Text = "";
-            tbMobilePH.Text = "";
-            tbOtherPh.Text = "";
-            
-            tbAddres.Text = "";
-            tbAddress2.Text = "";
-            tbCity.Text = "";
-            cbState.SelectedIndex = -1;
-            tbPostalCode.Text = "";
+                tbAddres.Text = "";
+                tbAddress2.Text = "";
+                tbCity.Text = "";
+                cbState.SelectedIndex = -1;
+                tbPostalCode.Text = "";
 
-            tbShAddress.Text = "";
-            tbShAddress2.Text = "";
-            tbShCity.Text = "";
-            cbShState.SelectedIndex = -1;
-            tbShPostalCode.Text = "";
-            
-            ckbUseHome.Checked = false;
+                tbShAddress.Text = "";
+                tbShAddress2.Text = "";
+                tbShCity.Text = "";
+                cbShState.SelectedIndex = -1;
+                tbShPostalCode.Text = "";
 
-            cbPlanType.SelectedIndex = -1;
-            cbPlanName.SelectedIndex = -1;
-            cbRecurrency.SelectedIndex = -1;
-            tbMemberID.Text = "";
+                ckbUseHome.Checked = false;
 
-            tbRecurringTotal.Text = "";
-            dtStart.Value = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Local);
-            dtEnd.Value = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Local);
-            tbNumberMembers.Text = "";
-            cbAgencyID.SelectedIndex = -1;
-            cbBranchID.SelectedIndex = -1;
-            tbCCInfo.Text = "";
-            cbCCType.SelectedIndex = -1;
-            tbCCExpDate.Text = "";
-            ckbCCAuto.Checked = false;
+                cbPlanType.SelectedIndex = -1;
+                cbPlanName.SelectedIndex = -1;
+                cbRecurrency.SelectedIndex = -1;
+                //tbMemberID.Text = "";
 
-            tbANetTID.Text = "";
-            tbANAuthCode.Text = "";
+                tbRecurringTotal.Text = "";
+                dtStart.Value = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Local);
+                dtEnd.Value = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Local);
+                tbNumberMembers.Text = "";
+                cbAgencyID.SelectedIndex = -1;
+                cbBranchID.SelectedIndex = -1;
+                tbCCInfo.Text = "";
+                cbCCType.SelectedIndex = -1;
+                tbCCExpDate.Text = "";
+                ckbCCAuto.Checked = false;
 
-            tbMemberID.Text = (Int32.Parse(tbMemberID.Text) + 1).ToString();
-            DependentsContainer.Clear();
+                tbANetTID.Text = "";
+                tbANAuthCode.Text = "";
 
-            tbLD1Name.Text = "";
-            tbLD1LN.Text = "";
-            tbLD1MI.Text = "";
-            tbLD1DOB.Text = "";
-            cbLD1Gender.SelectedIndex = -1;
-            cbLD1Gender.SelectedIndex = -1;
+                tbMemberID.Text = (Int32.Parse(tbMemberID.Text) + 1).ToString();
+                DependentsContainer.Clear();
 
-            tbLD2Name.Text = "";
-            tbLD2LN.Text = "";
-            tbLD2MI.Text = "";
-            tbLD2DOB.Text = "";
-            cbLD2Gender.SelectedIndex = -1;
-            cbLD2Gender.SelectedIndex = -1;
+                tbLD1Name.Text = "";
+                tbLD1LN.Text = "";
+                tbLD1MI.Text = "";
+                tbLD1DOB.Text = "";
+                cbLD1Gender.SelectedIndex = -1;
+                cbLD1Gender.SelectedIndex = -1;
 
-            tbLD3Name.Text = "";
-            tbLD3LN.Text = "";
-            tbLD3MI.Text = "";
-            tbLD3DOB.Text = "";
-            cbLD3Gender.SelectedIndex = -1;
-            cbLD3Gender.SelectedIndex = -1;
+                tbLD2Name.Text = "";
+                tbLD2LN.Text = "";
+                tbLD2MI.Text = "";
+                tbLD2DOB.Text = "";
+                cbLD2Gender.SelectedIndex = -1;
+                cbLD2Gender.SelectedIndex = -1;
 
-            tbLD4Name.Text = "";
-            tbLD4LN.Text = "";
-            tbLD4MI.Text = "";
-            tbLD4DOB.Text = "";
-            cbLD4Gender.SelectedIndex = -1;
-            cbLD4Gender.SelectedIndex = -1;
+                tbLD3Name.Text = "";
+                tbLD3LN.Text = "";
+                tbLD3MI.Text = "";
+                tbLD3DOB.Text = "";
+                cbLD3Gender.SelectedIndex = -1;
+                cbLD3Gender.SelectedIndex = -1;
 
+                tbLD4Name.Text = "";
+                tbLD4LN.Text = "";
+                tbLD4MI.Text = "";
+                tbLD4DOB.Text = "";
+                cbLD4Gender.SelectedIndex = -1;
+                cbLD4Gender.SelectedIndex = -1;
+            } catch (Exception reset_excp)
+            {
+                MessageBox.Show("Error Resetting Form:" + reset_excp.Message, "Resetting Form", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
             ResettingForm = false;
 
         }
