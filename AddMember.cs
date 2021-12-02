@@ -154,7 +154,7 @@ namespace BMP_Console {
                 }
 
             } catch (Exception excep) {
-                MessageBox.Show(excep.ToString());
+                //MessageBox.Show(excep.ToString());
                 MessageBox.Show("Error Adding Member:" + excep.Message, "Add Member", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
