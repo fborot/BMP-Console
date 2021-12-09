@@ -157,9 +157,9 @@
             this.gbSearch.Controls.Add(this.tbMID);
             this.gbSearch.Controls.Add(this.label1);
             this.gbSearch.Location = new System.Drawing.Point(5, 6);
-            this.gbSearch.Margin = new System.Windows.Forms.Padding(4);
+            this.gbSearch.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.gbSearch.Name = "gbSearch";
-            this.gbSearch.Padding = new System.Windows.Forms.Padding(4);
+            this.gbSearch.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.gbSearch.Size = new System.Drawing.Size(1372, 97);
             this.gbSearch.TabIndex = 0;
             this.gbSearch.TabStop = false;
@@ -1198,7 +1198,7 @@
             this.Controls.Add(this.gbSearch);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Margin = new System.Windows.Forms.Padding(4);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MaximizeBox = false;
             this.Name = "EditMember";
             this.Text = "EditMember";
