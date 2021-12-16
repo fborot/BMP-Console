@@ -91,20 +91,25 @@ namespace BMP_Console {
                 tbShCity.Text = tbCity.Text;
                 tbShPostalCode.Text = tbPostalCode.Text;
                 cbShState.SelectedIndex = cbState.SelectedIndex;
+                logger.Instance.write("Copying Shipping Address information from Regular Address");
             }
             try {                
                 short NumberMembers = tbNumberMembers.Text.Length > 0 ? Int16.Parse(tbNumberMembers.Text) : (Int16)0;
                 float RecurringTotal = tbRecurringTotal.Text.Length > 0 ? float.Parse(tbRecurringTotal.Text) : (float)0;
+                logger.Instance.write("There are "  + NumberMembers.ToString() + " members and this is the cost " +  RecurringTotal.ToString());
                 if (NumberMembers > 0) {
                     if (!(isALL_LDDoBValid(NumberMembers))) {
                         MessageBox.Show("Invalid value for the Legal Dependents Date of Birth", "Saving new Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
-                    }                    
+                    }
+                    logger.Instance.write("DoB of members are OK");
                     if (!CreateDependeList(NumberMembers)) {
                         MessageBox.Show("Invalid values for Legal Dependents", "Saving new Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
+
                     }
-                    
+                    logger.Instance.write("Created the list of dependents");
+
                 }
                 int ndob = Int32.Parse(dtDOB.Value.ToString("yyyyMMdd"));
                 int nStart = Int32.Parse(dtStart.Value.ToString("yyyyMMdd"));
@@ -896,13 +901,14 @@ namespace BMP_Console {
             // validate response
             if (response != null && response.messages.resultCode == messageTypeEnum.Ok) {
                 if (response != null && response.messages.message != null) {
-                    Console.WriteLine("Success, CustomerProfileID : " + response.customerProfileId);
-                    Console.WriteLine("Success, CustomerPaymentProfileID : " + response.customerPaymentProfileIdList[0]);
-                    Console.WriteLine("Success, CustomerShippingProfileID : " + response.customerShippingAddressIdList[0]);
+                    logger.Instance.write("Success, CustomerProfileID : " + response.customerProfileId);
+                    logger.Instance.write("Success, CustomerPaymentProfileID : " + response.customerPaymentProfileIdList[0]);
+                    logger.Instance.write("Success, CustomerShippingProfileID : " + response.customerShippingAddressIdList[0]);
                     res = true;
-                }
+                }                
             } else if (response != null) {
-                Console.WriteLine("Error: " + response.messages.message[0].code + "  " + response.messages.message[0].text);
+                //Console.WriteLine("Error: " + response.messages.message[0].code + "  " + response.messages.message[0].text);
+                logger.Instance.write("Error: " + response.messages.message[0].code + "  " + response.messages.message[0].text);
             }
             CreateProfileResponse prof = new CreateProfileResponse(response.customerProfileId, response.customerPaymentProfileIdList[0], response.customerShippingAddressIdList[0], res);
             return prof;            
@@ -970,12 +976,12 @@ namespace BMP_Console {
             // validate response
             if (response != null && response.messages.resultCode == messageTypeEnum.Ok) {
                 if (response != null && response.messages.message != null) {
-                    //Console.WriteLine("Success, Subscription ID : " + response.subscriptionId.ToString());
+                    logger.Instance.write("Success, Subscription ID : " + response.subscriptionId.ToString());
                     subs_id = response.subscriptionId.ToString();
                     res = true;
                 }
             } else if (response != null) {
-                Console.WriteLine("Error: " + response.messages.message[0].code + "  " + response.messages.message[0].text);
+                logger.Instance.write("Error: " + response.messages.message[0].code + "  " + response.messages.message[0].text);
             }
 
             return res;
@@ -1030,7 +1036,7 @@ namespace BMP_Console {
                     //}
                 }
             } else if (response != null) {
-                Console.WriteLine("Error: " + response.messages.message[0].code + "  " +
+                logger.Instance.write("Error: " + response.messages.message[0].code + "  " +
                                   response.messages.message[0].text);
             }
 
@@ -1361,12 +1367,15 @@ namespace BMP_Console {
                     case 1:
                         Dependent d1 = new Dependent(tbLD1Name.Text, tbLD1MI.Text, tbLD1LN.Text, cbLD1Gender.SelectedItem.ToString(), tbLD1DOB.Text, cbLD1Rel.SelectedItem.ToString());
                         DependentsContainer.Add(d1);
+                        logger.Instance.write("Dependent list: " + d1.ToString());
                         break;
                     case 2:
                         Dependent d21 = new Dependent(tbLD1Name.Text, tbLD1MI.Text, tbLD1LN.Text, cbLD1Gender.SelectedItem.ToString(), tbLD1DOB.Text, cbLD1Rel.SelectedItem.ToString());
                         DependentsContainer.Add(d21);
                         Dependent d22 = new Dependent(tbLD2Name.Text, tbLD2MI.Text, tbLD2LN.Text, cbLD2Gender.SelectedItem.ToString(), tbLD2DOB.Text, cbLD2Rel.SelectedItem.ToString());
                         DependentsContainer.Add(d22);
+                        logger.Instance.write("Dependent list: " + d21.ToString());
+                        logger.Instance.write("Dependent list: " + d22.ToString());
                         break;
                     case 3:
                         Dependent d31 = new Dependent(tbLD1Name.Text, tbLD1MI.Text, tbLD1LN.Text, cbLD1Gender.SelectedItem.ToString(), tbLD1DOB.Text, cbLD1Rel.SelectedItem.ToString());
@@ -1375,6 +1384,9 @@ namespace BMP_Console {
                         DependentsContainer.Add(d32);
                         Dependent d33 = new Dependent(tbLD3Name.Text, tbLD3MI.Text, tbLD3LN.Text, cbLD3Gender.SelectedItem.ToString(), tbLD3DOB.Text, cbLD3Rel.SelectedItem.ToString());
                         DependentsContainer.Add(d33);
+                        logger.Instance.write("Dependent list: " + d31.ToString());
+                        logger.Instance.write("Dependent list: " + d32.ToString());
+                        logger.Instance.write("Dependent list: " + d33.ToString());
                         break;
                     case 4:
                         Dependent d41 = new Dependent(tbLD1Name.Text, tbLD1MI.Text, tbLD1LN.Text, cbLD1Gender.SelectedItem.ToString(), tbLD1DOB.Text, cbLD1Rel.SelectedItem.ToString());
@@ -1385,6 +1397,11 @@ namespace BMP_Console {
                         DependentsContainer.Add(d43);
                         Dependent d44 = new Dependent(tbLD4Name.Text, tbLD4MI.Text, tbLD4LN.Text, cbLD4Gender.SelectedItem.ToString(), tbLD4DOB.Text, cbLD4Rel.SelectedItem.ToString());
                         DependentsContainer.Add(d44);
+                        logger.Instance.write("Dependent list: " + d41.ToString());
+                        logger.Instance.write("Dependent list: " + d42.ToString());
+                        logger.Instance.write("Dependent list: " + d43.ToString());
+                        logger.Instance.write("Dependent list: " + d44.ToString());
+                        
                         break;
                     default:
                         res = false;

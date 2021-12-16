@@ -20,6 +20,12 @@ namespace BMP_Console {
             dob = d;
             relationship = rel;
         }
-    
+
+        override public string ToString() {
+            string sb = string.Empty;
+            sb = name + "," + mi + "," + lname + "," + gender + "," + dob + "," + relationship;
+
+            return sb;
+        }
     }
 }
