@@ -53,7 +53,7 @@ namespace BMP_Console {
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message, "Processing Period", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(e.Message, "Ping DB threw an exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
