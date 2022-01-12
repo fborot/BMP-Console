@@ -337,28 +337,23 @@ namespace BMP_Console {
                 }
                    
 
-                foreach (var transaction in response.transactions) {                    
-                    //if (transaction.transactionStatus == "declined")
-                    //    continue;
+                foreach (var transaction in response.transactions) {
+                    if (transaction.transactionStatus == "declined" || transaction.transactionStatus == "refundSettledSuccessfully")
+                        continue;
                     string tempID = transaction.transId; string plan = "";
                     string subs = ""; string invoice = "";
                     string bmpCID = ""; string type = "new";
-                    if (transaction.invoiceNumber != null && transaction.invoiceNumber != "NOVEMBER MEMBERSHIP") {         // FB 20211201 added to process the 2 transactions made manual by Samira               
-                        //if (transaction.invoiceNumber.Length > 0) {
+                    if (transaction.invoiceNumber != null && transaction.invoiceNumber != "NOVEMBER MEMBERSHIP") {         // FB 20211201 added to process the 2 transactions made manual by Samira             
+                        if( transaction.subscription == null && (transaction.transId  == "63473115201" || transaction.transId == "63473111013")) { // FB 20220110 to fix issue with double manual chanrge because CC expired
+                            subs = "55724840";      // new subscription created after the 2 manual payments, old usbs was 55063658 -> terminated, we needed to charge 2 months and keep active
+                        } else {
                             subs = transaction.subscription.id.ToString();
-                            //if (transaction.transId == "63378669040") {
-                            //    invoice = "INV-COMS-2110-002039";
-                            //} else if (transaction.transId == "63378669040") {
-                            //    invoice = "INV-COMS-2110-002039";
-                            //} else {
-                            //    invoice = transaction.invoiceNumber;
-                            //}
+                        }
                             invoice = transaction.invoiceNumber;
                             string[] t = invoice.ToString().Split('-');
                             bmpCID = t[1] + "-" + t[2] + "-" + t[3];
                             type = "renewal";
                             plan = t[1];
-                        //}                        
                     }
                     decimal amount = transaction.settleAmount;
 
