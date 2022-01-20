@@ -108,7 +108,7 @@ namespace BMP_Console {
                         return;
 
                     }
-                    logger.Instance.write("Created the list of dependents");
+                    logger.Instance.write("Created the list of dependents with " + DependentsContainer.Count + " dependents.");
 
                 }
                 int ndob = Int32.Parse(dtDOB.Value.ToString("yyyyMMdd"));
@@ -139,19 +139,22 @@ namespace BMP_Console {
                             if (CreateSubscriptionFromProfile(Form1.APILoginID, Form1.APITransactionKey, dtEnrollmentDate, interval, temp_member.bmp_id, tempProfile.CustomerProfileID, tempProfile.CustomerPayProfileID, tempProfile.CustomerShProfileID, tbRecurringTotal.Text, ref subscriptionID)) {
                                 logger.Instance.write("About to create member::" + temp_member.ToString());
                                 if (SaveMemberInDB(temp_member)) {
-                                    MessageBox.Show("Member Successfully Created", "Saving member in Database", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    //MessageBox.Show("Member Successfully Created", "Saving member in Database", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                     logger.Instance.write("Saved Member::" + temp_member.ToString());
                                     if (NumberMembers > 0) {
                                         member seed_member = temp_member;
+                                        logger.Instance.write("Dependents container size: " +  DependentsContainer.Count);
                                         for (int n = 0; n < DependentsContainer.Count; n++) {
                                             seed_member = CreateMemberBasedOnDependent((Dependent)DependentsContainer[n], seed_member, temp_member.bmp_id);
                                             SaveMemberInDB(seed_member);
-                                            logger.Instance.write("Saved Dependent::" + seed_member.ToString());
+                                            logger.Instance.write("Saved Dependent[" + n.ToString() + "] -> " + seed_member.ToString());
                                         }
                                     }
                                     SaveTransactionInDB(temp_member, tbANetTID.Text, tbANAuthCode.Text);
                                     SaveSubscriptionInDB(temp_member, tbANetTID.Text, subscriptionID);
+                                    MessageBox.Show("Member Successfully Created", "Saving member in Database", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                     ResetForm();
+                                    
                                 }                                
                             }
                         }                        
@@ -173,6 +176,7 @@ namespace BMP_Console {
                 conn = new MySql.Data.MySqlClient.MySqlConnection();
                 conn.ConnectionString = Form1.mySQLConnectionString;
                 conn.Open();
+                logger.Instance.write("Save Member DB Process:: Connection to DB is OK");
 
                 MySqlCommand cmd = new MySqlCommand("insert into members (bmp_id, name, mi, last_name, email, language, marital_status, gender ,dob, home_phone_number, mobile_phone_number, other_phone_number, address, address2, city, state," +
                     " postal_code, shipping_address, shipping_address2, shipping_city, shipping_state, shipping_postal_code, use_home_as_shipping_address, plan_name, plan_type, recurring_total, start_date, end_date, number_members, " +
@@ -226,6 +230,7 @@ namespace BMP_Console {
                 int result = cmd.ExecuteNonQuery();
                 conn.Close();
                 res = (result == 1) ? true : false;
+                logger.Instance.write("Save Member DB Process::Member: " + m.bmp_id + ", was saved");
             } catch (Exception e)
             {
                 MessageBox.Show("Error Saving Member in the Database.", "Saving member in Database", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -258,6 +263,7 @@ namespace BMP_Console {
                 int result = cmd.ExecuteNonQuery();
                 conn.Close();
                 res = (result == 1) ? true : false;
+                logger.Instance.write("Save Txn was ok");
             } catch (Exception e)
             {
                 MessageBox.Show("Error Saving Transaction in the Database: " + e.Message, "Saving member in Database", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -290,6 +296,7 @@ namespace BMP_Console {
                 int result = cmd.ExecuteNonQuery();
                 conn.Close();
                 res = (result == 1) ? true : false;
+                logger.Instance.write("Save Subscription was ok");
             } catch (Exception e) {
                 MessageBox.Show("Error Saving Subscription in the Database:" + e.Message, "Saving member in Database", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
