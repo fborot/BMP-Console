@@ -99,7 +99,10 @@ namespace BMP_Console {
 
             //res = t_id + "_" + t_type + "_" + t_bmpCustID + "_" + t_amount + "_" + t_agency + "_" + t_branch + "_" + t_plan + "_" + t_recurrency + "_" + t_subscriptionid;
             //rTBResults.SelectionFont = new Font(rTBResults.Font, FontStyle.Bold);
-            rTBResults.AppendText("Transaction#\t" + "Transaction Type\t" + "MemberID\t\t" + "Amount\t" + "Agency\t\t" + "Branch\t\t" + "Plan\t" + "Recurrency\t" + "SubscriptionID\t" + Environment.NewLine);
+            rTBResults.AppendText("Transaction#\t" + "Transaction Type\t\t" + "MemberID\t" + "Amount\t\t" + "Agency\t\t" + "Branch\t\t\t" + "Plan\t\t" + "Recurrency\t" + "SubscriptionID\t" + Environment.NewLine);
+            //string tempSTR = String.Format("{0,-20} {1,-25} {2,30} {3,20} {4,20} {5,-20} {6,-20} {7,-20} {8,-20}", "Transaction#", "Transaction Type", "MemberID", "Amount", "Agency", "Branch", "Plan", "Recurrency", "SubscriptionID");           
+            //rTBResults.AppendText(tempSTR);
+            //rTBResults.AppendText(Environment.NewLine);
             //rTBResults.SelectionFont = new Font(rTBResults.Font, FontStyle.Regular);
             foreach (TransactionDetail t in transactions)
             {
@@ -193,6 +196,7 @@ namespace BMP_Console {
 
             check_data.Append(Environment.NewLine);
             check_data.Append("Agencies details" + Environment.NewLine);
+            check_data.Append("--------------------------" + Environment.NewLine);
             foreach (DictionaryEntry h in HTableAgency) {
                 CheckEnvelope tempCE = (CheckEnvelope)h.Value;
 
@@ -201,14 +205,19 @@ namespace BMP_Console {
                 HTableAgencyCheck[h.Key] = newCE;
                 ChecksPayload.Add(newCE);
 
-                check_data.Append(h.Key.ToString() + "\t\t\t\t" + "$" + newCE.Total.ToString() + "\t\t\t" + Environment.NewLine);    
+                check_data.Append(h.Key.ToString() + "\t\t\t\t\t\t\t\t\t\t\t\t" + "$" + newCE.Total.ToString() + "\t\t\t" + Environment.NewLine);    
                 foreach(ComCheckData c in tempCE.List) {
-                    check_data.Append(c.bmp_cid + "\t\t\t\t" + c.type + "\t\t\t" + "$" + c.PayAmount + Environment.NewLine);
+                    if (c.type== "Renewal Commission")
+                        check_data.Append("\t" + c.bmp_cid + "\t\t\t\t" + c.type + "\t\t\t" + "$" + c.PayAmount + Environment.NewLine);
+                    else
+                        check_data.Append("\t" + c.bmp_cid + "\t\t\t\t" + c.type + "\t\t" + "$" + c.PayAmount + Environment.NewLine);
                 }
+                check_data.Append(Environment.NewLine);
             }
             check_data.Append(Environment.NewLine);
             
             check_data.Append("Branches details" + Environment.NewLine);
+            check_data.Append("--------------------------" + Environment.NewLine);
 
             foreach (DictionaryEntry h in HTableBranch) {
                 CheckEnvelope tempCE = (CheckEnvelope)h.Value;
@@ -218,10 +227,15 @@ namespace BMP_Console {
                 HTableBranchCheck[h.Key] = newCE;
                 ChecksPayload.Add(newCE);
 
-                check_data.Append(h.Key.ToString() + "\t\t\t" + "$" + newCE.Total.ToString() + "\t\t\t" + Environment.NewLine);
+                check_data.Append(h.Key.ToString() + "\t\t\t\t\t\t\t\t\t\t\t" + "$" + newCE.Total.ToString() + "\t\t\t" + Environment.NewLine);
                 foreach (ComCheckData c in tempCE.List) {
-                    check_data.Append(c.bmp_cid + "\t\t\t" + c.type + "\t\t\t" + "$" + c.PayAmount + Environment.NewLine);
+                    //check_data.Append(c.bmp_cid + "\t\t\t" + c.type + "\t\t\t" + "$" + c.PayAmount + Environment.NewLine);
+                    if (c.type == "Renewal Commission")
+                        check_data.Append("\t" + c.bmp_cid + "\t\t\t\t" + c.type + "\t\t\t" + "$" + c.PayAmount + Environment.NewLine);
+                    else
+                        check_data.Append("\t" + c.bmp_cid + "\t\t\t\t" + c.type + "\t\t" + "$" + c.PayAmount + Environment.NewLine);
                 }
+                check_data.Append(Environment.NewLine);
             }
             
 
