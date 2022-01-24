@@ -10,6 +10,10 @@ using System.Collections;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 
+using AuthorizeNet.Api.Controllers;
+using AuthorizeNet.Api.Contracts.V1;
+using AuthorizeNet.Api.Controllers.Bases;
+
 namespace BMP_Console {
     public partial class ShowMembers : Form {
         public ShowMembers() {
@@ -526,46 +530,28 @@ namespace BMP_Console {
         }
 
         private void disableToolStripMenuItem_Click(object sender, EventArgs e) {
-            
-            int m_id = Int32.Parse(dgmembers.Rows[dgmembers.SelectedRows[0].Index].Cells[0].Value.ToString());
-            string bmpid = dgmembers.Rows[dgmembers.SelectedRows[0].Index].Cells[1].Value.ToString();
-            //string pholder = dgmembers.Rows[dgmembers.SelectedRows[0].Index].Cells[38].Value.ToString();
-            //short m_num_members = Int16.Parse(dgmembers.Rows[dgmembers.SelectedRows[0].Index].Cells[29].Value.ToString());
-            //short new_m_num_members = -1;
-            string db_query = string.Empty;
+            bool APIres = false;
+            DialogResult res = MessageBox.Show("This action is irreversible. Are you sure you want to Disable this member?", "Disable Member", MessageBoxButtons.YesNo);
+            if(res == DialogResult.Yes) {                                
+                int m_id = Int32.Parse(dgmembers.Rows[dgmembers.SelectedRows[0].Index].Cells[0].Value.ToString());
+                string bmpid = dgmembers.Rows[dgmembers.SelectedRows[0].Index].Cells[1].Value.ToString();                
+                string subs = GetSubscriptionFromMmber(bmpid);
+                //subs = "7778028";
+                APIres = CancelSubscription(Form1.APILoginID, Form1.APITransactionKey, subs);
+                if (APIres) {
+                    string db_query = string.Empty;
+                    db_query = "update members set active = 0 where bmp_id = '" + bmpid + "' OR parent_bmp_id = '" + bmpid + "'";
+                    if (GenericUpdateMembersInDB(db_query)) {
+                        MessageBox.Show("Disable Member -> " + bmpid + "  was Successful.", "Disable Member", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    } else {
+                        MessageBox.Show("Disable Member -> " + bmpid + " failed.", "Disable Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
 
-            db_query = "update members set active = 0 where bmp_id = '" + bmpid + "' OR parent_bmp_id = '" + bmpid + "'";
-            if (GenericUpdateMembersInDB(db_query)) {
-                MessageBox.Show("Disable Member -> " + bmpid + "  was Successful.", "Disable Member", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            } else {
-                MessageBox.Show("Disable Member -> " + bmpid + " failed.", "Disable Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            
-            DipIntoDB();
-            
-            //if (pholder == "Yes") {           
-            //    db_query = "update members set active = 0 where bmp_id = '" + bmpid + "' OR parent_bmp_id = '" + bmpid + "'";
-            //    if (GenericUpdateMembersInDB(db_query)) {
-            //        if (m_num_members > 0) {
-            //            new_m_num_members = (short)(m_num_members - 1);
-            //            db_query = "update members set number_members =" + new_m_num_members.ToString() + " where bmp_id = '" + bmpid + "'";
-            //            if (GenericUpdateMembersInDB(db_query)) {                            
-            //                MessageBox.Show("Disable Member -> " + bmpid + "  was Successful.", "Disable Member", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //            } else {
-            //                MessageBox.Show("Disable Member -> " + bmpid + " failed.", "Disable Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //            }
-            //        }
-            //    } else {
-            //        MessageBox.Show("Disable Member -> " + bmpid + " failed.", "Disable Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //    }
-            //} else {                
-            //    db_query = "update members set active = 0 where bmp_id = '" + bmpid + "'";
-            //    if (GenericUpdateMembersInDB(db_query)) {
-            //        MessageBox.Show("Disable Member -> " + bmpid + " was Successful.", "Disable Member", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //    } else {
-            //        MessageBox.Show("Disable Member -> " + bmpid + " failed.", "Disable Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //    }
-            //}
+                    DipIntoDB();
+                }
+                } else {
+                    DipIntoDB();
+                }       
 
         }
 
@@ -591,5 +577,67 @@ namespace BMP_Console {
             }
             return res;
         }
+
+        private bool CancelSubscription(String ApiLoginID, String ApiTransactionKey, string subs) {
+            bool res = false;
+            if (!Form1.bLive)
+                ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = AuthorizeNet.Environment.SANDBOX;
+            else
+                ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = AuthorizeNet.Environment.PRODUCTION;
+
+            // define the merchant information (authentication / transaction id)
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = new merchantAuthenticationType() {
+                name = ApiLoginID,
+                ItemElementName = ItemChoiceType.transactionKey,
+                Item = ApiTransactionKey,
+            };
+
+            logger.Instance.write("CancelSubscription::SubscriptionID: " + subs);
+
+            //Please change the subscriptionId according to your request
+            var request = new ARBCancelSubscriptionRequest { subscriptionId = subs };
+            var controller = new ARBCancelSubscriptionController(request);                          // instantiate the controller that will call the service
+            controller.Execute();
+
+            ARBCancelSubscriptionResponse response = controller.GetApiResponse();                   // get the response from the service (errors contained if any)
+
+            // validate response
+            if (response != null && response.messages.resultCode == messageTypeEnum.Ok) {
+                if (response != null && response.messages.message != null) {
+                    if (response.messages.message[0].code == "I00001" || response.messages.message[0].text == "Successful") {                  
+                        logger.Instance.write("Success, Subscription Cancelled With RefID : " + response.refId);
+                        res = true;
+                    }                    
+                }
+            } else if (response != null) {
+                logger.Instance.write("Error: " + response.messages.message[0].code + "  " + response.messages.message[0].text);
+            }
+
+            return res;
+        }
+
+
+        private string GetSubscriptionFromMmber(string bmp_id) {
+            string resSubs = "";
+            MySqlConnection conn = null;
+            conn = new MySql.Data.MySqlClient.MySqlConnection();
+            try {
+                conn.ConnectionString = Form1.mySQLConnectionString;
+                conn.Open();
+                string strQuery = "select an_subscription_id from bmp.subscriptions where bmp_id='" + bmp_id + "'";
+                //Console.WriteLine(s);
+                MySqlCommand cmd = new MySqlCommand(strQuery, conn);
+                MySqlDataReader ret = cmd.ExecuteReader();
+                while (ret.Read()) {
+                    resSubs = ret.GetString(0);
+                }
+                conn.Close();
+            } catch (Exception e) {
+                MessageBox.Show("An error ocurred!. The record could not be updated, please contact Support", "Error updating user", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                conn.Close();
+            }
+            return resSubs;
+        }
+        
     }
 }

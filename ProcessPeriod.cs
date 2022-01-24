@@ -80,6 +80,7 @@ namespace BMP_Console {
 
             HTableAgencyCheck.Clear();
             HTableBranchCheck.Clear();
+            ChecksPayload.Clear();
 
             ArrayList batches = GetBatchesInPeriod(Form1.APILoginID, Form1.APITransactionKey, startDate, endDate);
             ArrayList transactions = new ArrayList();
