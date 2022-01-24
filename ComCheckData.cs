@@ -13,12 +13,14 @@ namespace BMP_Console
         public string bmp_cid = string.Empty;
         public decimal PayAmount = 0;
         public string type = string.Empty;
+        public string salesman = string.Empty;
 
-        public ComCheckData(string cid, decimal amount, string t)
+        public ComCheckData(string cid, decimal amount, string t, string sman)
         {
             bmp_cid = cid;
             PayAmount = amount;
             type = t;
+            salesman = sman;
         }
     }
 
