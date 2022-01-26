@@ -24,6 +24,7 @@
         /// </summary>
         private void InitializeComponent() {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.dgmembers = new System.Windows.Forms.DataGridView();
             this.btDelete = new System.Windows.Forms.Button();
@@ -43,6 +44,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.tbMID = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgmembers)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
@@ -69,6 +71,8 @@
             // 
             this.dgmembers.AllowUserToAddRows = false;
             this.dgmembers.AllowUserToOrderColumns = true;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.dgmembers.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dgmembers.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -85,6 +89,7 @@
             this.dgmembers.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgmembers.Size = new System.Drawing.Size(1367, 568);
             this.dgmembers.TabIndex = 0;
+            this.dgmembers.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgmembers_CellFormatting);
             this.dgmembers.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgmembers_CellValueChanged);
             this.dgmembers.MouseUp += new System.Windows.Forms.MouseEventHandler(this.dgmembers_MouseUp);
             // 
@@ -132,10 +137,11 @@
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.showTransactionsHistoryToolStripMenuItem,
             this.showPaymentStatusToolStripMenuItem,
+            this.toolStripMenuItem1,
             this.toolStripSeparator1,
             this.disableToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(247, 82);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(247, 106);
             // 
             // showTransactionsHistoryToolStripMenuItem
             // 
@@ -270,6 +276,13 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Member ID";
             // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(246, 24);
+            this.toolStripMenuItem1.Text = "Edit Notes";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
+            // 
             // ShowMembers
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
@@ -318,5 +331,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox tbMID;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
     }
 }

@@ -48,10 +48,12 @@ namespace BMP_Console {
         public string relationship = string.Empty;
         public int active = 0;
         public string parent_bmp_id = string.Empty;
+        public string payment_status = string.Empty;
+        //public string notes = string.Empty;
 
         public member(string m_id,string bmpid,string n, string m_i, string ln, string em, string lang, string m_st, string gen, int db, string h_ph_num, string mob_ph_num, string other_ph_num,
             string addr, string addr2, string cty, string st, string pos_code, string sh_addr, string sh_addr2, string sh_city, string sh_state, string sh_pos_code,
-            short use_home_addr, string pname, string ptype, float rec_total, int start, int end, short num_members, string agcyID,string bID,short rec,string cc_inf, string cc_typ, string cc_exp_date, short a_pay, int dadded, string pol_holder, string relation, int act, string p_bmp_id) {
+            short use_home_addr, string pname, string ptype, float rec_total, int start, int end, short num_members, string agcyID,string bID,short rec,string cc_inf, string cc_typ, string cc_exp_date, short a_pay, int dadded, string pol_holder, string relation, int act, string p_bmp_id, string pay_status) {
             member_id = m_id;
             bmp_id = bmpid;
             name = n;
@@ -94,6 +96,8 @@ namespace BMP_Console {
             relationship = relation;
             active = act;
             parent_bmp_id = p_bmp_id;
+            payment_status = pay_status;
+            //notes = note;
 
             //logger.Instance.write("About to create member::" + this.ToString());
         }
@@ -107,7 +111,7 @@ namespace BMP_Console {
             sb = member_id + "," + bmp_id + "," + name + "," + mi + "," + last_name + "," + email + "," + language + "," + marital_status + "," + dob.ToString() + "," + home_phone_number + "," + mobile_phone_number + "," + other_phone_number
                 + "," + address + "," + address2 + "," + city + "," + state + "," + postal_code + "," + shipping_address + "," + shipping_address2 + "," + shipping_city + "," + shipping_state + "," + shipping_postal_code
                 + "," + plan_type + "," + plan_name + "," + recurring_total.ToString() + "," + start_date.ToString() + "," + end_date.ToString() + "," + number_members.ToString() + "," + agencyID + "," + branchID
-                + "," + recurrency.ToString() + "," + cc_info + "," + cc_type + "," + cc_expiration_date + "," + dateadded.ToString() + "," + policy_holder + "," + relationship + "," + active.ToString() + "," + parent_bmp_id;
+                + "," + recurrency.ToString() + "," + cc_info + "," + cc_type + "," + cc_expiration_date + "," + dateadded.ToString() + "," + policy_holder + "," + relationship + "," + active.ToString() + "," + parent_bmp_id + "," + payment_status;
 
             return sb;
         }

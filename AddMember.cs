@@ -121,7 +121,7 @@ namespace BMP_Console {
                     tbMobilePH.Text, tbOtherPh.Text, tbAddres.Text, tbAddress2.Text, tbCity.Text, cbState.SelectedItem.ToString(), tbPostalCode.Text, tbShAddress.Text, tbShAddress2.Text, tbShCity.Text,
                     cbShState.SelectedItem.ToString(),tbShPostalCode.Text, ckbUseHome.Checked?(short)1:(short)0, cbPlanType.SelectedItem.ToString(), cbPlanName.SelectedItem.ToString(),
                     RecurringTotal, nStart, nEnd, NumberMembers,cbAgencyID.SelectedItem.ToString(), cbBranchID.SelectedItem.ToString(), Int16.Parse(cbRecurrency.SelectedItem.ToString()),tbCCInfo.Text, 
-                    cbCCType.SelectedItem.ToString(), tbCCExpDate.Text, ckbCCAuto.Checked?(short)1:(short)0, nDAdded, "Yes", "Self", 1, "0");
+                    cbCCType.SelectedItem.ToString(), tbCCExpDate.Text, ckbCCAuto.Checked?(short)1:(short)0, nDAdded, "Yes", "Self", 1, "0", "Current");
 
                 if (temp_member.validate_member_info()) {
                     CreateProfileResponse tempProfile = CreateCustomerProfileFromTransaction(Form1.APILoginID, Form1.APITransactionKey, tbANetTID.Text, temp_member);
@@ -1428,7 +1428,7 @@ namespace BMP_Console {
             int new_dob = FormatLDDoB(dep.dob);
             member new_member = new member(new_id, new_bmp_id, dep.name, dep.mi, dep.lname, m.email, m.language, m.marital_status, dep.gender, new_dob, m.home_phone_number, m.mobile_phone_number, m.other_phone_number,
                 m.address, m.address2, m.city, m.state, m.postal_code, m.shipping_address, m.shipping_address2, m.shipping_city, m.shipping_state, m.shipping_postal_code,
-                m.use_home_as_shipping_address, m.plan_name, m.plan_type, m.recurring_total, m.start_date, m.end_date, 0, m.agencyID, m.branchID, m.recurrency, m.cc_info, m.cc_type, m.cc_expiration_date, m.cc_auto_pay, m.dateadded, "No", dep.relationship, m.active, parent_bmp_id);
+                m.use_home_as_shipping_address, m.plan_name, m.plan_type, m.recurring_total, m.start_date, m.end_date, 0, m.agencyID, m.branchID, m.recurrency, m.cc_info, m.cc_type, m.cc_expiration_date, m.cc_auto_pay, m.dateadded, "No", dep.relationship, m.active, parent_bmp_id, m.payment_status);
             return new_member;
         }
 

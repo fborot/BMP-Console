@@ -152,9 +152,9 @@ namespace BMP_Console {
                         }
                     } else {
                         decimal rc = GetAgencyRenewalCommisionValues(tplan, t.t_recurrency);
-                        ComCheckData myobj_a = new ComCheckData(t.t_bmpCustID, rc, "Renewal Commission", t.t_branch);
+                        ComCheckData myobj_a = new ComCheckData(t.t_bmpCustID, rc, "Recurrent Payment", t.t_branch);
                         rc = GetBranchRenewalCommisionValues(tplan, t.t_recurrency);
-                        ComCheckData myobj_b = new ComCheckData(t.t_bmpCustID, rc, "Renewal Commission","");
+                        ComCheckData myobj_b = new ComCheckData(t.t_bmpCustID, rc, "Recurrent Payment", "");
                         if (t.t_agency != "1BMP") {
                             if (HTableAgency.Contains(t.t_agency)) {
                                 CheckEnvelope CE = (CheckEnvelope)HTableAgency[t.t_agency];
@@ -206,12 +206,12 @@ namespace BMP_Console {
                 HTableAgencyCheck[h.Key] = newCE;
                 ChecksPayload.Add(newCE);
 
-                check_data.Append(h.Key.ToString() + "\t\t\t\t\t\t\t\t\t\t\t\t" + "$" + newCE.Total.ToString() + "\t\t\t" + Environment.NewLine);    
+                check_data.Append(h.Key.ToString() + "\t\t\t\t\t\t\t\t\t\t\t\t" + "$ " + newCE.Total.ToString() + "\t\t\t" + Environment.NewLine);    
                 foreach(ComCheckData c in tempCE.List) {
-                    if (c.type== "Renewal Commission")
-                        check_data.Append("\t" + c.bmp_cid + "\t\t\t\t" + c.type + "\t\t\t" + "$" + c.PayAmount + Environment.NewLine);
+                    if (c.type== "Recurrent Payment")
+                        check_data.Append("\t" + c.bmp_cid + "\t\t\t\t" + c.type + "\t\t\t" + "$ " + c.PayAmount + Environment.NewLine);
                     else
-                        check_data.Append("\t" + c.bmp_cid + "\t\t\t\t" + c.type + "\t\t" + "$" + c.PayAmount + Environment.NewLine);
+                        check_data.Append("\t" + c.bmp_cid + "\t\t\t\t" + c.type + "\t\t" + "$ " + c.PayAmount + Environment.NewLine);
                 }
                 check_data.Append(Environment.NewLine);
             }
@@ -228,13 +228,13 @@ namespace BMP_Console {
                 HTableBranchCheck[h.Key] = newCE;
                 ChecksPayload.Add(newCE);
 
-                check_data.Append(h.Key.ToString() + "\t\t\t\t\t\t\t\t\t\t\t" + "$" + newCE.Total.ToString() + "\t\t\t" + Environment.NewLine);
+                check_data.Append(h.Key.ToString() + "\t\t\t\t\t\t\t\t\t\t\t" + "$ " + newCE.Total.ToString() + "\t\t\t" + Environment.NewLine);
                 foreach (ComCheckData c in tempCE.List) {
                     //check_data.Append(c.bmp_cid + "\t\t\t" + c.type + "\t\t\t" + "$" + c.PayAmount + Environment.NewLine);
-                    if (c.type == "Renewal Commission")
-                        check_data.Append("\t" + c.bmp_cid + "\t\t\t\t" + c.type + "\t\t\t" + "$" + c.PayAmount + Environment.NewLine);
+                    if (c.type == "Recurrent Payment")
+                        check_data.Append("\t" + c.bmp_cid + "\t\t\t\t" + c.type + "\t\t\t" + "$ " + c.PayAmount + Environment.NewLine);
                     else
-                        check_data.Append("\t" + c.bmp_cid + "\t\t\t\t" + c.type + "\t\t" + "$" + c.PayAmount + Environment.NewLine);
+                        check_data.Append("\t" + c.bmp_cid + "\t\t\t\t" + c.type + "\t\t" + "$ " + c.PayAmount + Environment.NewLine);
                 }
                 check_data.Append(Environment.NewLine);
             }
@@ -812,7 +812,8 @@ namespace BMP_Console {
                         name_for_checks = ret.GetString(8);
                     else {
                         string bagency = ret.GetString(8);
-                        name_for_checks = ret.GetString(9);
+                        //name_for_checks = ret.GetString(9) ;
+                        name_for_checks = ret.GetString(9) + "^" + name;
                     }
 
                     res = name_for_checks;
@@ -1062,25 +1063,43 @@ namespace BMP_Console {
             {
                 tempTotal += ".00";
             }
-
+            string[] NameArray = temp.Name.Split('^');
+            string CheckName = string.Empty;
+            string CommName = string.Empty;
+            if (NameArray.Length == 1) {
+                CheckName = temp.Name;
+                CommName = temp.Name;
+            } else {
+                CheckName = NameArray[0];
+                CommName = NameArray[0] + " - " + NameArray[1];
+            }
             e.Graphics.DrawString(DateTime.Now.ToString("MM|dd|yyyy"), font, Brushes.Black, 177 + x_offset, 21 + y_offset);//get it from date.now
-            e.Graphics.DrawString(temp.Name, font, Brushes.Black, 35 + x_offset, 32 + y_offset);    // get it from array
+            //e.Graphics.DrawString(temp.Name, font, Brushes.Black, 35 + x_offset, 32 + y_offset);    // get it from array
+            e.Graphics.DrawString(CheckName, font, Brushes.Black, 35 + x_offset, 32 + y_offset);    // get it from array
             e.Graphics.DrawString(tempTotal, font, Brushes.Black, 177 + x_offset, 33 + y_offset);    // get it from array, total
             e.Graphics.DrawString(ConvertToWords(temp.Total.ToString()) + " and 00/100***********************************************", font, Brushes.Black, 30 + x_offset, 41 + y_offset);    // get it from a function that receives the total from array
             //e.Graphics.DrawString(ConvertToWords(temp.Total.ToString()) + "|00--", font, Brushes.Black, 30 + x_offset, 41 + y_offset);    // get it from a function that receives the total from array
             //e.Graphics.DrawString("Commission", font, Brushes.Black, 25 + x_offset, 67 + y_offset);
-            e.Graphics.DrawString(temp.Name, font, Brushes.Black, 25 + x_offset, 67 + y_offset);
+            e.Graphics.DrawString(CommName, font, Brushes.Black, 25 + x_offset, 67 + y_offset);
 
             e.Graphics.DrawString("Details", font, Brushes.Black, 25 + x_offset, 100 + y_offset);
             short off = 0;
             foreach(ComCheckData c in temp.List)
             {
                 off += 5;
+                string ShortType = string.Empty;
+                if (c.type == "Initial Sales Commission")
+                    ShortType = "INIT. SALES COM.";
+                else
+                    ShortType = "REC. PYMT COM.";
+
                 if(c.salesman.Length > 0) {
-                    e.Graphics.DrawString(c.bmp_cid + "\t" + c.type + "\t" + c.salesman + "\t" +  "$ " + c.PayAmount.ToString(), font, Brushes.Black, 25 + x_offset, 100 + off + y_offset);                    
+                    //e.Graphics.DrawString(c.bmp_cid + "\t" + c.type + "\t" + c.salesman + "\t" +  "$ " + c.PayAmount.ToString(), font, Brushes.Black, 25 + x_offset, 100 + off + y_offset);                    
+                    e.Graphics.DrawString(c.bmp_cid + "\t" + ShortType + "\t" + c.salesman + "\t" + "$ " + c.PayAmount.ToString() + ".00", font, Brushes.Black, 25 + x_offset, 100 + off + y_offset);
                 } else {
-                    e.Graphics.DrawString(c.bmp_cid + "\t" + c.type + "\t" + "$ " + c.PayAmount.ToString(), font, Brushes.Black, 25 + x_offset, 100 + off + y_offset);
+                    //e.Graphics.DrawString(c.bmp_cid + "\t" + c.type + "\t" + "$ " + c.PayAmount.ToString(), font, Brushes.Black, 25 + x_offset, 100 + off + y_offset);
                     //e.Graphics.DrawString(c.bmp_cid + "\t" + c.type + "\t" + "$ " + c.PayAmount.ToString() + ".00", font, Brushes.Black, 25 + x_offset, 100 + off + y_offset);
+                    e.Graphics.DrawString(c.bmp_cid + "\t" + ShortType + "\t" + "$ " + c.PayAmount.ToString() + ".00", font, Brushes.Black, 25 + x_offset, 100 + off + y_offset);
                 }
 
             }

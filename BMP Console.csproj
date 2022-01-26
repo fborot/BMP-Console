@@ -157,6 +157,12 @@
     </Compile>
     <Compile Include="logger.cs" />
     <Compile Include="member.cs" />
+    <Compile Include="Notes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Notes.Designer.cs">
+      <DependentUpon>Notes.cs</DependentUpon>
+    </Compile>
     <Compile Include="plan.cs" />
     <Compile Include="ProcessPeriod.cs">
       <SubType>Form</SubType>
@@ -217,6 +223,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Notes.resx">
+      <DependentUpon>Notes.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ProcessPeriod.resx">
       <DependentUpon>ProcessPeriod.cs</DependentUpon>
