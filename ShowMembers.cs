@@ -712,18 +712,30 @@ namespace BMP_Console {
         }
 
         private void dgmembers_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
-            if (this.dgmembers.Columns[e.ColumnIndex].Name == "Member Status") {
+            if (this.dgmembers.Columns[e.ColumnIndex].Name == "Payment Status") {
+                if (e.Value != null) {
+                    // Check for the string "pink" in the cell.
+                    string stringValue = (string)e.Value;
+                    stringValue = stringValue.ToLower();
+                    if ((stringValue.IndexOf("overdue") > -1)) {
+                        e.CellStyle.BackColor = Color.Red;
+                        //this.dgmembers.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.LightSalmon;
+                        //this.dgmembers.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.White;                        
+                    }
+                }
+            }else if (this.dgmembers.Columns[e.ColumnIndex].Name == "Member Status") {
                 if (e.Value != null) {
                     // Check for the string "pink" in the cell.
                     string stringValue = (string)e.Value;
                     stringValue = stringValue.ToLower();
                     if ((stringValue.IndexOf("cancelled") > -1)) {
-                        //e.CellStyle.BackColor = Color.Red;
+                        //e.CellStyle.BackColor = Color.Blue;                           ;
                         this.dgmembers.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.LightSalmon;
                         this.dgmembers.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.White;                        
                     }
                 }
             }
+
         }
     }
 }
