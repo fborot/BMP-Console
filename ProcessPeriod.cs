@@ -228,7 +228,11 @@ namespace BMP_Console {
                 HTableBranchCheck[h.Key] = newCE;
                 ChecksPayload.Add(newCE);
 
-                check_data.Append(h.Key.ToString() + "\t\t\t\t\t\t\t\t\t\t\t" + "$ " + newCE.Total.ToString() + "\t\t\t" + Environment.NewLine);
+                if(h.Key.ToString().Length <= 6)
+                    check_data.Append(h.Key.ToString() + "\t\t\t\t\t\t\t\t\t\t\t\t" + "$ " + newCE.Total.ToString() + "\t\t\t" + Environment.NewLine);
+                else
+                    check_data.Append(h.Key.ToString() + "\t\t\t\t\t\t\t\t\t\t\t" + "$ " + newCE.Total.ToString() + "\t\t\t" + Environment.NewLine);
+
                 foreach (ComCheckData c in tempCE.List) {
                     //check_data.Append(c.bmp_cid + "\t\t\t" + c.type + "\t\t\t" + "$" + c.PayAmount + Environment.NewLine);
                     if (c.type == "Recurrent Payment")
