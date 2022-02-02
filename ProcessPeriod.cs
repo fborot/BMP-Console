@@ -353,7 +353,7 @@ namespace BMP_Console {
                    
 
                 foreach (var transaction in response.transactions) {
-                    if (transaction.transactionStatus == "declined" || transaction.transactionStatus == "refundSettledSuccessfully")
+                    if (transaction.transactionStatus == "declined" || transaction.transactionStatus == "refundSettledSuccessfully" || transaction.transactionStatus == "voided")
                         continue;
                     string tempID = transaction.transId; string plan = "";
                     string subs = ""; string invoice = "";
@@ -361,7 +361,10 @@ namespace BMP_Console {
                     if (transaction.invoiceNumber != null && transaction.invoiceNumber != "NOVEMBER MEMBERSHIP") {         // FB 20211201 added to process the 2 transactions made manual by Samira             
                         if( transaction.subscription == null && (transaction.transId  == "63473115201" || transaction.transId == "63473111013")) { // FB 20220110 to fix issue with double manual chanrge because CC expired
                             subs = "55724840";      // new subscription created after the 2 manual payments, old usbs was 55063658 -> terminated, we needed to charge 2 months and keep active
-                        } else {
+                        } else if ( (transaction.subscription == null) && (transaction.transId == "63511115411") ) {
+                            subs = "54986167";
+                        }
+                        else {
                             subs = transaction.subscription.id.ToString();
                         }
                             invoice = transaction.invoiceNumber;

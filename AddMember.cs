@@ -126,12 +126,25 @@ namespace BMP_Console {
                 if (temp_member.validate_member_info()) {
                     CreateProfileResponse tempProfile = CreateCustomerProfileFromTransaction(Form1.APILoginID, Form1.APITransactionKey, tbANetTID.Text, temp_member);
                     //CreateProfileResponse tempProfile = new CreateProfileResponse("901406126", "901201859", "903700265", true);
+                    
                     if (tempProfile.res == true) {
+                        
                         string CCExpDate = string.Empty;
                         string CCInfo = string.Empty;
-                        CCExpDate = GetCustomerPayProfileDetails(Form1.APILoginID, Form1.APITransactionKey, tempProfile.CustomerProfileID, tempProfile.CustomerPayProfileID, out CCInfo);
-                        //CCExpDate = "2024-01";
-                        if(IsValidANetExpDate(CCExpDate).Length > 0) {
+                        int times = 0;
+                        while( (CCExpDate.Length < 1) || (CCInfo.Length < 1) ) {
+                            ++times;
+                            System.Threading.Thread.Sleep(5000);
+                            logger.Instance.write("Save Member:: Sleeping for 5 secs to give time to AN to create the Profile. Attempt[" + times.ToString() + "]");
+                            CCExpDate = GetCustomerPayProfileDetails(Form1.APILoginID, Form1.APITransactionKey, tempProfile.CustomerProfileID, tempProfile.CustomerPayProfileID, out CCInfo);
+                            if (times > 2) {                                
+                                MessageBox.Show("Member could not be created at this moment. Try manually", "Save Member", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                ResetForm();
+                                return;
+                                //break;
+                            }
+                        }                                                
+                        if (IsValidANetExpDate(CCExpDate).Length > 0) {
                             short interval = Int16.Parse(cbRecurrency.SelectedItem.ToString());
                             temp_member.cc_expiration_date = IsValidANetExpDate(CCExpDate);
                             temp_member.cc_info = CCInfo.Substring(4,4);

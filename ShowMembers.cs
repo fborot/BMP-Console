@@ -674,7 +674,8 @@ namespace BMP_Console {
         private string FormatDoB(int dob) {
             string res = string.Empty;
             string temp = dob.ToString();
-            res = temp.Substring(0, 4) + "-" + temp.Substring(4,2) + "-" + temp.Substring(6,2); 
+            //res = temp.Substring(0, 4) + "-" + temp.Substring(4,2) + "-" + temp.Substring(6,2); 
+            res = temp.Substring(4, 2) + "-" + temp.Substring(6, 2) + "-" + temp.Substring(0, 4) ;
 
             return res;
         }
@@ -682,7 +683,8 @@ namespace BMP_Console {
         private int FormatDoBToInt(string dob) {
             int res = -1;
             string[] temp = dob.Split('-');
-            res = Int32.Parse(temp[0] + temp[1] + temp[2]);
+            //res = Int32.Parse(temp[0] + temp[1] + temp[2]);
+            res = Int32.Parse(temp[2] + temp[0] + temp[1]);
             return res;
         }
 
