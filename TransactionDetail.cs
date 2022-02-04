@@ -53,8 +53,9 @@ namespace BMP_Console {
             string res = string.Empty;
             if (t_subscriptionid.Length == 0)
                 t_subscriptionid = "NA";
-            string padding = (t_branch.Length <= 6) ? "\t\t\t" : "\t\t";
-            res = t_id + "\t" + t_type + "\t\t\t" + t_bmpCustID + "\t" + "$ " + t_amount + "\t\t" + t_agency + "\t\t" + t_branch + padding + t_plan + "\t\t" + t_recurrency + "\t\t" + t_subscriptionid;
+            string paddingB = (t_branch.Length <= 6) ? "\t\t\t" : "\t\t";
+            string paddingA = (t_agency.Length <= 6) ? "\t\t\t" : "\t\t";
+            res = t_id + "\t" + t_type + "\t\t\t" + t_bmpCustID + "\t" + "$ " + t_amount + "\t\t" + t_agency + paddingA + t_branch + paddingB + t_plan + "\t\t" + t_recurrency + "\t\t" + t_subscriptionid;
             //res = String.Format("{0,-20}|{1,-25}|{2,30}|{3,20}|{4,20}|{5,-20}|{6,-20}|{7,-20}|{8,-20}", t_id,t_type,t_bmpCustID,t_amount,t_agency,t_branch,t_plan,t_recurrency,t_subscriptionid);
 
 
