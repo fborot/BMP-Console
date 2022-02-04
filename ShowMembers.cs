@@ -567,21 +567,25 @@ namespace BMP_Console {
 
         private void disableToolStripMenuItem_Click(object sender, EventArgs e) {
             bool APIres = false;
-            DialogResult res = MessageBox.Show("This action is irreversible. Are you sure you want to Disable this member?", "Disable Member", MessageBoxButtons.YesNo);
-            if(res == DialogResult.Yes) {                                
-                int m_id = Int32.Parse(dgmembers.Rows[dgmembers.SelectedRows[0].Index].Cells[0].Value.ToString());
-                string bmpid = dgmembers.Rows[dgmembers.SelectedRows[0].Index].Cells[1].Value.ToString();                
-                string subs = GetSubscriptionFromMmber(bmpid);
-                //subs = "7778028";
-                APIres = CancelSubscription(Form1.APILoginID, Form1.APITransactionKey, subs);
-                if (APIres) {
-                    string db_query = string.Empty;
-                    db_query = "update members set active = 0 where bmp_id = '" + bmpid + "' OR parent_bmp_id = '" + bmpid + "'";
-                    if (GenericUpdateMembersInDB(db_query)) {
-                        MessageBox.Show("Disable Member -> " + bmpid + "  was Successful.", "Disable Member", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    } else {
-                        MessageBox.Show("Disable Member -> " + bmpid + " failed.", "Disable Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }                    
+            int m_id = Int32.Parse(dgmembers.Rows[dgmembers.SelectedRows[0].Index].Cells[0].Value.ToString());
+            string bmpid = dgmembers.Rows[dgmembers.SelectedRows[0].Index].Cells[1].Value.ToString();
+            DialogResult res = MessageBox.Show("This action is irreversible. Are you sure you want to Disable this member?" + Environment.NewLine + bmpid, "Disable Member", MessageBoxButtons.YesNo);
+            if(res == DialogResult.Yes) {  
+                DialogResult resConfirm = MessageBox.Show("Are you COMPLETELY SURE?. This action is irreversible." + Environment.NewLine + "Are you sure you want to Disable this member?", "Disable Member", MessageBoxButtons.YesNo);
+                if (resConfirm == DialogResult.Yes) {
+             
+                    string subs = GetSubscriptionFromMmber(bmpid);
+                    //subs = "7778028";
+                    APIres = CancelSubscription(Form1.APILoginID, Form1.APITransactionKey, subs);
+                    if (APIres) {
+                        string db_query = string.Empty;
+                        db_query = "update members set active = 0 where bmp_id = '" + bmpid + "' OR parent_bmp_id = '" + bmpid + "'";
+                        if (GenericUpdateMembersInDB(db_query)) {
+                            MessageBox.Show("Disable Member -> " + bmpid + "  was Successful.", "Disable Member", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        } else {
+                            MessageBox.Show("Disable Member -> " + bmpid + " failed.", "Disable Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }                    
+                    }
                 }
             } 
             DipIntoDB();
@@ -639,6 +643,9 @@ namespace BMP_Console {
                     if (response.messages.message[0].code == "I00001" || response.messages.message[0].text == "Successful") {                  
                         logger.Instance.write("Success, Subscription Cancelled With RefID : " + response.refId);
                         res = true;
+                    } else {
+                        logger.Instance.write("We could not cancel the susbscription. Code[" + response.messages.message[0].code + "], Message[" + response.messages.message[0].text + "]");
+                        MessageBox.Show("We could not cancel the susbscription. Code[" + response.messages.message[0].code + "], Message[" + response.messages.message[0].text + "]", "Disable Member", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }                    
                 }
             } else if (response != null) {
