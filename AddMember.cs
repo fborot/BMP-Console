@@ -246,7 +246,7 @@ namespace BMP_Console {
                 logger.Instance.write("Save Member DB Process::Member: " + m.bmp_id + ", was saved");
             } catch (Exception e)
             {
-                MessageBox.Show("Error Saving Member in the Database.", "Saving member in Database", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Error Saving Member in the Database." + Environment.NewLine + e.Message, "Saving member in Database", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             return res;
         }
@@ -1049,6 +1049,7 @@ namespace BMP_Console {
                     //Console.WriteLine("Customer Payment Profile Expiration Date: " + (response.paymentProfile.payment.Item as creditCardMaskedType).expirationDate);
                     CCExpDate = (response.paymentProfile.payment.Item as creditCardMaskedType).expirationDate;
                     cc_info = (response.paymentProfile.payment.Item as creditCardMaskedType).cardNumber;
+                    logger.Instance.write("Save Member:: CCExpDate [" + CCExpDate + "] and CC_Info [" + cc_info + "]");
                     //if (response.paymentProfile.subscriptionIds != null && response.paymentProfile.subscriptionIds.Length > 0) {
                     //    Console.WriteLine("List of subscriptions : ");
                     //    for (int i = 0; i < response.paymentProfile.subscriptionIds.Length; i++)
