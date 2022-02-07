@@ -81,7 +81,19 @@ namespace BMP_Console {
             string mmobile_ph = dgmembers.Rows[e.RowIndex].Cells[9].Value.ToString();
             string memail = dgmembers.Rows[e.RowIndex].Cells[10].Value.ToString();
             int mstart_d = Int32.Parse(dgmembers.Rows[e.RowIndex].Cells[11].Value.ToString());
-            int mactive = dgmembers.Rows[e.RowIndex].Cells[12].Value.ToString() == "Active" ? 1 : 0;
+            
+            int mactive = 1;
+            if (dgmembers.Rows[e.RowIndex].Cells[12].Value.ToString() == "Active")
+                mactive = 1;
+            else if (dgmembers.Rows[e.RowIndex].Cells[12].Value.ToString() == "Suspended")
+                mactive = 0;
+            else if (dgmembers.Rows[e.RowIndex].Cells[12].Value.ToString() == "Canceled")
+                mactive = -1;
+            else if (dgmembers.Rows[e.RowIndex].Cells[12].Value.ToString() == "Terminated")
+                mactive = -2;
+            else if (dgmembers.Rows[e.RowIndex].Cells[12].Value.ToString() == "Expired")
+                mactive = -3;
+
             short mrec = Int16.Parse(dgmembers.Rows[e.RowIndex].Cells[33].Value.ToString());
             string mlanguage = dgmembers.Rows[e.RowIndex].Cells[13].Value.ToString();
             string mmarital_status = dgmembers.Rows[e.RowIndex].Cells[14].Value.ToString();
@@ -514,7 +526,20 @@ namespace BMP_Console {
                 newRow.Cells[10].Value = m.email;
 
                 newRow.Cells[11].Value = m.start_date;
-                newRow.Cells[12].Value = (m.active == 1)? "Active":"Cancelled" ;
+
+                if (m.active == 1)
+                    newRow.Cells[12].Value = "Active";
+                else if (m.active == 0)
+                    newRow.Cells[12].Value = "Suspended";
+                else if (m.active == -1)
+                    newRow.Cells[12].Value = "Canceled";
+                else if (m.active == -2)
+                    newRow.Cells[12].Value = "Terminated";
+                else if (m.active == -3)
+                    newRow.Cells[12].Value = "Expired";
+
+                //newRow.Cells[12].Value = (m.active == 1)? "Active":"Cancelled" ;
+
                 newRow.Cells[13].Value = m.language;
                 newRow.Cells[14].Value = m.marital_status; 
                 newRow.Cells[15].Value = m.gender;
@@ -737,11 +762,16 @@ namespace BMP_Console {
                     // Check for the string "pink" in the cell.
                     string stringValue = (string)e.Value;
                     stringValue = stringValue.ToLower();
-                    if ((stringValue.IndexOf("cancelled") > -1)) {
+                    if ((stringValue.IndexOf("canceled") > -1) || (stringValue.IndexOf("terminated") > -1) || (stringValue.IndexOf("expired") > -1)) {
                         //e.CellStyle.BackColor = Color.Blue;                           ;
+                        this.dgmembers.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.Yellow;
+                        this.dgmembers.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Black;                        
+                    } else if ((stringValue.IndexOf("suspended") > -1) )
+                    {
                         this.dgmembers.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.LightSalmon;
-                        this.dgmembers.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.White;                        
+                        this.dgmembers.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.White;
                     }
+
                 }
             }
 
