@@ -363,10 +363,12 @@ namespace BMP_Console {
                     string subs = ""; string invoice = "";
                     string bmpCID = ""; string type = "new";
                     if (transaction.invoiceNumber != null && transaction.invoiceNumber != "NOVEMBER MEMBERSHIP") {         // FB 20211201 added to process the 2 transactions made manual by Samira             
-                        if( transaction.subscription == null && (transaction.transId  == "63473115201" || transaction.transId == "63473111013")) { // FB 20220110 to fix issue with double manual chanrge because CC expired
+                        if (transaction.subscription == null && (transaction.transId == "63473115201" || transaction.transId == "63473111013")) { // FB 20220110 to fix issue with double manual chanrge because CC expired
                             subs = "55724840";      // new subscription created after the 2 manual payments, old usbs was 55063658 -> terminated, we needed to charge 2 months and keep active
-                        } else if ( (transaction.subscription == null) && (transaction.transId == "63511115411") ) {
+                        } else if ((transaction.subscription == null) && (transaction.transId == "63511115411") ) {
                             subs = "54986167";
+                        } else if ((transaction.subscription == null) && (transaction.transId == "63525525322") ) {
+                            subs = "55682591";
                         }
                         else {
                             subs = transaction.subscription.id.ToString();
