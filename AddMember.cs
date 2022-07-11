@@ -103,6 +103,7 @@ namespace BMP_Console {
                         return;
                     }
                     logger.Instance.write("DoB of members are OK");
+                    DependentsContainer.Clear();
                     if (!CreateDependeList(NumberMembers)) {
                         MessageBox.Show("Invalid values for Legal Dependents", "Saving new Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
