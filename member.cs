@@ -99,7 +99,7 @@ namespace BMP_Console {
             payment_status = pay_status;
             //notes = note;
 
-            //logger.Instance.write("About to create member::" + this.ToString());
+            logger.Instance.write("About to create member::" + this.ToString());
         }
         public bool validate_member_info() {
             return true;//for now until we add the validation logic

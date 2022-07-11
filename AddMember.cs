@@ -104,6 +104,7 @@ namespace BMP_Console {
                     }
                     logger.Instance.write("DoB of members are OK");
                     DependentsContainer.Clear();
+                    logger.Instance.write("Making sure the Dependents Container is cleared before creating the dependents list to avoid duplicates");
                     if (!CreateDependeList(NumberMembers)) {
                         MessageBox.Show("Invalid values for Legal Dependents", "Saving new Member", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
@@ -117,17 +118,22 @@ namespace BMP_Console {
                 DateTime dtEnrollmentDate = dtStart.Value;
                 int nEnd = Int32.Parse(dtEnd.Value.ToString("yyyyMMdd"));
                 int nDAdded = Int32.Parse(DateTime.Now.ToString("yyyyMMdd"));
-              
+                logger.Instance.write("After parsing all dates.");
+
                 member temp_member = new member(tbMemberID.Text,strBMPID, tbName.Text, tbMI.Text, tbLName.Text, tbEmail.Text, cbLanguage.SelectedItem.ToString(), cbMarital.SelectedItem.ToString(), cbGender.SelectedItem.ToString(),ndob, tbHomePh.Text,
                     tbMobilePH.Text, tbOtherPh.Text, tbAddres.Text, tbAddress2.Text, tbCity.Text, cbState.SelectedItem.ToString(), tbPostalCode.Text, tbShAddress.Text, tbShAddress2.Text, tbShCity.Text,
                     cbShState.SelectedItem.ToString(),tbShPostalCode.Text, ckbUseHome.Checked?(short)1:(short)0, cbPlanType.SelectedItem.ToString(), cbPlanName.SelectedItem.ToString(),
                     RecurringTotal, nStart, nEnd, NumberMembers,cbAgencyID.SelectedItem.ToString(), cbBranchID.SelectedItem.ToString(), Int16.Parse(cbRecurrency.SelectedItem.ToString()),tbCCInfo.Text, 
                     cbCCType.SelectedItem.ToString(), tbCCExpDate.Text, ckbCCAuto.Checked?(short)1:(short)0, nDAdded, "Yes", "Self", 1, "0", "Current");
 
+                logger.Instance.write("After creating member object.");
+
                 if (temp_member.validate_member_info()) {
+                    logger.Instance.write("After validating the newly created member");
                     CreateProfileResponse tempProfile = CreateCustomerProfileFromTransaction(Form1.APILoginID, Form1.APITransactionKey, tbANetTID.Text, temp_member);
                     //CreateProfileResponse tempProfile = new CreateProfileResponse("901406126", "901201859", "903700265", true);
-                    
+                    logger.Instance.write("After creating the profile.");
+
                     if (tempProfile.res == true) {
                         
                         string CCExpDate = string.Empty;
@@ -885,6 +891,9 @@ namespace BMP_Console {
         }
 
         private CreateProfileResponse CreateCustomerProfileFromTransaction(string ApiLoginID, string ApiTransactionKey, string transactionId, member m) {
+
+            logger.Instance.write("Entering CreateCustomerProfileFromTransaction");
+
             bool res = false;
             //Console.WriteLine("CreateCustomerProfileFromTransaction Sample");
 
@@ -915,7 +924,10 @@ namespace BMP_Console {
             };
 
             var controller = new createCustomerProfileFromTransactionController(request);
-            controller.Execute();
+            
+            logger.Instance.write("Before calling Execute.");
+            controller.Execute();            
+            logger.Instance.write("After calling Execute.");
 
             createCustomerProfileResponse response = controller.GetApiResponse();
 
